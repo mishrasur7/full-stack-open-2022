@@ -9,6 +9,8 @@ const Header = ({course}) => {
 }
 
 const Content = ({parts, exercises}) => {
+  /*
+  this commented code is for the step1
   return (
     <>
        <p>
@@ -23,12 +25,32 @@ const Content = ({parts, exercises}) => {
     
     </>
   )
+  */
+ return (
+  <>
+    <Part part={parts.part1} exercise={exercises.exercises1}/>
+    <Part part={parts.part2} exercise={exercises.exercises2}/>
+    <Part part={parts.part3} exercise={exercises.exercises3}/>
+  </>
+ )
 }
 
 const Total = ({total}) => {
   return (
     <>
     <p>Number of exercises {total}</p>
+    </>
+  )
+
+}
+
+const Part = ({part, exercise}) => {
+
+  return (
+    <>
+    <p>
+        {part} {exercise}
+    </p>
     </>
   )
 
