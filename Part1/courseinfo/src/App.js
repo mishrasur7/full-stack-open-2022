@@ -58,6 +58,7 @@ const Part = ({part, exercise}) => {
 
 const App = () => {
   /*
+  commented code for step2
   const course = 'Half Stack application development'
   const part1 = 'Fundamentals of React'
   const exercises1 = 10
@@ -76,7 +77,9 @@ const App = () => {
       <Total total = {exercises1 + exercises2 + exercises3}/>
     </div>
   )
-  */
+
+  commented code for step3
+
   const course = 'Half Stack application development'
   const part1 = {
     name: 'Fundamentals of React',
@@ -98,6 +101,33 @@ const App = () => {
       <p>{part2.name} {part2.exercises}</p>
       <p>{part3.name} {part3.exercises}</p>
       <p>Number of exercises {part1.exercises + part2.exercises + part3.exercises}</p>
+    </div>
+  )
+  */
+  const course = 'Half Stack application development'
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
+
+  let totalExercises = 0; 
+  parts.forEach(value => totalExercises += value.exercises)
+
+  return (
+    <div>
+      <h2>{course}</h2>
+      {parts.map((value, index) => <p key={index}>{`${value.name} ${value.exercises}`}</p>)}
+      <p>Nuber of exercise {totalExercises}</p>
     </div>
   )
 }
