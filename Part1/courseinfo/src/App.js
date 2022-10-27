@@ -127,7 +127,7 @@ const App = () => {
     <div>
       <h2>{course}</h2>
       {parts.map((value, index) => <p key={index}>{`${value.name} ${value.exercises}`}</p>)}
-      <p>Nuber of exercise {totalExercises}</p>
+      <p>Nuber of exercises {totalExercises}</p>
     </div>
   )
 }
