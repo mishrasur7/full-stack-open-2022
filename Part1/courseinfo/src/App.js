@@ -8,29 +8,11 @@ const Header = ({course}) => {
 
 }
 
-const Content = ({parts, exercises}) => {
-  /*
-  this commented code is for the step1
-  return (
-    <>
-       <p>
-        {parts.part1} {exercises.exercises1}
-      </p>
-      <p>
-        {parts.part2} {exercises.exercises2}
-      </p>
-      <p>
-        {parts.part3} {exercises.exercises3}
-      </p>
-    
-    </>
-  )
-  */
+const Content = ({parts}) => {
+  {parts.map((value, index) => <p key={index}>{`${value.name} ${value.exercises}`}</p>)}
  return (
   <>
-    <Part part={parts.part1} exercise={exercises.exercises1}/>
-    <Part part={parts.part2} exercise={exercises.exercises2}/>
-    <Part part={parts.part3} exercise={exercises.exercises3}/>
+    <Part parts={parts}/>
   </>
  )
 }
@@ -44,13 +26,11 @@ const Total = ({total}) => {
 
 }
 
-const Part = ({part, exercise}) => {
+const Part = ({parts}) => {
 
   return (
     <>
-    <p>
-        {part} {exercise}
-    </p>
+    {parts.map((value, index) => <p key={index}>{`${value.name} ${value.exercises}`}</p>)}
     </>
   )
 
@@ -125,9 +105,9 @@ const App = () => {
 
   return (
     <div>
-      <h2>{course}</h2>
-      {parts.map((value, index) => <p key={index}>{`${value.name} ${value.exercises}`}</p>)}
-      <p>Nuber of exercises {totalExercises}</p>
+      <Header course={course}/>
+      <Content parts={parts}/>
+      <Total total={totalExercises}/>
     </div>
   )
 }
