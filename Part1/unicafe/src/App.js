@@ -22,7 +22,7 @@ const App = () => {
     setFeedbackCount(feedbackCount.concat(-1))
   }
 
-  const allFedebacks = good + neutral + bad;
+  const allFeedbacks = good + neutral + bad;
 
   let totalScore = 0; 
   feedbackCount.forEach(value => totalScore += value)
@@ -40,7 +40,7 @@ const App = () => {
     <p>good {good}</p>
     <p>neutral {neutral}</p>
     <p>bad {bad}</p>
-    <p>all {allFedebacks}</p>
+    <p>all {allFeedbacks}</p>
     <p>average {avgPoints}</p>
     <p>positive {positiveFeedbacks} %</p>
     </>
