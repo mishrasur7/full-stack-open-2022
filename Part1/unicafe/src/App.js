@@ -55,7 +55,7 @@ const App = () => {
       good={good}
       neutral={neutral}
       bad={bad}
-      allFedebacks={allFeedbacks}
+      allFeedbacks={allFeedbacks}
       avgPoints={avgPoints}
       positiveFeedbacks={positiveFeedbacks}
     />
