@@ -31,7 +31,6 @@ const Statistics = ({good, neutral, bad, allFeedbacks, avgPoints, positiveFeedba
       <Statisticline value={positiveFeedbacks} text={'positive'}/>
     </>
   )
-
 }
 
 const App = () => {
