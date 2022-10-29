@@ -1,5 +1,19 @@
 import { useState } from 'react'
 
+const Statistics = ({good, neutral, bad, allFeedbacks, avgPoints, positiveFeedbacks}) => {
+  return (
+    <>
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
+      <p>all {allFeedbacks}</p>
+      <p>average {avgPoints}</p>
+      <p>positive {positiveFeedbacks} %</p>
+    </>
+  )
+
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -28,7 +42,7 @@ const App = () => {
   feedbackCount.forEach(value => totalScore += value)
   const avgPoints = totalScore/feedbackCount.length;
 
-  const positiveFeedbacks = (good/allFedebacks) * 100
+  const positiveFeedbacks = (good/allFeedbacks) * 100
 
   return (
     <>
@@ -37,12 +51,14 @@ const App = () => {
     <button onClick={clickNeutral}>neutral</button>
     <button onClick={clickBad}>bad</button>
     <h1>statistics</h1>
-    <p>good {good}</p>
-    <p>neutral {neutral}</p>
-    <p>bad {bad}</p>
-    <p>all {allFeedbacks}</p>
-    <p>average {avgPoints}</p>
-    <p>positive {positiveFeedbacks} %</p>
+    <Statistics 
+      good={good}
+      neutral={neutral}
+      bad={bad}
+      allFedebacks={allFeedbacks}
+      avgPoints={avgPoints}
+      positiveFeedbacks={positiveFeedbacks}
+    />
     </>
   )
 }
