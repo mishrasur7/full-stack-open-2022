@@ -5,18 +5,30 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [feedbackCount, setFeedbackCount] = useState([]); 
 
   const clickGood = () => {
     setGood(good + 1)
+    setFeedbackCount(feedbackCount.concat(1))
   }
 
   const clickNeutral = () => {
     setNeutral(neutral + 1)
+    setFeedbackCount(feedbackCount.concat(0))
   }
 
   const clickBad = () => {
     setBad(bad + 1)
+    setFeedbackCount(feedbackCount.concat(-1))
   }
+
+  const allFedebacks = good + neutral + bad;
+
+  let totalScore = 0; 
+  feedbackCount.forEach(value => totalScore += value)
+  const avgPoints = totalScore/feedbackCount.length;
+
+  const positiveFeedbacks = (good/allFedebacks) * 100
 
   return (
     <>
@@ -28,6 +40,9 @@ const App = () => {
     <p>good {good}</p>
     <p>neutral {neutral}</p>
     <p>bad {bad}</p>
+    <p>all {allFedebacks}</p>
+    <p>average {avgPoints}</p>
+    <p>positive {positiveFeedbacks} %</p>
     </>
   )
 }
