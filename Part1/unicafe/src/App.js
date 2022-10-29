@@ -1,6 +1,9 @@
 import { useState } from 'react'
 
-const Statistics = ({good, neutral, bad, allFeedbacks, avgPoints, positiveFeedbacks}) => {
+const Statistics = ({good, neutral, bad, allFeedbacks, avgPoints, positiveFeedbacks, feedbackCount}) => {
+  if(feedbackCount.length === 0) {
+    return (<p>No feedback given</p>)
+  }
   return (
     <>
       <p>good {good}</p>
@@ -58,6 +61,7 @@ const App = () => {
       allFeedbacks={allFeedbacks}
       avgPoints={avgPoints}
       positiveFeedbacks={positiveFeedbacks}
+      feedbackCount={feedbackCount}
     />
     </>
   )
