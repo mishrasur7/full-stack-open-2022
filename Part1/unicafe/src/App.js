@@ -5,7 +5,16 @@ const Button = ({click, text}) => {
 }
 
 const Statisticline = ({value, text}) => {
-  return (<p>{text} {value}</p>)
+  return (
+    <table>
+      <tbody>
+      <tr>
+        <td style={{width: 100}}>{text}</td>
+        <td>{value}</td>
+      </tr>
+      </tbody>
+    </table>
+  )
 }
 
 const Statistics = ({good, neutral, bad, allFeedbacks, avgPoints, positiveFeedbacks, feedbackCount}) => {
