@@ -1,5 +1,14 @@
 import { useState } from 'react'
 
+const Heading = ({text}) => {
+  return (
+    <>
+    <h1>{text}</h1>
+    <br />
+    </>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -13,6 +22,10 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(Array(anecdotes.length).fill(0))
+  const [votes, setVotes] = useState({
+    maxAnecdoteIndex: 0,
+    maxVote: 0
+  })
 
   const nextAnecdote = () => {
     // the random number should be between 0 and anecdotes.length - 1 in order to randomly get all anecdotes from array
@@ -26,13 +39,29 @@ const App = () => {
     setPoints(copyPoints)
   }
 
+  for(let i = 0; i < points.length; i++) {
+    if(votes.maxVote < points[i]) {
+      const newVotes = {
+        ...votes,
+        maxAnecdoteIndex: i,
+        maxVote: points[i]
+      }
+      setVotes(newVotes)
+    } 
+  }
+
   return (
     <div>
+      <Heading text={'Anecdote of the day'}/>
       {anecdotes[selected]}
       <p>has {points[selected]} votes</p>
       <br />
       <button onClick={vote}>vote</button>
       <button onClick={nextAnecdote}>next anecdote</button>
+      <br />
+      <Heading text={'Anecdote with most vote'}/>
+      {anecdotes[votes.maxAnecdoteIndex]}
+      <p>has {votes.maxVote} votes</p>
     </div>
   )
 }
