@@ -33,7 +33,7 @@ const App = () => {
     setSelected(randomNum)
   }
 
-  const vote = () => {
+  const makeVote = () => {
     const copyPoints = [...points]
     copyPoints[selected] += 1
     setPoints(copyPoints)
@@ -56,7 +56,7 @@ const App = () => {
       {anecdotes[selected]}
       <p>has {points[selected]} votes</p>
       <br />
-      <button onClick={vote}>vote</button>
+      <button onClick={makeVote}>vote</button>
       <button onClick={nextAnecdote}>next anecdote</button>
       <br />
       <Heading text={'Anecdote with most vote'}/>
