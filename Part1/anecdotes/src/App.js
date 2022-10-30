@@ -12,6 +12,7 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(Array(anecdotes.length).fill(0))
 
   const nextAnecdote = () => {
     // the random number should be between 0 and anecdotes.length - 1 in order to randomly get all anecdotes from array
@@ -19,10 +20,18 @@ const App = () => {
     setSelected(randomNum)
   }
 
+  const vote = () => {
+    const copyPoints = [...points]
+    copyPoints[selected] += 1
+    setPoints(copyPoints)
+  }
+
   return (
     <div>
       {anecdotes[selected]}
+      <p>has {points[selected]} votes</p>
       <br />
+      <button onClick={vote}>vote</button>
       <button onClick={nextAnecdote}>next anecdote</button>
     </div>
   )
