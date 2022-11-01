@@ -1,35 +1,3 @@
-/*
-const Part = ({parts}) => {
-  let totalExercises = 0; 
-  parts.forEach(part => totalExercises += part.exercises);
-
-  //calculating sum of exercises using reduce function
-  const initialValue = 0;
-  const sumWithInitial = parts.reduce(
-    (previousValue, currentValue) => previousValue + currentValue.exercises,
-    initialValue
-  );
-
-  return (
-    <>
-    {parts.map(part => <p key={part.id}>{part.name} {part.exercises}</p>)}
-    <b>total of {sumWithInitial} exercises</b>
-    </>
-  )
-}
-
-const Content = ({parts}) => {
-  return (
-    <>
-      <Part parts={parts}/>
-    </>
-  )
-}
-
-const Header = ({name}) => {
-  return <h1>{name}</h1>
-}
-*/
 
 const Course = ({courses}) => {
   return (
