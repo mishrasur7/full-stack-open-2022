@@ -1,7 +1,11 @@
 const Part = ({parts}) => {
+  let totalExercises = 0; 
+  parts.forEach(part => totalExercises += part.exercises);
+
   return (
     <>
     {parts.map(part => <p key={part.id}>{part.name} {part.exercises}</p>)}
+    <b>total of {totalExercises} exercises</b>
     </>
   )
 }
@@ -48,6 +52,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
