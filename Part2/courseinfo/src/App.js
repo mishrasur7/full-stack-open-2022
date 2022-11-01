@@ -48,7 +48,7 @@ const App = () => {
 
   return (
     <>
-      <h1>Web development curriculum</h1>
+      <h1>Web Development Curriculum</h1>
       <Course courses={courses} />
     </>
   )
