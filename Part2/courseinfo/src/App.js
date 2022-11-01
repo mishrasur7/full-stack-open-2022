@@ -1,11 +1,19 @@
 const Part = ({parts}) => {
-  let totalExercises = 0; 
-  parts.forEach(part => totalExercises += part.exercises);
+  //calculating sum of exercises using foreach function for step7
+  //let totalExercises = 0; 
+  //parts.forEach(part => totalExercises += part.exercises);
+
+  //calculating sum of exercises using reduce function for step 8
+  const initialValue = 0;
+  const sumWithInitial = parts.reduce(
+    (previousValue, currentValue) => previousValue + currentValue.exercises,
+    initialValue
+  );
 
   return (
     <>
     {parts.map(part => <p key={part.id}>{part.name} {part.exercises}</p>)}
-    <b>total of {totalExercises} exercises</b>
+    <b>total of {sumWithInitial} exercises</b>
     </>
   )
 }
