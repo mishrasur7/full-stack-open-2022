@@ -1,13 +1,21 @@
 import { useState } from 'react'
 
-import Person from './components/Person'
+import Header from './components/Header'
+import Search from './components/Search'
+import Form from './components/Form'
+import Filter from './components/Filter'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-1234567' }
-  ]) 
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ])
+
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
+  const [searchName, setSearchName] = useState('')
 
   const addName = (event) => {
     event.preventDefault()
@@ -43,26 +51,27 @@ const App = () => {
     setNewPhoneNumber(newInputPhoneNumber)
   }
 
+  const handleSearch = (event) => {
+    const search = event.target.value
+    setSearchName(search)
+}
+
   return (
     <div>
-      <h2>Phonebook</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: 
-          <input value={newName} onChange={handleChange}/>
-        </div>
-        <div>
-          number: 
-          <input value={newPhoneNumber} onChange={handleNumberChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <ul>
-        {persons.map(person => <Person key={person.name} person={person}/>)}
-      </ul>
+      <Header title={'Phonebook'}/>
+      <Search searchName={searchName} handleChange={handleSearch}/>
+      <Form 
+        addName={addName} 
+        newName={newName} 
+        newPhoneNumber={newPhoneNumber} 
+        handleChange={handleChange} 
+        handleNumberChange={handleNumberChange}
+      />
+      <Header title={'Numbers'}/>
+      <Filter 
+        persons={persons}
+        searchName={searchName}
+      />
     </div>
   )
 }
