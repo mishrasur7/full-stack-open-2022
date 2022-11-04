@@ -16,9 +16,8 @@ const App = () => {
   const fetchData = () => {
     axios
       .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+      .then(response => setPersons(response.data)
+      )
   }
 
   useEffect(fetchData, [])
