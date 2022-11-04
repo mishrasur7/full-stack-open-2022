@@ -2,10 +2,12 @@ import React from 'react'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import CountryInfo from './components/CountryInfo'
+import Button from './components/Button'
 
 function App() {
   const [countries, setCountries] = useState([])
   const[searchCountry, setSearchCountry] = useState('')
+  const [showAll, setShowAll] = useState(true)
 
   const fetchData = () => {
     axios
@@ -31,9 +33,9 @@ function App() {
         }
       })
 
-      console.log('filteredcountries', filteredCountries)
+  console.log('filteredcountries', filteredCountries)
   
-      let filteredCountriesLength = filteredCountries.length
+  let filteredCountriesLength = filteredCountries.length
 
   return (
     <>
@@ -47,8 +49,8 @@ function App() {
       {filteredCountries.map(country => {
         if(filteredCountriesLength === 1) {
           return <CountryInfo key={country.area} country={country}/>
-        } else if(filteredCountriesLength <= 10) {
-          return <p key={country.area}>{country.name.common}</p>
+        } else if(filteredCountriesLength <= 10 && showAll) {
+          return <p key={country.area}>{country.name.common} <Button showAll={showAll} setShowAll={setShowAll} country ={country}/></p>
         }
       })}
       {(() => {
