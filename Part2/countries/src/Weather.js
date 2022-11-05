@@ -1,8 +1,6 @@
 import React from 'react'
 
 const Weather = ({weather, capital}) => {
-
-    console.log('weather from weater', weather)
     
   return (
     <div>

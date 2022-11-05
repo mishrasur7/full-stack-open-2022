@@ -34,12 +34,8 @@ function App() {
           return country
         }
       })
-
-  console.log('filteredcountries', filteredCountries)
   
   let filteredCountriesLength = filteredCountries.length
-
-  console.log('countryindex', countryIndex)
   
   return (
     <>
