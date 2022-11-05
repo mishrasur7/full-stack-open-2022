@@ -53,7 +53,7 @@ function App() {
         if(filteredCountriesLength === 1) {
           return <CountryInfo key={country.area} country={country}/>
         } else if(filteredCountriesLength <= 10) {
-          return <div key={index}>{country.name.common}
+          return <div key={country.area}>{country.name.common}
           <button 
             onClick={() => {
             setShowDetail(true)
