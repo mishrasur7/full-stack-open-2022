@@ -1,13 +1,16 @@
 import React from 'react'
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+
 import CountryInfo from './components/CountryInfo'
-import Button from './components/Button'
+import ShowDetail from './components/ShowDetail'
 
 function App() {
   const [countries, setCountries] = useState([])
   const[searchCountry, setSearchCountry] = useState('')
-  const [showAll, setShowAll] = useState(true)
+  const [showDetail, setShowDetail] = useState(false)
+  //holds index of particular country
+  const [index, setIndex] = useState()
 
   const fetchData = () => {
     axios
@@ -46,13 +49,22 @@ function App() {
           onChange={handleChange}
         />
       </div>
-      {filteredCountries.map(country => {
+      {filteredCountries.map((country, index) => {
         if(filteredCountriesLength === 1) {
           return <CountryInfo key={country.area} country={country}/>
-        } else if(filteredCountriesLength <= 10 && showAll) {
-          return <p key={country.area}>{country.name.common} <Button showAll={showAll} setShowAll={setShowAll} country ={country}/></p>
+        } else if(filteredCountriesLength <= 10) {
+          return <div key={index}>{country.name.common}
+          <button 
+            onClick={() => {
+            setShowDetail(true)
+            setIndex(index)
+          }}>show</button>
+          </div>
         }
       })}
+
+      <ShowDetail showDetail={showDetail} filteredCountries ={filteredCountries} index={index}/>
+      
       {(() => {
         if(filteredCountriesLength > 10) {
           return <p>Too many matches, specify another filter</p>
