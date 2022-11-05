@@ -10,13 +10,13 @@ function App() {
   const[searchCountry, setSearchCountry] = useState('')
   const [showDetail, setShowDetail] = useState(false)
   //holds index of particular country
-  const [index, setIndex] = useState()
+  const [countryIndex, setCountryIndex] = useState()
+ 
 
   const fetchData = () => {
     axios
     .get('https://restcountries.com/v3.1/all')
     .then(response => {
-      console.log(response.data[0])
       setCountries(response.data)
     })
   }
@@ -25,7 +25,6 @@ function App() {
 
   const handleChange = (event) => {
      setSearchCountry(event.target.value)
-     console.log(event.target.value)
   }
 
   const filteredCountries = countries.filter(country => {
@@ -40,6 +39,8 @@ function App() {
   
   let filteredCountriesLength = filteredCountries.length
 
+  console.log('countryindex', countryIndex)
+  
   return (
     <>
       <div>
@@ -51,24 +52,26 @@ function App() {
       </div>
       {filteredCountries.map((country, index) => {
         if(filteredCountriesLength === 1) {
-          return <CountryInfo key={country.area} country={country}/>
+          return <CountryInfo key={index} country={country} filteredCountriesLength= {filteredCountriesLength}/>
         } else if(filteredCountriesLength <= 10) {
           return <div key={country.area}>{country.name.common}
                       <button 
                         onClick={() => {
                         setShowDetail(true)
-                        setIndex(index)
+                        setCountryIndex(index)
                       }}>show</button>
                 </div>
+        } else if(filteredCountriesLength === 0) {
+          return ''
         }
       })}
 
-      <ShowDetail showDetail={showDetail} filteredCountries ={filteredCountries} index={index}/>
+      <ShowDetail showDetail={showDetail} filteredCountries ={filteredCountries} index={countryIndex}/>
       
       {(() => {
         if(filteredCountriesLength > 10) {
           return <p>Too many matches, specify another filter</p>
-        }
+        } 
       })()}
     </>
   )
