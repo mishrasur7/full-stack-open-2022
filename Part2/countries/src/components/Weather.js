@@ -4,7 +4,7 @@ const Weather = ({weather, capital}) => {
     
   return (
     <div>
-        <p>Weather in {capital}</p>
+        <h2>Weather in {capital}</h2>
         {
             (() => {
                 while(weather.name === capital) {
