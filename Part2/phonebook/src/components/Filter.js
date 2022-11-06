@@ -2,7 +2,7 @@ import React from 'react'
 
 import Person from './Person'
 
-const Filter = ({persons, searchName}) => {
+const Filter = ({persons, searchName, fetchData}) => {
   return (
     <div>
         <ul>
@@ -12,7 +12,7 @@ const Filter = ({persons, searchName}) => {
           } else if(person.name.toLowerCase().includes(searchName.toLowerCase())) {
             return person
           }
-        }).map(person => <Person key={person.name} person={person}/>)}
+        }).map(person => <Person key={person.name} person={person} fetchData={fetchData}/>)}
       </ul>
     </div>
   )

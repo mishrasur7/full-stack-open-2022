@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import Header from './components/Header'
 import Search from './components/Search'
@@ -80,6 +79,7 @@ const App = () => {
       <Filter 
         persons={persons}
         searchName={searchName}
+        fetchData={fetchData()}
       />
     </div>
   )
