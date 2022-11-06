@@ -5,6 +5,7 @@ import Header from './components/Header'
 import Search from './components/Search'
 import Form from './components/Form'
 import Filter from './components/Filter'
+import personServices from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -14,10 +15,9 @@ const App = () => {
   const [searchName, setSearchName] = useState('')
 
   const fetchData = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => setPersons(response.data)
-      )
+    personServices
+    .getAll()
+      .then(data => setPersons(data))
   }
 
   useEffect(fetchData, [])
@@ -29,14 +29,14 @@ const App = () => {
       name: newName,
       number: newPhoneNumber
     }
-    
-    axios
-      .post('http://localhost:3001/persons', newObj)
-      .then(response =>  {
-        setPersons(persons.concat(response.data))
+
+    personServices
+      .create(newObj)
+      .then(data => {
+        setPersons(persons.concat(data))
         setNewName('')
         setNewPhoneNumber('')
-      }) 
+    })
   }
 
   const handleChange = (event) => {
