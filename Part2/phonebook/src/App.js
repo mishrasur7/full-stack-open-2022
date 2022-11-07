@@ -5,6 +5,7 @@ import Search from './components/Search'
 import Form from './components/Form'
 import Filter from './components/Filter'
 import personServices from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -12,6 +13,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
   const [searchName, setSearchName] = useState('')
+  const [message, setMessage] = useState('')
 
   const fetchData = () => {
     personServices
@@ -36,6 +38,10 @@ const App = () => {
             .update(p.id, newPersonObj)
             .then(returnedPerson => {
               setPersons(persons.map(person => person.id !== p.id ? person : returnedPerson))
+              setMessage(`${p.name}'s phone number changed to ${newPhoneNumber} from ${p.number}`)
+              setTimeout(() => {
+                setMessage(null)
+              }, 2000)
             })
         }}
     })
@@ -53,6 +59,10 @@ const App = () => {
             setPersons(persons.concat(data))
             setNewName('')
             setNewPhoneNumber('')
+            setMessage(`${data.name} added to phonebook`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 2000)
         })
       }
     }
@@ -89,6 +99,7 @@ const App = () => {
   return (
     <div>
       <Header title={'Phonebook'}/>
+      <Notification message={message}/>
       <Search searchName={searchName} handleChange={handleSearch}/>
       <Form 
         addName={addName} 
