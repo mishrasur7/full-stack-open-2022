@@ -33,7 +33,7 @@
     {
       "content": "good job",
       "date": "2022-11-05T22:10:44.709Z",
-      "important": true,
+      "important": false,
       "id": 6
     }
   ]
