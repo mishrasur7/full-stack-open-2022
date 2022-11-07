@@ -69,6 +69,7 @@ const App = () => {
             setNewName('')
             setNewPhoneNumber('')
             setMessage(`${data.name} added to phonebook`)
+            setOperation(true)
             setTimeout(() => {
               setMessage(null)
             }, 3000)

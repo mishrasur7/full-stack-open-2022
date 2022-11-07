@@ -4,7 +4,7 @@ import '../index.css'
 
 const Notification = ({message, operation}) => {
 
-    const messageSuccesStyle = {
+    const successStyle = {
         color: 'green',
         background: 'lightgrey',
         fontSize: 20,
@@ -14,7 +14,7 @@ const Notification = ({message, operation}) => {
         marginBottom: 10
     }
 
-    const messageErrorStyle = {
+    const failStyle = {
         color: 'red',
         background: 'lightgrey',
         fontSize: 20,
@@ -32,8 +32,8 @@ const Notification = ({message, operation}) => {
     <>
         {
             operation
-            ? <div style={messageSuccesStyle}>{message}</div>
-            : <div style={messageErrorStyle}>{message}</div>
+            ? <div style={successStyle}>{message}</div>
+            : <div style={failStyle}>{message}</div>
         }
         {message}
     </>
