@@ -13,7 +13,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
   const [searchName, setSearchName] = useState('')
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState(null)
 
   const fetchData = () => {
     personServices
@@ -41,7 +41,7 @@ const App = () => {
               setMessage(`${p.name}'s phone number changed to ${newPhoneNumber} from ${p.number}`)
               setTimeout(() => {
                 setMessage(null)
-              }, 2000)
+              }, 3000)
             })
         }}
     })
@@ -62,7 +62,7 @@ const App = () => {
             setMessage(`${data.name} added to phonebook`)
             setTimeout(() => {
               setMessage(null)
-            }, 2000)
+            }, 3000)
         })
       }
     }
