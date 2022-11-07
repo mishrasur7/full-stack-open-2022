@@ -12,7 +12,7 @@ const Filter = ({persons, searchName, fetchData}) => {
           } else if(person.name.toLowerCase().includes(searchName.toLowerCase())) {
             return person
           }
-        }).map(person => <Person key={person.name} person={person} fetchData={fetchData}/>)}
+        }).map(person => <Person key={person.id} person={person} fetchData={fetchData}/>)}
       </ul>
     </div>
   )

@@ -24,34 +24,56 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
 
-    const newObj = {
-      name: newName,
-      number: newPhoneNumber
-    }
+    let updataFlag = false
 
-    personServices
-      .create(newObj)
-      .then(data => {
-        setPersons(persons.concat(data))
-        setNewName('')
-        setNewPhoneNumber('')
+    persons.map(p => {
+      if(p.name === newName && p.number !== newPhoneNumber) {
+        updataFlag = true
+        let confirmation = window.confirm(`${p.name} is already added to phonebook, replace the new number with old one?`)
+        if(confirmation) {
+          const newPersonObj = {...p, number: newPhoneNumber}
+          personServices
+            .update(p.id, newPersonObj)
+            .then(returnedPerson => {
+              setPersons(persons.map(person => person.id !== p.id ? person : returnedPerson))
+            })
+        }}
     })
+
+    if(updataFlag === false) {
+      if(event.target.value === undefined) {
+        const newObj = {
+          name: newName,
+          number: newPhoneNumber
+        }
+    
+        personServices
+          .create(newObj)
+          .then(data => {
+            setPersons(persons.concat(data))
+            setNewName('')
+            setNewPhoneNumber('')
+        })
+      }
+    }
+    
   }
 
   const handleChange = (event) => {
     const newInputName = event.target.value
-    let found = false; 
-    persons.forEach(person => {
-      if(person.name === newInputName) {
-        alert(`${newInputName} is already added to phonebook`)
-        found = true
-        setNewName('')
-      }
-    })
+    setNewName(newInputName)
+    // let found = false; 
+    // persons.forEach(person => {
+    //   if(person.name === newInputName) {
+    //     alert(`${newInputName} is already added to phonebook`)
+    //     found = true
+    //     setNewName('')
+    //   }
+    // })
 
-    if(found === false) {
-      setNewName(newInputName)
-    }
+    // if(found === false) {
+    //   setNewName(newInputName)
+    // }
   }
 
   const handleNumberChange = (event) => {
