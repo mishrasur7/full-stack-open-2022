@@ -14,6 +14,7 @@ const App = () => {
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
   const [searchName, setSearchName] = useState('')
   const [message, setMessage] = useState(null)
+  const [operation, setOperation] = useState(true)
 
   const fetchData = () => {
     personServices
@@ -39,6 +40,14 @@ const App = () => {
             .then(returnedPerson => {
               setPersons(persons.map(person => person.id !== p.id ? person : returnedPerson))
               setMessage(`${p.name}'s phone number changed to ${newPhoneNumber} from ${p.number}`)
+              setOperation(true)
+              setTimeout(() => {
+                setMessage(null)
+              }, 3000)
+            })
+            .catch(error => {
+              setMessage(`${p.name} already deleted from server, cannot update number anymore!`)
+              setOperation(false)
               setTimeout(() => {
                 setMessage(null)
               }, 3000)
@@ -99,7 +108,7 @@ const App = () => {
   return (
     <div>
       <Header title={'Phonebook'}/>
-      <Notification message={message}/>
+      <Notification message={message} operation={operation}/>
       <Search searchName={searchName} handleChange={handleSearch}/>
       <Form 
         addName={addName} 
