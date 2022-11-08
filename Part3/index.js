@@ -29,7 +29,7 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
-const PORT = 3000
+const PORT = 3001
 app.listen(PORT, () => {
     console.log(`server is up and running at port ${PORT}`)
 })
