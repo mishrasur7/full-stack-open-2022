@@ -1,6 +1,6 @@
 import express from 'express'
 
-const persons = [
+let persons = [
     { 
       "id": 1,
       "name": "Arto Hellas", 
@@ -57,6 +57,16 @@ app.get('/api/persons/:id', (request, response) => {
     person
     ? response.json(person)
     : (response.statusMessage = `Person with id ${id} not found`, response.status(400).end())
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = persons.find(p => p.id === id)
+    
+    !person
+    ? (response.statusMessage = `Person not found with id ${id}`, response.status(404).end())
+    : persons = persons.filter(person => person.id !== id) 
+        response.status(202).end()
 })
 
 const PORT = 3001
