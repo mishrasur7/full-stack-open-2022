@@ -28,12 +28,6 @@ const persons = [
       }
 ]
 
-const app = express()
-
-app.get('/api/persons', (request, response) => {
-    response.json(persons)
-})
-
 const getTotalPersons = () => {
     let total = 0
     persons.map(person => total += 1)
@@ -45,8 +39,24 @@ const getRequestTime = () => {
     return date
 }
 
+const app = express()
+
+app.get('/api/persons', (request, response) => {
+    response.json(persons)
+})
+
 app.get('/info', (request, response) => {
     response.send(`<p>Phone book has info for ${getTotalPersons()} people <br /> ${getRequestTime()} </p>`)
+})
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    console.log(id)
+    const person = persons.find(p => p.id === id)
+
+    person
+    ? response.json(person)
+    : (response.statusMessage = `Person with id ${id} not found`, response.status(400).end())
 })
 
 const PORT = 3001
