@@ -1,4 +1,5 @@
-import http from 'http'
+import http, { request } from 'http'
+import express from 'express'
 
 let notes = [
     {
@@ -20,14 +21,24 @@ let notes = [
       important: true
     }
   ]
+const app = express()
 
-const app = http.createServer((request, response) => {
-    response.writeHead(200, {'Content_Type': 'application/json'})
-    response.end(JSON.stringify(notes))
+app.get('/', (request, response) => {
+    response.send('Hello suraj')
 })
+
+app.get('/api/notes', (request,response) => {
+    response.json(notes)
+})
+// const app = http.createServer((request, response) => {
+//     response.writeHead(200, {'Content_Type': 'application/json'})
+//     response.end(JSON.stringify(notes))
+// })
 
 const PORT = 3001
 
-app.listen(PORT)
+app.listen(PORT, () => {
+    console.log(`Server is running at port ${PORT}`)
+})
 
-console.log(`Server is running at port ${PORT}`)
+
