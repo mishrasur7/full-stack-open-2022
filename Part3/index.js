@@ -1,5 +1,7 @@
 import express from 'express'
 
+const app = express()
+
 let persons = [
     { 
       "id": 1,
@@ -28,6 +30,7 @@ let persons = [
       }
 ]
 
+//useful methods and variables
 const getTotalPersons = () => {
     let total = 0
     persons.map(person => total += 1)
@@ -39,8 +42,19 @@ const getRequestTime = () => {
     return date
 }
 
-const app = express()
 
+const generateRandomID = (max, min) => {
+    return Math.floor(Math.random() * (max - min) + min)
+}
+
+const maxId = persons.length > 0
+? Math.max(...persons.map(p => p.id))
+: 1
+
+//global middlewares
+app.use(express.json())
+
+//routes
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
@@ -67,6 +81,19 @@ app.delete('/api/persons/:id', (request, response) => {
     ? (response.statusMessage = `Person not found with id ${id}`, response.status(404).end())
     : persons = persons.filter(person => person.id !== id) 
         response.status(202).end()
+})
+
+app.post('/api/persons', (request, response) => {
+    const person = request.body
+
+    const newPerson = {
+        name: person.name,
+        number: person.number,
+        id: generateRandomID(5000, maxId)
+    }
+    
+    persons = persons.concat(newPerson)
+    response.json(newPerson)
 })
 
 const PORT = 3001
