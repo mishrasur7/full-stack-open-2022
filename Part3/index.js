@@ -86,14 +86,24 @@ app.delete('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const person = request.body
 
-    const newPerson = {
-        name: person.name,
-        number: person.number,
-        id: generateRandomID(5000, maxId)
+    if(!person.name) {
+        return response.status(400).json({error: 'name is missing'})
+    } else if(!person.number) {
+        return response.status(400).json({error: 'number is missing'})
+    } else {
+        if(persons.find(p => p.name === person.name)) {
+            return response.status(400).json({error: 'Duplicate name'})
+        } else {
+            const newPerson = {
+                name: person.name,
+                number: person.number,
+                id: generateRandomID(5000, maxId)
+            }
+            
+            persons = persons.concat(newPerson)
+            response.json(newPerson)
+        }
     }
-    
-    persons = persons.concat(newPerson)
-    response.json(newPerson)
 })
 
 const PORT = 3001
