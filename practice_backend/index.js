@@ -1,5 +1,6 @@
 import http, { request } from 'http'
 import express from 'express'
+import cors from 'cors'
 
 let notes = [
     {
@@ -19,11 +20,19 @@ let notes = [
       content: "GET and POST are the most important methods of HTTP protocol",
       date: "2022-05-30T19:20:14.298Z",
       important: true
+    },
+    {
+      id: 4,
+      content: "GET and POST are the most important methods of HTTP protocol",
+      date: "2022-05-30T19:20:14.298Z",
+      important: true
     }
   ]
+
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
 app.get('/', (request, response) => {
     response.send('Hello suraj')
