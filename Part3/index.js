@@ -54,7 +54,15 @@ const maxId = persons.length > 0
 
 //global middlewares
 app.use(express.json())
-app.use(morgan('tiny'))
+
+// app.use(morgan('tiny'))
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-request'))
+
+morgan.token('post-request', (req, res) => {
+    return JSON.stringify(req.body)
+})
+
 
 //routes
 app.get('/api/persons', (request, response) => {
