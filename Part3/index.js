@@ -1,4 +1,5 @@
 import express from 'express'
+import morgan from 'morgan'
 
 const app = express()
 
@@ -53,6 +54,7 @@ const maxId = persons.length > 0
 
 //global middlewares
 app.use(express.json())
+app.use(morgan('tiny'))
 
 //routes
 app.get('/api/persons', (request, response) => {
@@ -65,7 +67,6 @@ app.get('/info', (request, response) => {
 
 app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
-    console.log(id)
     const person = persons.find(p => p.id === id)
 
     person
@@ -108,6 +109,6 @@ app.post('/api/persons', (request, response) => {
 
 const PORT = 3001
 app.listen(PORT, () => {
-    console.log(`server is up and running at port ${PORT}`)
+    console.log(`Server is up and running at port ${PORT}`)
 })
 
