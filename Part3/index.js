@@ -103,6 +103,8 @@ app.delete('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const person = request.body
 
+    console.log('person', person)
+
     if(!person.name) {
         return response.status(400).json({error: 'name is missing'})
     } else if(!person.number) {
@@ -123,7 +125,7 @@ app.post('/api/persons', (request, response) => {
     }
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || "3001"
 app.listen(PORT, () => {
     console.log(`Server is up and running at port ${PORT}`)
 })
