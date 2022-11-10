@@ -62,6 +62,7 @@ const maxId = persons.length > 0
 //global middlewares
 app.use(express.json())
 app.use(cors())
+app.use(express.static('build'))
 
 // app.use(morgan('tiny'))
 
