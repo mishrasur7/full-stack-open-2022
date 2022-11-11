@@ -66,6 +66,7 @@ app.use(express.static('build'))
 
 // app.use(morgan('tiny'))
 
+//use of custom token post-request
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-request'))
 
 morgan.token('post-request', (req, res) => {
