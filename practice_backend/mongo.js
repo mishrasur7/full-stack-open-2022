@@ -14,7 +14,7 @@ console.log('process.argv[2] after password:', process.argv[2])
 
 
 
-const url = `mongodb+srv://fullstack:${password}@cluster0.kjlnuld.mongodb.net/?retryWrites=true&w=majority`
+const url = `mongodb+srv://fullstack:${password}@cluster0.kjlnuld.mongodb.net/noteApp?retryWrites=true&w=majority`
 
 const noteSchema = new mongoose.Schema({
   content: String,
@@ -23,6 +23,10 @@ const noteSchema = new mongoose.Schema({
 })
 
 const Note = mongoose.model('Note', noteSchema)
+
+console.log('Note properties: ', Object.getOwnPropertyNames(Note))
+
+console.log('Note methods: ', Object.getOwnPropertyNames(Note).filter((property) =>  typeof Note[property] === 'object'))
 
 mongoose
   .connect(url)
