@@ -26,7 +26,7 @@ const Note = mongoose.model('Note', noteSchema)
 
 console.log('Note properties: ', Object.getOwnPropertyNames(Note))
 
-console.log('Note methods: ', Object.getOwnPropertyNames(Note).filter((property) =>  typeof Note[property] === 'object'))
+console.log('Note methods: ', Object.getOwnPropertyNames(Note).filter((property) =>  typeof Note[property] === 'function'))
 
 mongoose
   .connect(url)
