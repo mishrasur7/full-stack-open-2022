@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-if (process.argv.length !== 5) {
+if (process.argv.length > 3) {
     console.log('Please provide the password, name and phone number as an argument: node mongo.js <password> <name> <phnumber>')
     process.exit(1)
 } else if(process.argv.length < 3) {
@@ -14,23 +14,23 @@ const phNumber = process.argv[4]
 
 const url = `mongodb+srv://fullstack:${password}@cluster0.kjlnuld.mongodb.net/phoneApp?retryWrites=true&w=majority`
 
-const phoneSchema = new mongoose.Schema({
+const personSchema = new mongoose.Schema({
     name: String,
     number: Number
 })
 
-const PhoneBook = mongoose.model('PhoneBook', phoneSchema)
+const Person = mongoose.model('PhoneBook', personSchema)
 
 mongoose
     .connect(url)
     .then(result => {
         console.log(result)
         console.log('Connected to database')
-        const phoneBookInfo = new PhoneBook({
+        const personInfo = new Person({
             name: name,
             number: phNumber
         })
-        return phoneBookInfo.save()
+        return personInfo.save()
     })
     .then(() => {
         console.log(`added ${name} number ${phNumber} to phonebook`)
@@ -40,10 +40,10 @@ mongoose
 
 mongoose
     .connect(url)
-    .then(() => PhoneBook.find({}))
+    .then(() => Person.find({}))
     .then(result => {
         console.log('phonebook: ')
-        result.forEach(phoneInfo => console.log(`${phoneInfo.name} ${phoneInfo.number}`))
+        result.forEach(info => console.log(`${info.name} ${info.number}`))
         mongoose.connection.close()
     })
     .catch(err => console.log(err))
