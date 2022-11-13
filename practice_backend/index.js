@@ -50,15 +50,26 @@ app.get('/api/notes', (request,response) => {
 })
 
 app.get('/api/notes/:id', (request, response) => {
-    const id = request.params.id
-    console.log(id)
-    const note = Note.findById(request.params.id).then(note => response.json(note))
+    Note
+      .findById(request.params.id)
+      .then(note => {
+        note
+        ? response.json(note)
+        : response.status(404).end()
+      })
+      .catch(err => {
+        console.log(`Internal server error: ${err.message}`)
+        response.status(400).send({error: 'malformatted id'})
+      })
   })
 
-  app.delete('/api/notes/:id', (request, response) => {
+  app.delete('/api/notes/:id', (request, response, next) => {
     const id = request.params.id
     // notes = Note.filter(note => note.id !== id)
-    Note.findByIdAndDelete(id).then(response.status(204).end())
+    Note
+      .findByIdAndDelete(id)
+      .then(response.status(204).end())
+      .catch(error => next(error))
   })
 
   // const generateId = () => {
