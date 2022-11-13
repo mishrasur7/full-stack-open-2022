@@ -57,8 +57,8 @@ app.get('/api/notes/:id', (request, response) => {
 
   app.delete('/api/notes/:id', (request, response) => {
     const id = request.params.id
-    notes = Note.filter(note => note.id !== id)
-    response.status(204).end()
+    // notes = Note.filter(note => note.id !== id)
+    Note.findByIdAndDelete(id).then(response.status(204).end())
   })
 
   // const generateId = () => {
