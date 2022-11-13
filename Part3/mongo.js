@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-if (process.argv.length > 3 && process.argv.length < 5) {
+if (process.argv.length !== 5) {
     console.log('Please provide the password, name and phone number as an argument: node mongo.js <password> <name> <phnumber>')
     process.exit(1)
 } else if(process.argv.length < 3) {
