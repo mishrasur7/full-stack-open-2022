@@ -18,27 +18,28 @@ const phoneSchema = new mongoose.Schema({
 
 const PhoneBook = mongoose.model('PhoneBook', phoneSchema)
 
-// mongoose
-//     .connect(url)
-//     .then(result => {
-//         console.log('Connected to database')
-//         const phoneBookInfo = new PhoneBook({
-//             name: name,
-//             number: phNumber
-//         })
-//         return phoneBookInfo.save()
-//     })
-//     .then(() => {
-//         console.log('PhoneBook info saved to database')
-//         mongoose.connection.close()
-//     })
-//     .catch(err => console.log(err))
-
 mongoose
     .connect(url)
-    .then(() => PhoneBook.find({}))
     .then(result => {
-        result.forEach(phoneInfo => console.log(phoneInfo))
+        console.log(result)
+        console.log('Connected to database')
+        const phoneBookInfo = new PhoneBook({
+            name: name,
+            number: phNumber
+        })
+        return phoneBookInfo.save()
+    })
+    .then(() => {
+        console.log(`added ${name} number ${phNumber} to phonebook`)
         mongoose.connection.close()
     })
     .catch(err => console.log(err))
+
+// mongoose
+//     .connect(url)
+//     .then(() => PhoneBook.find({}))
+//     .then(result => {
+//         result.forEach(phoneInfo => console.log(phoneInfo))
+//         mongoose.connection.close()
+//     })
+//     .catch(err => console.log(err))
