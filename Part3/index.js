@@ -2,6 +2,8 @@ import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 
+import Person from './models/person.js'
+
 const app = express()
 
 let persons = [
@@ -76,7 +78,7 @@ morgan.token('post-request', (req, res) => {
 
 //routes
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then(result => response.json(result))
 })
 
 app.get('/info', (request, response) => {
