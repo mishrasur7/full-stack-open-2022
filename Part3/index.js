@@ -115,20 +115,25 @@ app.delete('/api/persons/:id', (request, response, next) => {
 })
 
 app.post('/api/persons', (request, response, next) => {
-    const person = request.body
-
-    console.log('person', person)
+    console.log(request.body)
 
     const newPerson = new Person({
-        name: person.name,
-        number: person.number
+        name: request.body.name,
+        number: request.body.number
     })
 
-    newPerson.save()
-        .then(savedPerson => {
-            response.json(savedPerson)
-        })
+    Person.find({name: newPerson.name}, (err, count) => {
+        if(count.length) {
+            response.status(400).json({error: `${newPerson.name} already exists in phonebook!`})
+        } else {
+            newPerson
+        .save()
+        .then(savedPerson => response.json(savedPerson))
         .catch(error => next(error))
+        }
+    })
+
+    
     
     //   if(!person.name) {
     //     return response.status(400).json({error: 'name is missing'})
