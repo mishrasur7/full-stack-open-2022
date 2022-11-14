@@ -94,14 +94,19 @@ app.get('/api/persons/:id', (request, response) => {
     : (response.statusMessage = `Person with id ${id} not found`, response.status(400).end())
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(p => p.id === id)
+app.delete('/api/persons/:id', (request, response, next) => {
+    Person
+        .findByIdAndRemove(request.params.id)
+        .then(result => response.status(200).end())
+        .catch(error => next(error))
+
+    // const id = Number(request.params.id)
+    // const person = persons.find(p => p.id === id)
     
-    !person
-    ? (response.statusMessage = `Person not found with id ${id}`, response.status(404).end())
-    : persons = persons.filter(person => person.id !== id) 
-        response.status(202).end()
+    // !person
+    // ? (response.statusMessage = `Person not found with id ${id}`, response.status(404).end())
+    // : persons = persons.filter(person => person.id !== id) 
+    //     response.status(202).end()
 })
 
 app.post('/api/persons', (request, response) => {
