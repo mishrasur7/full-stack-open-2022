@@ -3,7 +3,6 @@ import morgan from 'morgan'
 import cors from 'cors'
 
 import Person from './models/person.js'
-import { db } from './models/person.js'
 
 const app = express()
 
@@ -40,17 +39,6 @@ let persons = [
       },
 
 ]
-
-//useful methods and variables
-const getTotalPersons = () => {
-  Person.modelName('phoneBooks').countDocuments({}, (err, count) => {
-    if(err) {
-        console.log(err)
-    } else {
-        return count
-    }
-  })
-}
 
 const getRequestTime = () => {
     const date = new Date().toString()

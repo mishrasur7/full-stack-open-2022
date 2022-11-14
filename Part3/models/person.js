@@ -25,8 +25,6 @@ personSchema.set('toJSON', {
     }
 })
 
-export const db = mongoose.connect(url)
-
 const Person = mongoose.model('phoneBook', personSchema)
 
 export default Person
