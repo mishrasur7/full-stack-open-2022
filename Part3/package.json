@@ -13,7 +13,8 @@
     "deploy:full": "npm run build:ui && npm run deploy",
     "logs:prods": "fly logs",
     "status": "fly status",
-    "open": "fly open"
+    "open": "fly open",
+    "lint": "eslint ."
   },
   "keywords": [
     "app",
@@ -23,6 +24,7 @@
   "author": "Suraj Mishra",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^8.27.0",
     "nodemon": "^2.0.20"
   },
   "dependencies": {
