@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 
 import Person from './models/person.js'
+import { db } from './models/person.js'
 
 const app = express()
 
@@ -42,9 +43,13 @@ let persons = [
 
 //useful methods and variables
 const getTotalPersons = () => {
-    let total = 0
-    persons.map(person => total += 1)
-    return total
+  Person.modelName('phoneBooks').countDocuments({}, (err, count) => {
+    if(err) {
+        console.log(err)
+    } else {
+        return count
+    }
+  })
 }
 
 const getRequestTime = () => {
@@ -81,17 +86,28 @@ app.get('/api/persons', (request, response) => {
     Person.find({}).then(result => response.json(result))
 })
 
-app.get('/info', (request, response) => {
-    response.send(`<p>Phone book has info for ${getTotalPersons()} people <br /> ${getRequestTime()} </p>`)
+app.get('/info', (request, response, next) => {
+    // response.send(`<p>Phone book has info for ${getTotalPersons()} people <br /> ${getRequestTime()} </p>`)
+    Person.countDocuments({}, function (err, count) {
+        if(err) {
+            next(err)
+        }
+        response.send(`<p>Phone book has info for ${count} people <br /> ${getRequestTime()} </p>`)
+      });
 })
 
-app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(p => p.id === id)
+app.get('/api/persons/:id', (request, response, next) => {
+    // const id = Number(request.params.id)
+    // const person = persons.find(p => p.id === id)
 
-    person
-    ? response.json(person)
-    : (response.statusMessage = `Person with id ${id} not found`, response.status(400).end())
+    // person
+    // ? response.json(person)
+    // : (response.statusMessage = `Person with id ${id} not found`, response.status(400).end())
+
+    Person
+        .findById(request.params.id)
+        .then(result => response.json(result))
+        .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
