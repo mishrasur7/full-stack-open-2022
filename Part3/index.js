@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { request, response } from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 
@@ -95,6 +95,7 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
+    console.log('id', request.params.id)
     Person
         .findByIdAndRemove(request.params.id)
         .then(result => response.status(200).end())
@@ -129,6 +130,10 @@ app.post('/api/persons', (request, response) => {
             newPerson.save().then(savedPerson => response.json(savedPerson))
         }
     }
+})
+
+app.put('/api/persons:id', (request, response, next) => {
+
 })
 
 const errorHandler = (error, request, response, next) => {

@@ -6,6 +6,7 @@ const DeleteButton = ({person, fetchData}) => {
 
     const deletePerson = () => {
         if(window.confirm(`Delete ${person.name} ?`))
+        console.log(person)
         personService
             .deletePerson(person.id)
             .then(response => response.status === 200 ? fetchData : console.log('error'))
