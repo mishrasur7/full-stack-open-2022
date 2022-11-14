@@ -127,9 +127,9 @@ app.post('/api/persons', (request, response, next) => {
             response.status(400).json({error: `${newPerson.name} already exists in phonebook!`})
         } else {
             newPerson
-        .save()
-        .then(savedPerson => response.json(savedPerson))
-        .catch(error => next(error))
+                .save()
+                .then(savedPerson => response.json(savedPerson))
+                .catch(error => next(error))
         }
     })
 

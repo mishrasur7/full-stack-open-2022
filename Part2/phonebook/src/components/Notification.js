@@ -35,7 +35,6 @@ const Notification = ({message, operation}) => {
             ? <div style={successStyle}>{message}</div>
             : <div style={failStyle}>{message}</div>
         }
-        {message}
     </>
   )
 }
