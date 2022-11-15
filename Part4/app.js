@@ -7,7 +7,6 @@ import blogsRouter from './controllers/blogs.js'
 import middware from './utils/middleware.js'
 import logger from './utils/logger.js'
 
-
 const app = express()
 
 logger.info(`Connecting to ${config.MONGODB_URI}`)
