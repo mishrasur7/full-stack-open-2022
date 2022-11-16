@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Backend",
-    "auther": "suraj mishra",
+    "title": "Front end",
+    "auther": "Shova Pandey mishra",
     "url": "www.fullstack.com", 
-    "likes": 5
+    "likes": 8
 }
