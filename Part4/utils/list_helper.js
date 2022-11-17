@@ -33,9 +33,26 @@ const mostBlogs = (list) => {
   return greatAuthor
 }
 
+const mostLikes = (list) => {
+  const greatAuthor = mostBlogs(list).author
+  const likes = list.reduce((sum, item) => {
+    console.log('sum before condition:', sum)
+    return item.author === greatAuthor
+      ? sum + item.likes
+      : sum
+  }, 0)
+
+  const mostAuthorLikesTotal = {
+    author: greatAuthor,
+    likes: likes
+  }
+  return mostAuthorLikesTotal
+}
+
 export default {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
