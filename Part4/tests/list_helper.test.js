@@ -29,3 +29,16 @@ describe('favorite blog', () => {
     })
   })
 })
+
+describe('most blogs', () => {
+  test('should return most blog with author and number of blogs', () => {
+    const most = list_helper.mostBlogs(blogs)
+    console.log('most', most)
+    expect(most).toEqual(
+      {
+        author: 'Edsger W. Dijkstra',
+        blogs: 5
+      }
+    )
+  })
+})

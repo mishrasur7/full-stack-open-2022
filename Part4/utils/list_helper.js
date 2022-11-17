@@ -22,8 +22,20 @@ const favoriteBlog = (list) => {
   }
 }
 
+const mostBlogs = (list) => {
+  const authors = list.map(item => item.author)
+  const authorsObjectWithNums = {}
+  authors.map(item => authorsObjectWithNums[item] = authorsObjectWithNums[item] + 1 || 1)
+  const greatAuthor = {
+    author: Object.keys(authorsObjectWithNums).reduce((a,b) => authorsObjectWithNums[a] > authorsObjectWithNums[b] ? a : b),
+    blogs: Math.max(...Object.values(authorsObjectWithNums))
+  }
+  return greatAuthor
+}
+
 export default {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
