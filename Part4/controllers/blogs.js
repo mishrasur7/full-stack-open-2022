@@ -6,12 +6,12 @@ import logger from '../utils/logger.js'
 const blogsRouter = express.Router()
 
 blogsRouter.get('/', (request, response) => {
-    Blog
-      .find({})
-      .then(blogs => {
-        response.json(blogs)
-      })
-  })
+  Blog
+    .find({})
+    .then(blogs => {
+      response.json(blogs)
+    })
+})
 
 blogsRouter.post('/', (request, response, next) => {
   const blog = new Blog(request.body)
