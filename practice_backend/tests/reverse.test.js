@@ -20,9 +20,9 @@ describe('reverse', () => {
       })
       
       test('palindrome of react', () => {
-        const result = testFunctions.reverse('react')
+        const result = testFunctions.reverse('suraj')
       
-        expect(result).toBe('tkaer')
+        expect(result).toBe('jarus')
       })    
 })
 
