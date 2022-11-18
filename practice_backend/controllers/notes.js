@@ -4,10 +4,12 @@ import Note from '../models/note.js'
 
 const notesRouter = express.Router()
 
-notesRouter.get('/', (request, response) => {
-  Note.find({}).then(notes => {
-    response.json(notes)
-  })
+notesRouter.get('/', async (request, response) => {
+  const notes = Note.find({})
+  response.json(notes)
+  // Note.find({}).then(notes => {
+  //   response.json(notes)
+  // })
 })
 
 notesRouter.get('/:id', (request, response, next) => {
