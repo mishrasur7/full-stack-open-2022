@@ -48,6 +48,26 @@ describe('api testing', () => {
       
         expect(contents).toContain('HTML is easy')
       })
+
+      test('a valid note can be added', async () => {
+        const newNote = {
+          content: 'github is good for developers',
+          important: true
+        }
+
+        await api
+          .post('/api/notes')
+          .send(newNote)
+          .expect(201)
+          .expect('Content-Type', /application\/json/)
+        
+        const response = await api.get('/api/notes')
+
+        const contents = response.body.map(item => item.content)
+
+        expect(contents).toHaveLength(initialNotes.length + 1)
+        expect(contents).toContain('github is good for developers')
+      })
 })
 
 afterAll(() => {
