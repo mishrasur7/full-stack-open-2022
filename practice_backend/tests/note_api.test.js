@@ -68,6 +68,23 @@ describe('api testing', () => {
         expect(contents).toHaveLength(initialNotes.length + 1)
         expect(contents).toContain('github is good for developers')
       })
+
+      test('notes without content will not be saved to database', async () => {
+        const newNote = {
+          important: false
+        }
+
+        await api
+          .post('/api/notes')
+          .send(newNote)
+          .expect(400)
+        
+        const response = await api.get('/api/notes')
+        
+        const contents = response.body.map(items => items.content)
+
+        expect(contents).toHaveLength(initialNotes.length)
+      })
 })
 
 afterAll(() => {
