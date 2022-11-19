@@ -29,6 +29,13 @@ describe('blog api testing', () => {
     const response = await Blog.find({})
     expect(response).toHaveLength(2)
   })
+
+  test('property id should be defined', async () => {
+    const response = await Blog.find({})
+    const firstBlog = response[0]
+    console.log(firstBlog)
+    expect(firstBlog.id).toBeDefined()
+  })
 })
 
 afterAll(() => {
