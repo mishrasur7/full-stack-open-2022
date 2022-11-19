@@ -3,27 +3,15 @@ import supertest from 'supertest'
 
 import app from '../app'
 import Note from '../models/note'
+import test_helper from './test_helper'
 
 const api = supertest(app)
 
-const initialNotes = [
-    {
-      content: 'HTML is easy',
-      date: new Date(),
-      important: false,
-    },
-    {
-      content: 'Browser can execute only Javascript',
-      date: new Date(),
-      important: true,
-    },
-  ]
-
 beforeEach(async () => {
   await Note.deleteMany({})
-  let noteObject = new Note(initialNotes[0])
+  let noteObject = new Note(test_helper.initialNotes[0])
   await noteObject.save()
-  noteObject = new Note(initialNotes[1])
+  noteObject = new Note(test_helper.initialNotes[1])
   await noteObject.save()
 })
 
@@ -36,15 +24,17 @@ describe('api testing', () => {
       }, 100000)
 
       test('all notes are returned', async () => {
-        const response = await api.get('/api/notes')
+
+        const notes = await test_helper.notesInDb() 
       
-        expect(response.body).toHaveLength(initialNotes.length)
+        expect(notes).toHaveLength(test_helper.initialNotes.length)
       })
       
       test('a specific note is within the returned notes', async () => {
-        const response = await api.get('/api/notes')
+        
+        const notes = await test_helper.notesInDb()
 
-        const contents = response.body.map(item => item.content)
+        const contents = notes.map(note => note.content)
       
         expect(contents).toContain('HTML is easy')
       })
@@ -60,12 +50,12 @@ describe('api testing', () => {
           .send(newNote)
           .expect(201)
           .expect('Content-Type', /application\/json/)
-        
-        const response = await api.get('/api/notes')
 
-        const contents = response.body.map(item => item.content)
+        const notes = await test_helper.notesInDb()
 
-        expect(contents).toHaveLength(initialNotes.length + 1)
+        const contents = notes.map(note => note.content)
+
+        expect(contents).toHaveLength(test_helper.initialNotes.length + 1)
         expect(contents).toContain('github is good for developers')
       })
 
@@ -79,11 +69,9 @@ describe('api testing', () => {
           .send(newNote)
           .expect(400)
         
-        const response = await api.get('/api/notes')
-        
-        const contents = response.body.map(items => items.content)
+        const notes = await test_helper.notesInDb()
 
-        expect(contents).toHaveLength(initialNotes.length)
+        expect(notes).toHaveLength(test_helper.initialNotes.length)
       })
 })
 
