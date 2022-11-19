@@ -1,3 +1,4 @@
+import { json } from 'express'
 import mongoose from 'mongoose'
 import supertest from 'supertest'
 
@@ -72,6 +73,40 @@ describe('api testing', () => {
         const notes = await test_helper.notesInDb()
 
         expect(notes).toHaveLength(test_helper.initialNotes.length)
+      })
+
+      test('a specific note can be viewed', async () => {
+        const notesAtStart = await test_helper.notesInDb()
+
+        const noteToView = notesAtStart[0]
+
+        const resultNote = await api
+          .get(`/api/notes/${noteToView.id}`)
+          .expect(200)
+          .expect('Content-Type', /application\/json/)
+        
+        const processedNoteToView = JSON.parse(JSON.stringify(noteToView))
+
+        expect(resultNote.body).toEqual(processedNoteToView)
+
+      })
+
+      test('a note can be deleted', async () => {
+        const notesAtStart = await test_helper.notesInDb()
+
+        const noteToDelete = notesAtStart[0]
+
+        await api
+          .delete(`/api/notes/${noteToDelete.id}`)
+          .expect(204)
+        
+        const notesAtEnd = await test_helper.notesInDb()
+
+        const contents = notesAtEnd.map(note => note.content)
+
+        expect(notesAtEnd).toHaveLength(test_helper.initialNotes.length - 1)
+        expect(contents).not.toContain(noteToDelete.content)
+
       })
 })
 
