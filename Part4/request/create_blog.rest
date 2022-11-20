@@ -4,6 +4,5 @@ Content-Type: application/json
 {
     "title": "Front end",
     "auther": "Shova Pandey mishra",
-    "url": "www.fullstack.com", 
-    "likes": 8
+    "url": "www.fullstack.com"
 }

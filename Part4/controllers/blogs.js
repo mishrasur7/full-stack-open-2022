@@ -11,7 +11,20 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', (request, response, next) => {
-  const blog = new Blog(request.body)
+  const blog = request.body.likes === undefined
+    ? new Blog({
+      title: request.body.title,
+      author: request.body.author,
+      url: request.body.url,
+      likes: 0
+    })
+    : new Blog({
+      title: request.body.title,
+      author: request.body.author,
+      url: request.body.url,
+      likes: request.body.likes
+    })
+
   logger.info(blog)
 
   blog

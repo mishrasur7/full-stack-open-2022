@@ -56,7 +56,21 @@ describe('blog api testing', () => {
 
     expect(response).toHaveLength(3)
     expect(titles).toContainEqual('a new blog')
+  })
 
+  test('blog without likes should return 0', async () => {
+    const newBlog = {
+      title: 'suraj blog',
+      author: 'suraj mishra',
+      url: 'fjkdasfhdsa'
+    }
+
+    await api
+      .post('/api/blogs/')
+      .send(newBlog)
+
+    const response = await Blog.find({})
+    expect(response[2].likes).toBe(0)
   })
 })
 
