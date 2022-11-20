@@ -16,7 +16,7 @@ beforeEach(async () => {
   await blog.save()
 })
 
-describe('blog api testing', () => {
+describe('viewing blogs', () => {
   test('blogs are returned as json', async () => {
     await api
       .get('/api/blogs')
@@ -83,6 +83,22 @@ describe('blog api testing', () => {
       .post('/api/blogs')
       .send(newBlog)
       .expect(400)
+  })
+})
+
+describe('testing with delete functionality', () => {
+  test('should delete a blog with valid id and return status code 204', async () => {
+    const blogToDelete = blogs[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete._id}`)
+      .expect(204)
+
+    const blogsAtEnd = await Blog.find({})
+    const authors = blogsAtEnd.map(blog => blog.author)
+
+    expect(blogsAtEnd).toHaveLength(1)
+    expect(authors).not.toContainEqual('Michael Chan')
   })
 })
 

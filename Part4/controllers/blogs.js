@@ -10,7 +10,7 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-blogsRouter.post('/', (request, response, next) => {
+blogsRouter.post('/', async (request, response, next) => {
   if(request.body.title === undefined || request.body.url === undefined) {
     response.status(400).end()
   } else {
@@ -30,13 +30,21 @@ blogsRouter.post('/', (request, response, next) => {
 
     logger.info(blog)
 
-    blog
-      .save()
-      .then(result => {
-        response.status(201).json(result)
-      })
-      .catch(error => next(error))
+    try{
+      const savedBlog = await blog.save()
+      response.status(201).json(savedBlog)
+    } catch(exception) {
+      next(exception)
+    }
+  }
+})
 
+blogsRouter.delete('/:id', async (request, response, next) => {
+  try {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  } catch(exception) {
+    next(exception)
   }
 })
 

@@ -14,7 +14,7 @@ describe('totalLikes', () => {
   test('totalLikes returns', () => {
     const totalLikes = list_helper.totalLikes(blogs)
     console.log('totallikes',totalLikes)
-    expect(totalLikes).toBe(36)
+    expect(totalLikes).toBe(51)
   })
 })
 
