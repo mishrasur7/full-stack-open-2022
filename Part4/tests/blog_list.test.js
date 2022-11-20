@@ -102,6 +102,24 @@ describe('testing with delete functionality', () => {
   })
 })
 
+describe('testing with updating blogs', () => {
+  test('should update blog with valid id', async () => {
+    const blogToUpdate = blogs[0]
+
+    const blog = {
+      likes: 200
+    }
+
+    const updatedBlog = await api
+      .put(`/api/blogs/${blogToUpdate._id}`)
+      .send(blog)
+      .expect(200)
+
+    console.log(updatedBlog.body)
+    expect(updatedBlog.body.likes).toBe(blog.likes)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
