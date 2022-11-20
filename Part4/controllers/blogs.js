@@ -11,28 +11,33 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', (request, response, next) => {
-  const blog = request.body.likes === undefined
-    ? new Blog({
-      title: request.body.title,
-      author: request.body.author,
-      url: request.body.url,
-      likes: 0
-    })
-    : new Blog({
-      title: request.body.title,
-      author: request.body.author,
-      url: request.body.url,
-      likes: request.body.likes
-    })
+  if(request.body.title === undefined || request.body.url === undefined) {
+    response.status(400).end()
+  } else {
+    const blog = request.body.likes === undefined
+      ? new Blog({
+        title: request.body.title,
+        author: request.body.author,
+        url: request.body.url,
+        likes: 0
+      })
+      : new Blog({
+        title: request.body.title,
+        author: request.body.author,
+        url: request.body.url,
+        likes: request.body.likes
+      })
 
-  logger.info(blog)
+    logger.info(blog)
 
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
-    .catch(error => next(error))
+    blog
+      .save()
+      .then(result => {
+        response.status(201).json(result)
+      })
+      .catch(error => next(error))
+
+  }
 })
 
 export default blogsRouter

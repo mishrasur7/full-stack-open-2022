@@ -72,6 +72,18 @@ describe('blog api testing', () => {
     const response = await Blog.find({})
     expect(response[2].likes).toBe(0)
   })
+
+  test('should return status code 400 if title or url missing', async () => {
+    const newBlog = {
+      title: 'good title',
+      author: 'mishra'
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
 })
 
 afterAll(() => {
