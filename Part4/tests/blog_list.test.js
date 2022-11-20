@@ -36,6 +36,28 @@ describe('blog api testing', () => {
     console.log(firstBlog)
     expect(firstBlog.id).toBeDefined()
   })
+
+  test('blog can be added', async () => {
+    const newBlog = {
+      title: 'a new blog',
+      author: 'suraj mishra',
+      url: 'www.surajmishra.com',
+      likes: 500
+    }
+
+    await api
+      .post('/api/blogs/')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await Blog.find({})
+    const titles = response.map(blog => blog.title)
+
+    expect(response).toHaveLength(3)
+    expect(titles).toContainEqual('a new blog')
+
+  })
 })
 
 afterAll(() => {
