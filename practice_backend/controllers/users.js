@@ -1,9 +1,18 @@
-import express from 'express'
+import express, { request, response } from 'express'
 import bcrypt from 'bcrypt'
 
 import User from '../models/user.js'
 
 const userRouter = express.Router()
+
+userRouter.get('/', async (request, response, next) => {
+    try {
+        const users = await User.find({}).populate('notes', {content: 1, date: 1})
+        response.json(users)
+    } catch (exception) {
+        next(exception)
+    }
+})
 
 userRouter.post('/', async (request, response, next) => {
     const {username, name, password} = request.body
