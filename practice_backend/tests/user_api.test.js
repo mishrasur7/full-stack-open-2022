@@ -41,6 +41,27 @@ describe('testing creation of user', () => {
         expect(userAtEnd).toHaveLength(usersAtStart.length + 1)
         expect(userNames).toContain(newUser.username)
     })
+
+    test('test fails with proper status code and message if user exist already', async () => {
+        const usersAtStart = await test_helper.usersInDb()
+
+        const newUser = {
+            username: 'suraj',
+            name: 'mishra suraj', 
+            password: 'mypassword'
+        }
+
+        const result = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+        
+        const userAtEnd = await test_helper.usersInDb()
+
+        expect(result.body.error).toContain('username must be unique')
+        expect(usersAtStart).toEqual(userAtEnd)
+    })
 })
 
 afterAll(() => {
