@@ -4,9 +4,10 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import config from './utils/config.js'
-import notesRouter from './controllers/notes.js'
 import middleware from './utils/middleware.js'
 import logger from './utils/logger.js'
+import notesRouter from './controllers/notes.js'
+import userRouter from './controllers/users.js'
 
 const app = express()
 
@@ -26,6 +27,7 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use('/api/notes', notesRouter)
+app.use('/api/users', userRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
