@@ -9,21 +9,11 @@ const notesRouter = express.Router()
 notesRouter.get('/', async (request, response) => {
   const notes = await Note.find({}).populate('user', {username: 1, name: 1})
   response.json(notes)
-  // Note.find({}).then(notes => {
-  //   response.json(notes)
-  // })
 })
 
 notesRouter.get('/:id', async (request, response) => {
   const noteToFind = await Note.findById(request.params.id)
     response.json(noteToFind)
-
-  // try {
-  //   const noteToFind = await Note.findById(request.params.id)
-  //   response.json(noteToFind)
-  // } catch(exception) {
-  //   next(exception)
-  // }
 })
 
 const getTokenFrom = request => {
@@ -40,6 +30,7 @@ notesRouter.post('/', async (request, response) => {
   const decodedToken = jwt.verify(token, process.env.SECRET)
 
   console.log('decoded token: ', decodedToken)
+
   if(!decodedToken.id) {
     return response.status(401).json({error: 'missing token or invalid'})
   }
@@ -58,25 +49,11 @@ notesRouter.post('/', async (request, response) => {
   await user.save()
 
   response.json(savedNote)
-
-  // try {
-  //   const savedNote = await note.save()
-  //   response.status(201).json(savedNote)
-  // } catch(exception) {
-  //   next(exception)
-  // }
-
 })
 
 notesRouter.delete('/:id', async (request, response) => {
   await Note.findByIdAndRemove(request.params.id)
     response.status(204).end()
-  // try {
-  //   await Note.findByIdAndRemove(request.params.id)
-  //   response.status(204).end()
-  // } catch(exception) {
-  //   next(exception)
-  // }
 })
 
 notesRouter.put('/:id', (request, response, next) => {
