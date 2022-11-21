@@ -1,8 +1,9 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNob3ZhcCIsImlkIjoiNjM3YmZlODA4ODMwMDM1YmQzZDdlY2I0IiwiaWF0IjoxNjY5MDcwNTU1LCJleHAiOjE2NjkwNzQxNTV9.W793X6-zR82ue_S4_3uM4iNstWoVR0N5A4XjdpEoG7w
 
 {
-    "title": "this is very bad",
+    "title": "this is very funny",
     "auther": "Shova Pandey mishra",
     "url": "www.fullstack.com"
 }
