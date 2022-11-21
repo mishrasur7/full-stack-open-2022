@@ -3,9 +3,10 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import config from './utils/config.js'
-import blogsRouter from './controllers/blogs.js'
 import middware from './utils/middleware.js'
 import logger from './utils/logger.js'
+import blogsRouter from './controllers/blogs.js'
+import userRouter from './controllers/users.js'
 
 const app = express()
 
@@ -22,6 +23,7 @@ app.use(express.json())
 app.use(middware.requestLogger)
 
 app.use('/api/blogs', blogsRouter)
+app.use('/api/users', userRouter)
 
 app.use(middware.unknownEndPoint)
 app.use(middware.errorHandler)
