@@ -57,11 +57,12 @@ blogsRouter.delete('/:id', async (request, response) => {
   console.log(blog.user.toString() === userId.toString())
 
   if(blog.user.toString() !== userId.toString()) {
-    return response.status(400).json({ error: 'wrong user credentials' })
-  } else {
-    await Blog.findByIdAndRemove(request.params.id)
-    response.status(204).end()
+    return response.status(401).json({ error: 'Unauthorized' })
   }
+
+  await Blog.findByIdAndRemove(request.params.id)
+  response.status(204).end()
+
 })
 
 blogsRouter.put('/:id', async (request, response, next) => {
