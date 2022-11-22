@@ -41,12 +41,26 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
-blogsRouter.delete('/:id', async (request, response, next) => {
-  try {
+blogsRouter.delete('/:id', async (request, response) => {
+
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  console.log('decoded token: ', decodedToken)
+
+  const userId = decodedToken.id
+
+  console.log('userid: ', userId)
+
+  const blog = await Blog.findById(request.params.id)
+
+  console.log('user id from blog: ', blog.user.toString())
+
+  console.log(blog.user.toString() === userId.toString())
+
+  if(blog.user.toString() !== userId.toString()) {
+    return response.status(400).json({ error: 'wrong user credentials' })
+  } else {
     await Blog.findByIdAndRemove(request.params.id)
     response.status(204).end()
-  } catch(exception) {
-    next(exception)
   }
 })
 
