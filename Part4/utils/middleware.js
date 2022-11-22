@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+import jwt from 'jsonwebtoken'
+
 import logger from './logger.js'
 
 const requestLogger = (request, response, next) => {
@@ -31,7 +34,15 @@ const tokenExtractor = (request, response, next) => {
     : null
 
   request.token = token
-  // eslint-disable-next-line no-unreachable
+  next()
+}
+
+const userExtractor = (request, response, next) => {
+  const token = request.token
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  console.log('token from user extractor: ', decodedToken)
+  request.user = decodedToken
   next()
 }
 
@@ -39,5 +50,6 @@ export default {
   requestLogger,
   unknownEndPoint,
   errorHandler,
-  tokenExtractor
+  tokenExtractor,
+  userExtractor
 }

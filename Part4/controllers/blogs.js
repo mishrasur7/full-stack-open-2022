@@ -1,10 +1,9 @@
-/* eslint-disable no-undef */
 import express from 'express'
-import jwt from 'jsonwebtoken'
 
 import Blog from '../models/blog.js'
 import User from '../models/user.js'
 import logger from '../utils/logger.js'
+import middleware from '../utils/middleware.js'
 
 const blogsRouter = express.Router()
 
@@ -13,16 +12,13 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   if(request.body.title === undefined || request.body.url === undefined) {
     response.status(400).end()
   }
 
-  console.log('token passed into request from middleware: ', request.token)
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-  console.log('decoded token: ', decodedToken)
-  const user = await User.findById(decodedToken.id)
+  console.log('user: ', request.user)
+  const user = await User.findById(request.user.id)
 
   const blog = new Blog({
     title: request.body.title,
@@ -41,12 +37,12 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
+blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  console.log('decoded token: ', decodedToken)
+  const user = request.user
+  console.log('user passed into request: ', user)
 
-  const userId = decodedToken.id
+  const userId = user.id
 
   console.log('userid: ', userId)
 
