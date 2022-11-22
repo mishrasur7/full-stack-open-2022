@@ -13,14 +13,6 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-// const getToken = request => {
-//   const authorization = request.get('authorization')
-//   if(authorization && authorization.toLowerCase().startsWith('bearer ')) {
-//     return authorization.substring(7)
-//   }
-//   return null
-// }
-
 blogsRouter.post('/', async (request, response) => {
   if(request.body.title === undefined || request.body.url === undefined) {
     response.status(400).end()
