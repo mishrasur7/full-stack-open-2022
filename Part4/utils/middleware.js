@@ -39,6 +39,10 @@ const tokenExtractor = (request, response, next) => {
 
 const userExtractor = (request, response, next) => {
   const token = request.token
+
+  if(!token) {
+    return response.status(401).send({ error: 'Unauthorized' })
+  }
   const decodedToken = jwt.verify(token, process.env.SECRET)
 
   console.log('token from user extractor: ', decodedToken)

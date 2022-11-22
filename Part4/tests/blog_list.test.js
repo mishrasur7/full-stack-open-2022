@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import app from '../app'
 import blogs from '../utils/data'
 import Blog from '../models/blog'
+import User from '../models/user'
 
 const api = supertest(app)
 
@@ -14,6 +15,10 @@ beforeEach(async () => {
   await blog.save()
   blog = new Blog(blogs[1])
   await blog.save()
+
+  await User.deleteMany()
+  let user = new User({ username: 'sahas', password: 'mypassword' })
+  await user.save()
 })
 
 describe('viewing blogs', () => {
@@ -39,23 +44,41 @@ describe('viewing blogs', () => {
 
   test('blog can be added', async () => {
     const newBlog = {
-      title: 'a new blog',
+      title: 'an old blog',
       author: 'suraj mishra',
       url: 'www.surajmishra.com',
       likes: 500
     }
 
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhaGFzIiwiaWQiOiI2MzdkMjNlYjM0ZGY2Mzg5OGZiNjRiMDQiLCJpYXQiOjE2NjkxNDczNzEsImV4cCI6MTY2OTE1MDk3MX0.hDVkokCWIJJEt3R8spv5l7616k2QBT59hMSHHzj5F1g'
     await api
       .post('/api/blogs/')
       .send(newBlog)
+      .set('Authorization', `bearer ${token}`)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
     const response = await Blog.find({})
     const titles = response.map(blog => blog.title)
 
-    expect(response).toHaveLength(3)
-    expect(titles).toContainEqual('a new blog')
+    expect(response).toHaveLength(21)
+    expect(titles).toContainEqual('an old blog')
+  })
+
+  test('returns with proper status code and message if token not provided', async () => {
+    const newBlog = {
+      title: 'an old blog',
+      author: 'suraj mishra',
+      url: 'www.surajmishra.com',
+      likes: 500
+    }
+
+    const response = await api
+      .post('/api/blogs/')
+      .send(newBlog)
+      .expect(401)
+
+    expect(response.body.error).toBe('Unauthorized')
   })
 
   test('blog without likes should return 0', async () => {
