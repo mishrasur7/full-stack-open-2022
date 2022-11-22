@@ -24,8 +24,20 @@ const errorHandler = (error, request, response, next) => {
   next()
 }
 
+const tokenExtractor = (request, response, next) => {
+  const authorization = request.get('authorization')
+  const token = authorization && authorization.toLowerCase().startsWith('bearer ')
+    ? authorization.substring(7)
+    : null
+
+  request.token = token
+  // eslint-disable-next-line no-unreachable
+  next()
+}
+
 export default {
   requestLogger,
   unknownEndPoint,
-  errorHandler
+  errorHandler,
+  tokenExtractor
 }

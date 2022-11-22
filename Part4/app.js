@@ -23,6 +23,7 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 app.use(middware.requestLogger)
+app.use(middware.tokenExtractor)
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', userRouter)
