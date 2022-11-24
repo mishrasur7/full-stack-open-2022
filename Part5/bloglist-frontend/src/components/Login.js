@@ -14,6 +14,7 @@ const Login = ({user,
         try{ 
             const user = await loginService.login({username, password,})
             setUser(user)
+            window.localStorage.setItem('loggedInUser', JSON.stringify(user))
             console.log('user from try :', user)
         } catch(exception) {
             console.log(exception)
