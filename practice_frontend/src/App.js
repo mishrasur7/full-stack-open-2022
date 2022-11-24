@@ -37,6 +37,15 @@ const App = () => {
       })
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteAppUser')
+    if(loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token)
+    }
+  }, [])
+
   const addNote = (event) => {
     event.preventDefault()
     const noteObject = {
@@ -78,27 +87,29 @@ const App = () => {
   }
 
   const notesToShow = showAll
-    ? notes
-    : notes.filter(note => note.important)
-  
-    const handleLogin = async (event) => {
-      event.preventDefault()
-      
-      try {
-        const user = await loginService.login({
-          username, password,
-        })
-        console.log('user from handlelogin: ', user)
-        setUser(user)
-        setUsername('')
-        setPassword('')
-      } catch (exception) {
-        setErrorMessage('Wrong credentials')
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-      }
+  ? notes
+  : notes.filter(note => note.important)
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    
+    try {
+      const user = await loginService.login({
+        username, password,
+      })
+      console.log('user from handlelogin: ', user)
+      window.localStorage.setItem('loggedNoteAppUser', JSON.stringify(user))
+      noteService.setToken(user.token)
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      setErrorMessage('Wrong credentials')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
+  }
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
