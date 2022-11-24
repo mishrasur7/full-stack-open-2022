@@ -6,7 +6,9 @@ const Login = ({user,
                 password,
                 setUser, 
                 setUsername, 
-                setPassword
+                setPassword, 
+                setErrorMsg, 
+                setOperation
             }) => {
 
     const handleLogin = async (event) => {
@@ -17,9 +19,13 @@ const Login = ({user,
             setUser(user)
             window.localStorage.setItem('loggedInUser', JSON.stringify(user))
             blogService.setToken(user.token)
-            console.log('token :', user.token)
+            setOperation(true)
         } catch(exception) {
-            console.log(exception)
+            setErrorMsg(exception.response.data.error)
+            setOperation(false)
+            setTimeout(() => {
+                setErrorMsg(null)
+            }, 5000);
         }
 
     }
@@ -27,7 +33,6 @@ const Login = ({user,
     if(user === null) {
         return (
             <>
-            <h1>Login to the application</h1>
             <form onSubmit={handleLogin}>
             <div>
             username

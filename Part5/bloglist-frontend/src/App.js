@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react'
+
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-
 import Login from './components/Login'
 import Createblog from './components/Createblog'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [operation, setOperation] = useState(false)
+  const [successMsg, setSuccessMsg] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -24,6 +28,7 @@ const App = () => {
       setUser(user)
       blogService.setToken(user.token)
     }
+
   }, [])
 
   const logOutUser = () => {
@@ -35,6 +40,12 @@ const App = () => {
 
   return (
     <div>
+      <h1>Login to the application</h1>
+      <Notification 
+        operation={operation} 
+        successMsg={successMsg} 
+        errorMsg={errorMsg}
+      />
       <Login 
         user={user} 
         username={username} 
@@ -42,13 +53,19 @@ const App = () => {
         setUser={setUser}
         setUsername={setUsername}
         setPassword={setPassword}
+        setErrorMsg={setErrorMsg}
+        setOperation={setOperation}
       />
       <h2>blogs</h2>
       {user && 
         <div>
           <p>{user.name} logged in</p>
           <button onClick={logOutUser}>logout</button>
-          <Createblog />
+          <Createblog 
+            setBlogs={setBlogs}
+            setSuccessMsg={setSuccessMsg}
+            setOperation={setOperation}
+          />
         </div>
       }
       <br />

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import blogService from '../services/blogs'
 
-const Createblog = () => {
+const Createblog = ({ setBlogs, setSuccessMsg, setOperation }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -16,11 +16,19 @@ const Createblog = () => {
             url: url
         }
 
-        blogService
+        await blogService
             .create(newBlog)
+            setSuccessMsg(`a new Blog ${title}! by ${author} added`)
+            setTimeout(() => {
+                setSuccessMsg(null)
+            }, 5000);
+            setOperation(true)
             setTitle('')
             setAuthor('')
-            setUrl('')  
+            setUrl('')
+
+        const response = await blogService.getAll()
+        setBlogs(response)
     }
 
   return (
