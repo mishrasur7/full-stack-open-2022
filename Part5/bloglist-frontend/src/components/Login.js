@@ -1,4 +1,5 @@
 import loginService from '../services/login'
+import blogService from '../services/blogs'
 
 const Login = ({user, 
                 username, 
@@ -15,7 +16,8 @@ const Login = ({user,
             const user = await loginService.login({username, password,})
             setUser(user)
             window.localStorage.setItem('loggedInUser', JSON.stringify(user))
-            console.log('user from try :', user)
+            blogService.setToken(user.token)
+            console.log('token :', user.token)
         } catch(exception) {
             console.log(exception)
         }
