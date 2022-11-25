@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import blogService from '../services/blogs'
 
-const Createblog = ({ setBlogs, setSuccessMsg, setOperation }) => {
+const CreateBlog = ({ setBlogs, setSuccessMsg, setOperation }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -68,4 +68,4 @@ const Createblog = ({ setBlogs, setSuccessMsg, setOperation }) => {
   )
 }
 
-export default Createblog
+export default CreateBlog

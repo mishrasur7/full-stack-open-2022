@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
-import Createblog from './components/Createblog'
+import CreateBlog from './components/CreateBlog'
 import Notification from './components/Notification'
 
 const App = () => {
@@ -61,7 +61,7 @@ const App = () => {
         <div>
           <p>{user.name} logged in</p>
           <button onClick={logOutUser}>logout</button>
-          <Createblog 
+          <CreateBlog
             setBlogs={setBlogs}
             setSuccessMsg={setSuccessMsg}
             setOperation={setOperation}
