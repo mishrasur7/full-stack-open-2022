@@ -6,6 +6,8 @@ import Notification from './components/Notification'
 import noteService from './services/notes'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
+import NoteForm from './components/NoteForm'
 
 const Footer = () => {
   const footerStyle = {
@@ -29,7 +31,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [loginVisible, setLoginVisible] = useState(false)
 
   useEffect(() => {
     noteService
@@ -113,16 +114,14 @@ const App = () => {
     }
   }
 
-  const loginForm = () => {
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
-    const showWhenVisible = { display: loginVisible ? '' : 'none' }
-
-    return (
-      <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>log in</button>
-        </div>
-        <div style={showWhenVisible}>
+  return (
+    <div>
+      <h1>Notes</h1>
+      <Notification message={errorMessage} />
+      {/* {user === null && loginForm()}
+      {user !== null && noteForm()} */}
+      {user === null ? 
+        <Togglable buttonLabel='login'>
           <LoginForm
             username={username}
             password={password}
@@ -130,34 +129,14 @@ const App = () => {
             handlePasswordChange={({ target }) => setPassword(target.value)}
             handleSubmit={handleLogin}
           />
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
-        </div>
-      </div>
-    )
-  }
-
-  const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input
-        value={newNote}
-        onChange={handleNoteChange}
-      />
-      <button type="submit">save</button>
-    </form>  
-  )
-
-  return (
-    <div>
-      <h1>Notes</h1>
-      <Notification message={errorMessage} />
-      {/* {user === null && loginForm()}
-      {user !== null && noteForm()} */}
-      {user === null
-       ? loginForm() 
-       : <div>
-        <p>logged is as {user.name}</p>
-        {noteForm()}
-       </div>
+        </Togglable> : 
+        <Togglable buttonLabel ='create note'>
+          <NoteForm
+            onSubmit={addNote}
+            handleChange={handleNoteChange}
+            value={newNote}
+          />
+        </Togglable>
       }
       <div>
         <button onClick={() => setShowAll(!showAll)}>
