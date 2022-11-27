@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import Note from './components/Note'
 import './index.css'
@@ -49,6 +49,7 @@ const App = () => {
   }, [])
 
   const addNote = (noteObject) => {
+    noteFormRef.current.toggleVisibility()
     noteService
       .create(noteObject)
       .then(returnedNote => {
@@ -100,6 +101,8 @@ const App = () => {
     }
   }
 
+  const noteFormRef = useRef()
+
   return (
     <div>
       <h1>Notes</h1>
@@ -116,7 +119,7 @@ const App = () => {
             handleSubmit={handleLogin}
           />
         </Togglable> : 
-        <Togglable buttonLabel ='create note'>
+        <Togglable buttonLabel ='create note' ref={noteFormRef}>
           <NoteForm
             createNote={addNote}
           />
