@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
@@ -57,6 +59,15 @@ const Login = ({username,
             </>
         )
     
+}
+
+Login.propTypes = {
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    setUser: PropTypes.func.isRequired,
+    setPassword: PropTypes.func.isRequired,
+    setErrorMsg: PropTypes.func.isRequired,
+    setOperation: PropTypes.func.isRequired
 }
 
 export default Login

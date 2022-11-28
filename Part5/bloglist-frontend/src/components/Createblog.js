@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 import blogService from '../services/blogs'
 
@@ -69,4 +70,10 @@ const CreateBlog = ({ setBlogs, setSuccessMsg, setOperation, blogFormRef }) => {
   )
 }
 
+CreateBlog.propTypes = {
+  setBlogs: PropTypes.func.isRequired,
+  setSuccessMsg: PropTypes.func.isRequired,
+  setOperation: PropTypes.func.isRequired,
+  blogFormRef: PropTypes.object.isRequired
+}
 export default CreateBlog
