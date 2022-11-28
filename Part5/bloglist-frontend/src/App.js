@@ -23,7 +23,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -46,26 +46,26 @@ const App = () => {
   return (
     <div>
       <h1>Login to the application</h1>
-      <Notification 
-        operation={operation} 
-        successMsg={successMsg} 
+      <Notification
+        operation={operation}
+        successMsg={successMsg}
         errorMsg={errorMsg}
       />
       {
-        user === null ? 
-        <Togglable buttonLabel='login'>
-          <Login 
-            user={user} 
-            username={username} 
-            password={password}
-            setUser={setUser}
-            setUsername={setUsername}
-            setPassword={setPassword}
-            setErrorMsg={setErrorMsg}
-            setOperation={setOperation}
-          />
-        </Togglable> : 
-            <div>
+        user === null ?
+          <Togglable buttonLabel='login'>
+            <Login
+              user={user}
+              username={username}
+              password={password}
+              setUser={setUser}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              setErrorMsg={setErrorMsg}
+              setOperation={setOperation}
+            />
+          </Togglable> :
+          <div>
             <p>{user.name} logged in</p>
             <button onClick={logOutUser}>logout</button>
             <Togglable buttonLabel ='create blog' ref={blogFormRef}>
@@ -76,19 +76,19 @@ const App = () => {
                 blogFormRef={blogFormRef}
               />
             </Togglable>
-            </div>
+          </div>
       }
       <br />
       {blogs
         .sort((a, b) => a.likes - b.likes)
         .map(blog =>
-        <Blog 
-          key={blog.id}
-          blog={blog}
-          setBlogs={setBlogs} 
-          user={user} 
-        />
-      )}
+          <Blog
+            key={blog.id}
+            blog={blog}
+            setBlogs={setBlogs}
+            user={user}
+          />
+        )}
     </div>
   )
 }

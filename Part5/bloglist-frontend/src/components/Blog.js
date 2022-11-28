@@ -1,9 +1,9 @@
-import { useState } from "react"
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import blogService from '../services/blogs'
 
-const Blog = ({blog, setBlogs, user}) =>  {
+const Blog = ({ blog, setBlogs, user }) =>  {
   const [detail, setDetail] = useState(false)
 
   const blogStyle = {
@@ -37,7 +37,7 @@ const Blog = ({blog, setBlogs, user}) =>  {
 
   const deleteBlog = async (id, title, author) => {
     console.log('event: ', id, title,author)
-    
+
     const confirmation = await window.confirm(`Remove ${title} by ${author}`)
     if(confirmation) {
       await blogService.deleteBlog(id)
@@ -49,19 +49,19 @@ const Blog = ({blog, setBlogs, user}) =>  {
   if(user !== null) {
     return (
       <>
-          {!detail ?
-            <div style={blogStyle}>
-              {blog.title}
-              <button onClick={toggleDetail}>view</button>
-            </div> :
-            <div style={blogStyle}>
-              {blog.title} <button onClick={toggleDetail}>hide</button> <br />
-              {blog.url} <br />
+        {!detail ?
+          <div style={blogStyle}>
+            {blog.title}
+            <button onClick={toggleDetail}>view</button>
+          </div> :
+          <div style={blogStyle}>
+            {blog.title} <button onClick={toggleDetail}>hide</button> <br />
+            {blog.url} <br />
               Likes {blog.likes} <button onClick={() => increaseLike(blog.id)}>like</button> <br />
-              {blog.author}
-              {blog.user.id === user.id && <p><button style={deleteStyle} onClick={() => deleteBlog(blog.id, blog.title, blog.author)}>delete</button></p>}
-            </div>
-          }
+            {blog.author}
+            {blog.user.id === user.id && <p><button style={deleteStyle} onClick={() => deleteBlog(blog.id, blog.title, blog.author)}>delete</button></p>}
+          </div>
+        }
       </>
     )
   }
