@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import CreateBlog from './components/CreateBlog'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -38,6 +39,8 @@ const App = () => {
     setPassword('')
   }
 
+  const blogFormRef = useRef()
+
   return (
     <div>
       <h1>Login to the application</h1>
@@ -46,27 +49,32 @@ const App = () => {
         successMsg={successMsg} 
         errorMsg={errorMsg}
       />
-      <Login 
-        user={user} 
-        username={username} 
-        password={password}
-        setUser={setUser}
-        setUsername={setUsername}
-        setPassword={setPassword}
-        setErrorMsg={setErrorMsg}
-        setOperation={setOperation}
-      />
-      <h2>blogs</h2>
-      {user && 
-        <div>
-          <p>{user.name} logged in</p>
-          <button onClick={logOutUser}>logout</button>
-          <CreateBlog
-            setBlogs={setBlogs}
-            setSuccessMsg={setSuccessMsg}
+      {
+        user === null ? 
+        <Togglable buttonLabel='login'>
+          <Login 
+            user={user} 
+            username={username} 
+            password={password}
+            setUser={setUser}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            setErrorMsg={setErrorMsg}
             setOperation={setOperation}
           />
-        </div>
+        </Togglable> : 
+            <div>
+            <p>{user.name} logged in</p>
+            <button onClick={logOutUser}>logout</button>
+            <Togglable buttonLabel ='create blog' ref={blogFormRef}>
+              <CreateBlog
+                setBlogs={setBlogs}
+                setSuccessMsg={setSuccessMsg}
+                setOperation={setOperation}
+                blogFormRef={blogFormRef}
+              />
+            </Togglable>
+            </div>
       }
       <br />
       {blogs.map(blog =>

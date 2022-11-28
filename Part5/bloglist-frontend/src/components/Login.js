@@ -30,7 +30,7 @@ const Login = ({user,
 
     }
 
-    if(user === null) {
+     
         return (
             <>
             <form onSubmit={handleLogin}>
@@ -56,7 +56,7 @@ const Login = ({user,
             </form> 
             </>
         )
-    }
+    
 }
 
 export default Login

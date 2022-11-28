@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 
 import blogService from '../services/blogs'
 
-const CreateBlog = ({ setBlogs, setSuccessMsg, setOperation }) => {
+const CreateBlog = ({ setBlogs, setSuccessMsg, setOperation, blogFormRef }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
 
     const handleCreate = async (event) => {
         event.preventDefault()
+        blogFormRef.current.toggleVisibility()
 
         const newBlog = {
             title: title, 
