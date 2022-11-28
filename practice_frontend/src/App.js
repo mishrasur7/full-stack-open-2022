@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from 'react'
 
 import Note from './components/Note'
@@ -77,12 +78,12 @@ const App = () => {
   }
 
   const notesToShow = showAll
-  ? notes
-  : notes.filter(note => note.important)
+    ? notes
+    : notes.filter(note => note.important)
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
@@ -109,7 +110,7 @@ const App = () => {
       <Notification message={errorMessage} />
       {/* {user === null && loginForm()}
       {user !== null && noteForm()} */}
-      {user === null ? 
+      {user === null ?
         <Togglable buttonLabel='login'>
           <LoginForm
             username={username}
@@ -118,7 +119,7 @@ const App = () => {
             handlePasswordChange={({ target }) => setPassword(target.value)}
             handleSubmit={handleLogin}
           />
-        </Togglable> : 
+        </Togglable> :
         <Togglable buttonLabel ='create note' ref={noteFormRef}>
           <NoteForm
             createNote={addNote}
@@ -129,9 +130,9 @@ const App = () => {
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all' }
         </button>
-      </div>   
+      </div>
       <ul>
-        {notesToShow.map(note => 
+        {notesToShow.map(note =>
           <Note
             key={note.id}
             note={note}
