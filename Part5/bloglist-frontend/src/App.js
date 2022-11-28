@@ -18,6 +18,8 @@ const App = () => {
 
   const blogFormRef = useRef()
 
+  console.log('blogs: ', blogs)
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -82,7 +84,7 @@ const App = () => {
         .map(blog =>
         <Blog 
           key={blog.id}
-          id={blog.id}
+          blogId={blog.id}
           blog={blog}
           setBlogs={setBlogs} 
           user={user} 

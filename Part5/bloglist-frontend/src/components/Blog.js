@@ -2,9 +2,9 @@ import { useState } from "react"
 
 import blogService from '../services/blogs'
 
-const Blog = ({blog, setBlogs, id, user}) =>  {
-  const [detail, setDetail] = useState(true)
-  
+const Blog = ({blog, setBlogs, user}) =>  {
+  const [detail, setDetail] = useState(false)
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -13,11 +13,16 @@ const Blog = ({blog, setBlogs, id, user}) =>  {
     marginBottom: 5
   }
 
+  const deleteStyle = {
+    color: 'red'
+  }
+
   const toggleDetail = () => {
     setDetail(!detail)
   }
 
-  const increaseLike = async () => {
+  const increaseLike = async (id) => {
+    console.log('blog id: ', id)
     let like = blog.likes
     like++
     const updatedBlog = {
@@ -29,10 +34,21 @@ const Blog = ({blog, setBlogs, id, user}) =>  {
     setBlogs(response)
   }
 
+  const deleteBlog = async (id, title, author) => {
+    console.log('event: ', id, title,author)
+    
+    const confirmation = await window.confirm(`Remove ${title} by ${author}`)
+    if(confirmation) {
+      await blogService.deleteBlog(id)
+      const response = await blogService.getAll()
+      setBlogs(response)
+    }
+  }
+
   if(user !== null) {
     return (
       <>
-          {detail ?
+          {!detail ?
             <div style={blogStyle}>
               {blog.title}
               <button onClick={toggleDetail}>view</button>
@@ -40,8 +56,9 @@ const Blog = ({blog, setBlogs, id, user}) =>  {
             <div style={blogStyle}>
               {blog.title} <button onClick={toggleDetail}>hide</button> <br />
               {blog.url} <br />
-              Likes {blog.likes} <button onClick={increaseLike}>like</button> <br />
+              Likes {blog.likes} <button onClick={() => increaseLike(blog.id)}>like</button> <br />
               {blog.author}
+              {blog.user.id === user.id && <p><button style={deleteStyle} onClick={() => deleteBlog(blog.id, blog.title, blog.author)}>delete</button></p>}
             </div>
           }
       </>

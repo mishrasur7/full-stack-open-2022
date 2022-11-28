@@ -1,8 +1,7 @@
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-const Login = ({user, 
-                username, 
+const Login = ({username, 
                 password,
                 setUser, 
                 setUsername, 
