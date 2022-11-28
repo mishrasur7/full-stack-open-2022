@@ -16,6 +16,8 @@ const App = () => {
   const [successMsg, setSuccessMsg] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
 
+  const blogFormRef = useRef()
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -38,8 +40,6 @@ const App = () => {
     setUsername('')
     setPassword('')
   }
-
-  const blogFormRef = useRef()
 
   return (
     <div>
