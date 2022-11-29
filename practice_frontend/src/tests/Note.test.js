@@ -24,15 +24,15 @@ test('renders content', () => {
 
 test('clickling the button calls event handler once', async () => {
   const mockHandler = jest.fn()
-  console.log('mockHandler: ', mockHandler)
+  //console.log('mockHandler: ', mockHandler)
 
   render(<Note note={note} toggleImportance={mockHandler}/>)
 
   const user = userEvent.setup()
-  console.log('user: ', user)
+  //console.log('user: ', user)
 
   const button = screen.getByText('make not important')
-  console.log('button: ', button)
+  //console.log('button: ', button)
 
   await user.click(button)
   expect(mockHandler.mock.calls).toHaveLength(1)
