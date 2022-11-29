@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
 import Blog from '../components/Blog'
 
-test('renders content', () => {
+test('renders title', () => {
 
   const blog = {
     title: 'My blog',
