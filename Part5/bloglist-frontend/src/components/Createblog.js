@@ -1,16 +1,13 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import blogService from '../services/blogs'
-
-const CreateBlog = ({ setBlogs, setSuccessMsg, setOperation, blogFormRef }) => {
+const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const handleCreate = async (event) => {
+  const handleCreate = (event) => {
     event.preventDefault()
-    blogFormRef.current.toggleVisibility()
 
     const newBlog = {
       title: title,
@@ -18,8 +15,7 @@ const CreateBlog = ({ setBlogs, setSuccessMsg, setOperation, blogFormRef }) => {
       url: url
     }
 
-    await blogService
-      .create(newBlog)
+    createBlog(newBlog)
     setSuccessMsg(`a new Blog ${title}! by ${author} added`)
     setTimeout(() => {
       setSuccessMsg(null)
@@ -28,52 +24,53 @@ const CreateBlog = ({ setBlogs, setSuccessMsg, setOperation, blogFormRef }) => {
     setTitle('')
     setAuthor('')
     setUrl('')
-
-    const response = await blogService.getAll()
-    setBlogs(response)
   }
 
   return (
     <>
-      <h2>Create new</h2>
-      <form onSubmit={handleCreate}>
-        <div>
+      <div className='formDiv'>
+        <h2>Create new</h2>
+        <form onSubmit={handleCreate}>
+          <div>
             title
-          <input
-            type="text"
-            value={title}
-            name="Title"
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </div>
-        <div>
+            <input
+              type="text"
+              value={title}
+              name="Title"
+              onChange={({ target }) => setTitle(target.value)}
+              placeholder="title"
+            />
+          </div>
+          <div>
             auther
-          <input
-            type="text"
-            value={author}
-            name="Password"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
+            <input
+              type="text"
+              value={author}
+              name="Author"
+              onChange={({ target }) => setAuthor(target.value)}
+              placeholder='author'
+            />
+          </div>
+          <div>
             url
-          <input
-            type="text"
-            value={url}
-            name="Password"
-            onChange={({ target }) => setUrl(target.value)}
-          />
-        </div>
-        <button type="submit">Create</button>
-      </form>
+            <input
+              type="text"
+              value={url}
+              name="Url"
+              onChange={({ target }) => setUrl(target.value)}
+              placeholder='url'
+            />
+          </div>
+          <button type="submit">Create</button>
+        </form>
+      </div>
     </>
   )
 }
 
 CreateBlog.propTypes = {
-  setBlogs: PropTypes.func.isRequired,
+  createBlog: PropTypes.func.isRequired,
   setSuccessMsg: PropTypes.func.isRequired,
-  setOperation: PropTypes.func.isRequired,
-  blogFormRef: PropTypes.object.isRequired
+  setOperation: PropTypes.func.isRequired
 }
 export default CreateBlog

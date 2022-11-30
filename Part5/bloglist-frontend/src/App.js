@@ -43,6 +43,15 @@ const App = () => {
     setPassword('')
   }
 
+  const addBlog = (blogObject) => {
+    blogFormRef.current.toggleVisibility()
+    blogService
+      .create(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+      })
+  }
+
   return (
     <div>
       <h1>Login to the application</h1>
@@ -70,10 +79,9 @@ const App = () => {
             <button onClick={logOutUser}>logout</button>
             <Togglable buttonLabel ='create blog' ref={blogFormRef}>
               <CreateBlog
-                setBlogs={setBlogs}
+                createBlog = {addBlog}
                 setSuccessMsg={setSuccessMsg}
                 setOperation={setOperation}
-                blogFormRef={blogFormRef}
               />
             </Togglable>
           </div>

@@ -37,6 +37,7 @@ test('clickling the button calls event handler once', async () => {
   await user.click(button)
   expect(mockHandler.mock.calls).toHaveLength(1)
 
+  console.log('mock hanlder: ', mockHandler.mock.calls)
 })
 
 test('does not render this', () => {

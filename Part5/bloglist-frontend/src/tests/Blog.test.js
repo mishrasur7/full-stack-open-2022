@@ -5,15 +5,19 @@ import userEvent from '@testing-library/user-event'
 
 import Blog from '../components/Blog'
 
+const blog = {
+  title: 'My blog',
+  author: 'suraj',
+  likes: 3,
+  url: 'www.myblog.com',
+  user: '123'
+}
+
+const blogUser = {
+  id: '123'
+}
+
 test('renders title and author but not likes and url', () => {
-
-  const blog = {
-    title: 'My blog',
-    author: 'suraj',
-    likes: 3,
-    url: 'www.myblog.com'
-  }
-
   const { container } = render(<Blog blog={blog}/>)
 
   const element = container.querySelector('.blog')
@@ -25,29 +29,29 @@ test('renders title and author but not likes and url', () => {
 })
 
 test('renders likes and url after button click', async () => {
-  const blog = {
-    title: 'My blog',
-    author: 'suraj',
-    likes: 3,
-    url: 'www.myblog.com',
-    user: '123'
-  }
-
-  const blogUser = {
-    id: '123'
-  }
-
   const mockHandler = jest.fn()
-
   const { container } = render(<Blog blog={blog} toggleDetail={mockHandler} user={blogUser}/>)
 
   const user = userEvent.setup()
   const button = screen.getByText('view')
   await user.click(button)
-
   const element = container.querySelector('.blogDetail')
   const like = screen.getByText('Likes 3', { exact: false })
 
   expect(element).toHaveTextContent('www.myblog.com')
   expect(like).toBeDefined()
+})
+
+test('calls twice', async () => {
+  const mockHandler = jest.fn()
+  const { container } = render(<Blog blog={blog} user={blogUser}>
+    <button onClick={() => mockHandler(blog.id)} className='like'>
+      like
+    </button>
+  </Blog>)
+
+  const user = userEvent.setup()
+  const button = container.querySelector('.like')
+  await user.dblClick(button)
+  expect(mockHandler.mock.calls).toHaveLength(2)
 })
