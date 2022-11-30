@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render } from '@testing-library/react'
 import Blog from '../components/Blog'
 
-test('renders title', () => {
+test('renders title and author but not likes and url', () => {
 
   const blog = {
     title: 'My blog',

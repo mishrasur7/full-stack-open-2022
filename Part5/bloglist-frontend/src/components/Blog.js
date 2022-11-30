@@ -1,5 +1,5 @@
 import { useState } from 'react'
-//import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import blogService from '../services/blogs'
 
@@ -68,10 +68,10 @@ const Blog = ({ blog, setBlogs, user }) =>  {
   }
 }
 
-// Blog.propTypes = {
-//   blog: PropTypes.object.isRequired,
-//   setBlogs: PropTypes.func.isRequired,
-//   user: PropTypes.object.isRequired
-// }
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
+}
 
 export default Blog
