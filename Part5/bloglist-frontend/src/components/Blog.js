@@ -55,7 +55,7 @@ const Blog = ({ blog, setBlogs, user }) =>  {
             {blog.author}
             <button onClick={toggleDetail}>view</button>
           </div> :
-          <div style={blogStyle} >
+          <div style={blogStyle} className='blogDetail'>
             {blog.title} <button onClick={toggleDetail}>hide</button> <br />
             {blog.url} <br />
               Likes {blog.likes} <button onClick={() => increaseLike(blog.id)}>like</button> <br />
