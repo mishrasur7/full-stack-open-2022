@@ -9,7 +9,7 @@ import logger from './utils/logger.js'
 import notesRouter from './controllers/notes.js'
 import userRouter from './controllers/users.js'
 import loginRouter from './controllers/login.js'
-import testRouter from './controllers/test'
+import testRouter from './controllers/test.js'
 
 const app = express()
 

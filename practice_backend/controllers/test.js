@@ -1,7 +1,7 @@
 import express from 'express'
 
-import Note from '../models/note'
-import User from '../models/user'
+import Note from '../models/note.js'
+import User from '../models/user.js'
 
 const testRouter = express.Router()
 
