@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 describe('Note app', function() {
   beforeEach(() => {
     cy.visit('http://localhost:3000')
