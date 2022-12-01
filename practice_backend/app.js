@@ -9,6 +9,7 @@ import logger from './utils/logger.js'
 import notesRouter from './controllers/notes.js'
 import userRouter from './controllers/users.js'
 import loginRouter from './controllers/login.js'
+import testRouter from './controllers/test'
 
 const app = express()
 
@@ -30,6 +31,10 @@ app.use(middleware.requestLogger)
 app.use('/api/notes', notesRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
+
+if(process.env.NODE_ENV === 'test') {
+  testRouter.use('/api/testing', testRouter)
+}
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
