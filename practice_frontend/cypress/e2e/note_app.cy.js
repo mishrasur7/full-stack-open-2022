@@ -22,7 +22,15 @@ describe('Note app', function() {
     cy.get('#password').type('wrong')
     cy.get('#login-button').click()
 
-    cy.contains('Wrong credentials')
+    // cy.get('.error').should('contain', 'Wrong credentials')
+    // cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
+    // cy.get('.error').should('have.css', 'border-style', 'solid')
+    cy.get('.error')
+      .should('contain', 'Wrong credentials')
+      .and('have.css', 'color', 'rgb(255, 0, 0)')
+      .and('have.css', 'border-style', 'solid')
+
+    cy.get('html').should('not.contain', 'Suraj Mishra logged in')
   })
 
   //   it('login form can be opened', function() {
