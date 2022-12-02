@@ -51,8 +51,7 @@ const Blog = ({ blog, setBlogs, user }) =>  {
       <>
         {!detail ?
           <div style={blogStyle} className='blog'>
-            {blog.title}
-            {blog.author}
+            {blog.title} {blog.author}
             <button onClick={toggleDetail}>view</button>
           </div> :
           <div style={blogStyle} className='blogDetail'>

@@ -39,16 +39,18 @@ const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
               name="Title"
               onChange={({ target }) => setTitle(target.value)}
               placeholder="title"
+              id='title'
             />
           </div>
           <div>
-            auther
+            author
             <input
               type="text"
               value={author}
               name="Author"
               onChange={({ target }) => setAuthor(target.value)}
               placeholder='author'
+              id='author'
             />
           </div>
           <div>
@@ -59,9 +61,10 @@ const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
               name="Url"
               onChange={({ target }) => setUrl(target.value)}
               placeholder='url'
+              id='url'
             />
           </div>
-          <button type="submit">Create</button>
+          <button type="submit" id='create'>Create</button>
         </form>
       </div>
     </>

@@ -16,7 +16,6 @@ describe('Blog app', function() {
   })
 
   describe('Login',function() {
-
     it('succeeds with correct credentials', function() {
       cy.contains('login').click()
       cy.get('#username').type('suraj')
@@ -32,6 +31,25 @@ describe('Blog app', function() {
       cy.get('#login-button').click()
 
       cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
+    })
+  })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.contains('login').click()
+      cy.get('#username').type('suraj')
+      cy.get('#password').type('mishra')
+      cy.get('#login-button').click()
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('create blog').click()
+      cy.get('#title').type('New title from cypress')
+      cy.get('#author').type('cypress author')
+      cy.get('#url').type('www.cypress.com')
+      cy.get('#create').click()
+
+      cy.contains('New title from cypress')
     })
   })
 })
