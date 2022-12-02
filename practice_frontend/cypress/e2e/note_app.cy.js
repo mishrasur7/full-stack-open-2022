@@ -16,22 +16,37 @@ describe('Note app', function() {
     cy.contains('Note app, Department of Computer Science, University of Helsinki 2022')
   })
 
-  it.only('login fails with wrong password', function() {
-    cy.contains('login').click()
-    cy.get('#username').type('sahas')
-    cy.get('#password').type('wrong')
-    cy.get('#login-button').click()
+  //   it.only('login fails with wrong password', function() {
+  //     cy.contains('login').click()
+  //     cy.get('#username').type('sahas')
+  //     cy.get('#password').type('wrong')
+  //     cy.get('#login-button').click()
 
-    // cy.get('.error').should('contain', 'Wrong credentials')
-    // cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
-    // cy.get('.error').should('have.css', 'border-style', 'solid')
-    cy.get('.error')
-      .should('contain', 'Wrong credentials')
-      .and('have.css', 'color', 'rgb(255, 0, 0)')
-      .and('have.css', 'border-style', 'solid')
+  //     // cy.get('.error').should('contain', 'Wrong credentials')
+  //     // cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
+  //     // cy.get('.error').should('have.css', 'border-style', 'solid')
+  //     cy.get('.error')
+  //       .should('contain', 'Wrong credentials')
+  //       .and('have.css', 'color', 'rgb(255, 0, 0)')
+  //       .and('have.css', 'border-style', 'solid')
 
-    cy.get('html').should('not.contain', 'Suraj Mishra logged in')
+  //     cy.get('html').should('not.contain', 'Suraj Mishra logged in')
+  //   })
+
+  describe('when logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'sahas', password: 'mishra' })
+    })
+
+    it('a new note can be created', function() {
+      cy.contains('create note').click()
+      cy.get('input').type('a note created by cypress')
+      cy.contains('save').click()
+      cy.contains('a note created by cypress')
+    })
+
   })
+
 
   //   it('login form can be opened', function() {
   //     cy.contains('login').click()
