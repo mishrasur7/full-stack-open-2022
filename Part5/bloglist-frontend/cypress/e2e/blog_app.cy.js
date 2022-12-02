@@ -106,5 +106,27 @@ describe('Blog app', function() {
       cy.contains('delete').should('not.exist')
     })
 
+    it.only('blogs are ordered according to likes', function() {
+      cy.contains('create blog').click()
+      cy.get('#title').type('New title from cypress')
+      cy.get('#author').type('cypress author')
+      cy.get('#url').type('www.cypress.com')
+      cy.get('#create').click()
+      cy.contains('view').click()
+      cy.get('.like').click()
+      cy.get('.like').click()
+
+      cy.contains('create blog').click()
+      cy.get('#title').type('Old title from cypress')
+      cy.get('#author').type('Express author')
+      cy.get('#url').type('www.express.com')
+      cy.get('#create').click()
+      cy.contains('view').click()
+      cy.get('.like').click({multiple: true})
+
+      cy.get('div').eq(0).should('contain', 'Old title from cypress')
+      cy.get('div').eq(1).should('contain', 'New title from cypress')
+    })
+
   })
 })
