@@ -64,5 +64,6 @@ describe('Blog app', function() {
 
       cy.contains('Likes 1')
     })
+
   })
 })

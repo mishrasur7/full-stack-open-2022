@@ -59,7 +59,7 @@ const Blog = ({ blog, setBlogs, user }) =>  {
             {blog.url} <br />
               Likes {blog.likes} <button onClick={() => increaseLike(blog.id)} className='like'>like</button> <br />
             {blog.author}
-            {blog.user.id === user.id && <p><button style={deleteStyle} onClick={() => deleteBlog(blog.id, blog.title, blog.author)}>delete</button></p>}
+            {blog.user.id === user.id && <p><button style={deleteStyle} onClick={() => deleteBlog(blog.id, blog.title, blog.author)} className='delete'>delete</button></p>}
           </div>
         }
       </>

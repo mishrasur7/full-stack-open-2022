@@ -43,13 +43,11 @@ const App = () => {
     setPassword('')
   }
 
-  const addBlog = (blogObject) => {
+  const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-      })
+    await blogService.create(blogObject)
+    const response = await blogService.getAll()
+    setBlogs(response)
   }
 
   return (
