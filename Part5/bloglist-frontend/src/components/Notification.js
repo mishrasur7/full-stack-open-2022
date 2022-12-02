@@ -29,7 +29,7 @@ const Notification = ({ operation, successMsg, errorMsg }) => {
     <>
       {operation ?
         <div style={successStyle}>{successMsg}</div> :
-        <div style={failStyle}>{errorMsg}</div>}
+        <div style={failStyle} className='error'>{errorMsg}</div>}
     </>
   )
 }
