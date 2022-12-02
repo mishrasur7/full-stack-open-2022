@@ -80,7 +80,7 @@ describe('Blog app', function() {
       cy.get('.blogDetail').should('not.exist')
     })
 
-    it.only('user cannot delete others blog', function() {
+    it('user cannot delete others blog', function() {
       cy.contains('create blog').click()
       cy.get('#title').type('New title from cypress')
       cy.get('#author').type('cypress author')
