@@ -9,6 +9,7 @@ import logger from './utils/logger.js'
 import blogsRouter from './controllers/blogs.js'
 import userRouter from './controllers/users.js'
 import loginRouter from './controllers/login.js'
+import testRouter from './controllers/test.js'
 
 const app = express()
 
@@ -28,6 +29,11 @@ app.use(middware.tokenExtractor)
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
+
+// eslint-disable-next-line no-undef
+if(process.env.NODE_ENV === 'test') {
+  app.use('/api/testing', testRouter)
+}
 
 app.use(middware.unknownEndPoint)
 app.use(middware.errorHandler)
