@@ -32,7 +32,7 @@ const App = () => {
 
   const nothing = () => {
     store.dispatch({
-      type: 'DO-NOTHING'
+      type: 'DO-WHATEVER-CRAZY-YOU-WISH'
     })
   }
   return (

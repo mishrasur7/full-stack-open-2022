@@ -90,7 +90,7 @@ describe('unicafe reducer', () => {
     }
 
     const action = {
-      type: 'DO-NOTHING'
+      type: 'DO-WHATEVER'
     }
 
     const state = initialState
