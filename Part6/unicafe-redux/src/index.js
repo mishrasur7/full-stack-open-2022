@@ -35,6 +35,7 @@ const App = () => {
       type: 'DO-WHATEVER-CRAZY-YOU-WISH'
     })
   }
+  
   return (
     <div>
       <button onClick={good}>good</button>
