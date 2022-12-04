@@ -1,50 +1,32 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-
 import { legacy_createStore as createStore } from 'redux'
+import { Provider } from 'react-redux'
+import App from './App'
+import noteReducer from './reducers/noteReducer'
 
-const counterReducer = (state = 0, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1
-    case 'DECREMENT':
-      return state - 1
-    case 'ZERO':
-      return 0
-    default:
-      return state
+const store = createStore(noteReducer)
+
+store.dispatch({
+  type: 'NEW_NOTE',
+  data: {
+    content: 'the app state is in redux store',
+    important: true,
+    id: 1
   }
-}
+})
 
-const store = createStore(counterReducer)
+store.dispatch({
+  type: 'NEW_NOTE',
+  data: {
+    content: 'state changes are made with actions',
+    important: false,
+    id: 2
+  }
+})
 
-const App = () => {
-  return (
-    <div>
-      <div>
-        {store.getState()}
-      </div>
-      <button 
-        onClick={e => store.dispatch({ type: 'INCREMENT' })}
-      >
-        +
-      </button>
-      <button
-        onClick={e => store.dispatch({ type: 'DECREMENT' })}
-      >
-        -
-      </button>
-      <button 
-        onClick={e => store.dispatch({ type: 'ZERO' })}
-      >
-        0
-      </button>
-    </div>
-  )
-}
-
-const root = ReactDOM.createRoot(document.getElementById('root'))
-const renderApp = () => root.render(<App />)
-
-renderApp()
-store.subscribe(renderApp)
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+)
