@@ -6,8 +6,6 @@ import { removeNotification, setNotification } from "../reducers/notificationRed
 const AnecdoteList = () => {
     const filter = useSelector(state => state.filter)
 
-    console.log('filter: ', filter)
-
     const anecdotes = useSelector(state => state.anecdotes)
 
     const filteredAnecdotes = anecdotes.filter((anecdote) => {
@@ -27,8 +25,6 @@ const AnecdoteList = () => {
           dispatch(removeNotification())
         }, 5000);
     }
-
-    console.log('anecdotes: ', anecdotes)
 
   return (
     <div>
