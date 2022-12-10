@@ -11,8 +11,8 @@ const NewNote = (props) => {
     const content = event.target.note.value
     event.target.note.value = ''
 
-    const newNote = await noteService.create(content)
-    dispatch(createNote(newNote))
+    // const newNote = await noteService.create(content)
+    dispatch(createNote(content))
   }
 
   return (
