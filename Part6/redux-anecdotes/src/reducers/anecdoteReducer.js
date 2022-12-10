@@ -54,11 +54,7 @@ export const increaseVote = (id) => {
 export const createAnecdote = (anecdote) => {
   return {
     type: 'CREATE-NEW',
-    data: {
-      content: anecdote,
-      id: getId(),
-      votes: 0
-    }
+    data: anecdote
   }
 }
 
