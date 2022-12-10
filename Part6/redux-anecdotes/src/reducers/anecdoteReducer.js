@@ -81,4 +81,11 @@ export const createNewAnecdote = (anecdote) => {
   }
 }
 
+export const increaseAnecdoteVote = (id, anecdote) => {
+  return async dispatch => {
+    dispatch(increaseVote(id))
+    await anecdoteService.update(id, anecdote)    
+  }
+}
+
 export default reducer
