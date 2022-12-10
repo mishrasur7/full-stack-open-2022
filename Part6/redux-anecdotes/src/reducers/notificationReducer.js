@@ -20,7 +20,6 @@ const notificationSlice = createSlice({
             return state
         }
     }
-
 })
 
 export const notifyMessage = (text, time) => {
