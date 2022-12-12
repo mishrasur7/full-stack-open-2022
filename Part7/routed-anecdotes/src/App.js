@@ -71,6 +71,13 @@ const CreateNew = (props) => {
     navigate('/')
   }
 
+  const resetForm = (event) => {
+    event.preventDefault()
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -103,6 +110,7 @@ const CreateNew = (props) => {
           />
         </div>
         <button>create</button>
+        <button onClick={resetForm}>reset</button>
       </form>
     </div>
   )
