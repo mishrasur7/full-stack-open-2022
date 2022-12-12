@@ -1,4 +1,10 @@
 import { useState } from 'react'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom'
 
 const Menu = () => {
   const padding = {
@@ -125,10 +131,18 @@ const App = () => {
   return (
     <div>
       <h1>Software anecdotes</h1>
-      <Menu />
-      <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} />
+      <Router>
+        <div>
+          <Link style={{paddingLeft: 5}} to="/">anectodes</Link>
+          <Link style={{paddingLeft: 5}} to="/create">create new</Link>
+          <Link style={{paddingLeft: 5}} to="/about">about</Link>
+        </div>
+        <Routes>
+          <Route path='/' element={<AnecdoteList anecdotes={anecdotes}/>}/>
+          <Route path='/create' element={<CreateNew addNew={addNew}/>}/>
+          <Route path='/about' element={<About />}/>
+        </Routes>
+      </Router>
       <Footer />
     </div>
   )
