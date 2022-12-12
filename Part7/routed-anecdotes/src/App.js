@@ -78,6 +78,11 @@ const CreateNew = (props) => {
     info.reset()
   }
 
+ var {reset, ...contentWithoutReset} = content
+ var {reset, ...authorWithoutReset} = author
+ var {reset, ...infoWithoutReset} = info
+  
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -85,7 +90,7 @@ const CreateNew = (props) => {
         <div>
           content
           <input
-            {...content}
+            {...contentWithoutReset}
             // type={content.type} 
             // value={content.value} 
             // onChange={content.onChange} 
@@ -94,7 +99,7 @@ const CreateNew = (props) => {
         <div>
           author
           <input 
-            {...author}
+            {...authorWithoutReset}
             // type={author.type} 
             // value={author.value} 
             // onChange={author.onChange} 
@@ -103,7 +108,7 @@ const CreateNew = (props) => {
         <div>
           url for more info
           <input
-            {...info}
+            {...infoWithoutReset}
             // type={info.type} 
             // value={info.value} 
             // onChange={info.onChange} 
