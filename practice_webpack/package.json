@@ -1,0 +1,11 @@
+{
+    "name": "suraj-mishra-webpack-practice",
+    "version": "0.0.1",
+    "description": "practising webpack",
+    "scripts": {},
+    "license": "MIT",
+    "devDependencies": {
+        "webpack": "^5.75.0",
+        "webpack-cli": "^5.0.1"
+    }
+}
