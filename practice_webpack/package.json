@@ -3,8 +3,9 @@
     "version": "0.0.1",
     "description": "practising webpack",
     "scripts": {
-        "build": "webpack --mode=development",
-        "start": "webpack serve --mode=development"
+        "build": "webpack --mode=production",
+        "start": "webpack serve --mode=development",
+        "server": "json-server -p3001 --watch db.json"
     },
     "license": "MIT",
     "devDependencies": {
@@ -20,6 +21,7 @@
     },
     "dependencies": {
         "core-js": "^3.26.1",
+        "json-server": "^0.17.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "regenerator-runtime": "^0.13.11"
