@@ -4,14 +4,13 @@ import { useDispatch } from "react-redux";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
 import { setNotification } from "../reducers/notificationReducer";
+import { setUser } from "../reducers/userReducer";
 
 const Login = ({
   username,
   password,
-  setUser,
   setUsername,
   setPassword,
-  setErrorMsg,
   setOperation,
 }) => {
 
@@ -22,13 +21,12 @@ const Login = ({
 
     try {
       const user = await loginService.login({ username, password });
-      setUser(user);
+      dispatch(setUser(user))
       console.log("user after login: ", user);
       window.localStorage.setItem("loggedInUser", JSON.stringify(user));
       blogService.setToken(user.token);
       setOperation(true);
     } catch (exception) {
-      //setErrorMsg(exception.response.data.error);
       dispatch(setNotification(exception.response.data.error))
       setOperation(false);
       setTimeout(() => {
@@ -71,7 +69,6 @@ const Login = ({
 Login.propTypes = {
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-  setUser: PropTypes.func.isRequired,
   setPassword: PropTypes.func.isRequired,
   setErrorMsg: PropTypes.func.isRequired,
   setOperation: PropTypes.func.isRequired,

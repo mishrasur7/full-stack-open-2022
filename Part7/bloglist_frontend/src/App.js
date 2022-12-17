@@ -8,9 +8,9 @@ import CreateBlog from "./components/CreateBlog";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import { createNewBlogs, initializeBlogs } from "./reducers/blogReducer";
+import { removeUser, setUser } from "./reducers/userReducer";
 
 const App = () => {
-  const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [operation, setOperation] = useState(false);
@@ -21,7 +21,10 @@ const App = () => {
 
   const blogsFromStore = useSelector(state => state.blogs)
   const blogs = [...blogsFromStore]
+
   const dispatch = useDispatch()
+  
+  const user = useSelector(state => state.user)
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -33,13 +36,13 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem("loggedInUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      dispatch(setUser(user))
       blogService.setToken(user.token);
     }
   }, []);
 
   const logOutUser = () => {
-    setUser(null);
+    dispatch(removeUser())
     window.localStorage.removeItem("loggedInUser");
     setUsername("");
     setPassword("");
@@ -64,7 +67,6 @@ const App = () => {
             user={user}
             username={username}
             password={password}
-            setUser={setUser}
             setUsername={setUsername}
             setPassword={setPassword}
             setErrorMsg={setErrorMsg}
