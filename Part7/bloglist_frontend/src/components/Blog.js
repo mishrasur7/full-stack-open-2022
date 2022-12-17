@@ -1,7 +1,9 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
 import blogService from "../services/blogs";
+import { updateBlogLike, delete_Blog } from "../reducers/blogReducer";
 
 const Blog = ({ blog, setBlogs, user }) => {
   const [detail, setDetail] = useState(false);
@@ -18,32 +20,24 @@ const Blog = ({ blog, setBlogs, user }) => {
     color: "red",
   };
 
+  const dispatch = useDispatch()
+
   const toggleDetail = () => {
     setDetail(!detail);
   };
 
-  const increaseLike = async (id) => {
-    console.log("blog id: ", id);
-    let like = blog.likes;
-    like++;
-    const updatedBlog = {
-      likes: like,
-    };
-
-    await blogService.update(id, updatedBlog);
-    const response = await blogService.getAll();
-    setBlogs(response);
+  const increaseLike = (id, blog) => {
+    dispatch(updateBlogLike(id, blog))
   };
 
-  const deleteBlog = async (id, title, author) => {
+  const deleteBlog = (id, title, author) => {
     console.log("event: ", id, title, author);
 
-    const confirmation = await window.confirm(`Remove ${title} by ${author}`);
+    const confirmation = window.confirm(`Remove ${title} by ${author}`);
     if (confirmation) {
-      await blogService.deleteBlog(id);
-      const response = await blogService.getAll();
-      setBlogs(response);
+      dispatch(delete_Blog(id))
     }
+    
   };
 
   if (user !== null) {
@@ -59,7 +53,7 @@ const Blog = ({ blog, setBlogs, user }) => {
             {blog.title} <button onClick={toggleDetail}>hide</button> <br />
             {blog.url} <br />
             Likes {blog.likes}{" "}
-            <button onClick={() => increaseLike(blog.id)} className="like">
+            <button onClick={() => increaseLike(blog.id, blog)} className="like">
               like
             </button>{" "}
             <br />

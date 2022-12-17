@@ -30,7 +30,7 @@ const update = async (id, newobj) => {
   return response.data;
 };
 
-const deleteBlog = async (id) => {
+const delete_blog = async (id) => {
   const config = {
     headers: { Authorization: token },
   };
@@ -42,5 +42,5 @@ export default {
   create,
   setToken,
   update,
-  deleteBlog,
+  delete_blog,
 };

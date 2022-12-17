@@ -7,10 +7,9 @@ import Login from "./components/Login";
 import CreateBlog from "./components/CreateBlog";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
-import { initializeBlogs } from "./reducers/blogReducer";
+import { createNewBlogs, initializeBlogs } from "./reducers/blogReducer";
 
 const App = () => {
-  //const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -46,11 +45,9 @@ const App = () => {
     setPassword("");
   };
 
-  const addBlog = async (blogObject) => {
+  const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility();
-    await blogService.create(blogObject);
-    const response = await blogService.getAll();
-    setBlogs(response);
+    dispatch(createNewBlogs(blogObject))
   };
 
   return (
@@ -89,7 +86,7 @@ const App = () => {
       )}
       <br />
       {blogs
-        .sort((a, b) => a.likes > b.likes)
+        .sort((a, b) => a.likes - b.likes)
         .map((blog) => (
           <Blog key={blog.id} blog={blog} user={user} />
         ))}

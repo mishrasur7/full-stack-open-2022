@@ -13,6 +13,22 @@ const blogSlice = createSlice({
         },
         createBlogs(state, action) {
             return [...state, action.payload]
+        }, 
+        increaseLike(state, action) {
+            const id = action.payload
+            const likeToIncrease = state.find(blog => blog.id === id)
+            const changedBlog = {
+                ...likeToIncrease,
+                likes: likeToIncrease.likes + 1
+            }
+
+            console.log('changegedBlog: ', changedBlog)
+            return state.map(blog => blog.id !== id ? blog : changedBlog)
+        }, 
+        deleteBlog(state, action) {
+            const id = action.payload
+            const stateAfterDelete = state.filter(blog => blog.id !== id)
+            return stateAfterDelete
         }
     }
 })
@@ -31,5 +47,19 @@ export const createNewBlogs = (blog) => {
     }
 }
 
-export const { setBlogs, createBlogs } = blogSlice.actions
+export const updateBlogLike = (id, newBlog) => {
+    return async dispatch => {
+        dispatch(increaseLike(id))
+        await blogService.update(id, newBlog)
+    }
+}
+
+export const delete_Blog = (id) => {
+    return async dispatch  => {
+        dispatch(deleteBlog(id))
+        await blogService.delete_blog(id)
+    }
+}
+
+export const { setBlogs, createBlogs, increaseLike, deleteBlog } = blogSlice.actions
 export default blogSlice.reducer
