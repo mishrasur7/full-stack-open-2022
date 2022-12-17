@@ -2,10 +2,9 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
-import blogService from "../services/blogs";
 import { updateBlogLike, delete_Blog } from "../reducers/blogReducer";
 
-const Blog = ({ blog, setBlogs, user }) => {
+const Blog = ({ blog, user }) => {
   const [detail, setDetail] = useState(false);
 
   const blogStyle = {
@@ -31,13 +30,10 @@ const Blog = ({ blog, setBlogs, user }) => {
   };
 
   const deleteBlog = (id, title, author) => {
-    console.log("event: ", id, title, author);
-
     const confirmation = window.confirm(`Remove ${title} by ${author}`);
     if (confirmation) {
       dispatch(delete_Blog(id))
-    }
-    
+    } 
   };
 
   if (user !== null) {
