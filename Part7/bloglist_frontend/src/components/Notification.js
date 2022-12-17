@@ -1,6 +1,7 @@
 import React from "react";
+import { useSelector } from 'react-redux'
 
-const Notification = ({ operation, successMsg, errorMsg }) => {
+const Notification = ({ operation }) => {
   const successStyle = {
     color: "green",
     background: "lightgrey",
@@ -21,17 +22,20 @@ const Notification = ({ operation, successMsg, errorMsg }) => {
     marginBottom: 10,
   };
 
-  if (successMsg === null && errorMsg === null) {
+  const notification = useSelector(state => state.notification)
+  console.log('notification: ', notification)
+
+  if (notification.message === null) {
     return null;
   }
-
+  
   return (
     <>
       {operation ? (
-        <div style={successStyle}>{successMsg}</div>
+        <div style={successStyle}>{notification.message}</div>
       ) : (
         <div style={failStyle} className="error">
-          {errorMsg}
+          {notification.message}
         </div>
       )}
     </>

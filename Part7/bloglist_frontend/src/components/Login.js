@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
 import loginService from "../services/login";
 import blogService from "../services/blogs";
+import { setNotification } from "../reducers/notificationReducer";
 
 const Login = ({
   username,
@@ -12,6 +14,9 @@ const Login = ({
   setErrorMsg,
   setOperation,
 }) => {
+
+  const dispatch = useDispatch()
+  
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -23,10 +28,11 @@ const Login = ({
       blogService.setToken(user.token);
       setOperation(true);
     } catch (exception) {
-      setErrorMsg(exception.response.data.error);
+      //setErrorMsg(exception.response.data.error);
+      dispatch(setNotification(exception.response.data.error))
       setOperation(false);
       setTimeout(() => {
-        setErrorMsg(null);
+        dispatch(setNotification(null))
       }, 5000);
     }
   };
