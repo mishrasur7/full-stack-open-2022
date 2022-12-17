@@ -1,34 +1,34 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
 
   const handleCreate = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const newBlog = {
       title: title,
       author: author,
-      url: url
-    }
+      url: url,
+    };
 
-    createBlog(newBlog)
-    setSuccessMsg(`a new Blog ${title}! by ${author} added`)
+    createBlog(newBlog);
+    setSuccessMsg(`a new Blog ${title}! by ${author} added`);
     setTimeout(() => {
-      setSuccessMsg(null)
-    }, 5000)
-    setOperation(true)
-    setTitle('')
-    setAuthor('')
-    setUrl('')
-  }
+      setSuccessMsg(null);
+    }, 5000);
+    setOperation(true);
+    setTitle("");
+    setAuthor("");
+    setUrl("");
+  };
 
   return (
     <>
-      <div className='formDiv'>
+      <div className="formDiv">
         <h2>Create new</h2>
         <form onSubmit={handleCreate}>
           <div>
@@ -39,7 +39,7 @@ const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
               name="Title"
               onChange={({ target }) => setTitle(target.value)}
               placeholder="title"
-              id='title'
+              id="title"
             />
           </div>
           <div>
@@ -49,8 +49,8 @@ const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
               value={author}
               name="Author"
               onChange={({ target }) => setAuthor(target.value)}
-              placeholder='author'
-              id='author'
+              placeholder="author"
+              id="author"
             />
           </div>
           <div>
@@ -60,20 +60,22 @@ const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
               value={url}
               name="Url"
               onChange={({ target }) => setUrl(target.value)}
-              placeholder='url'
-              id='url'
+              placeholder="url"
+              id="url"
             />
           </div>
-          <button type="submit" id='create'>Create</button>
+          <button type="submit" id="create">
+            Create
+          </button>
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
 CreateBlog.propTypes = {
   createBlog: PropTypes.func.isRequired,
   setSuccessMsg: PropTypes.func.isRequired,
-  setOperation: PropTypes.func.isRequired
-}
-export default CreateBlog
+  setOperation: PropTypes.func.isRequired,
+};
+export default CreateBlog;

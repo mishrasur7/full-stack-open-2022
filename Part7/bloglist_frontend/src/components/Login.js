@@ -1,67 +1,66 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
-import loginService from '../services/login'
-import blogService from '../services/blogs'
+import loginService from "../services/login";
+import blogService from "../services/blogs";
 
-const Login = ({ username,
+const Login = ({
+  username,
   password,
   setUser,
   setUsername,
   setPassword,
   setErrorMsg,
-  setOperation
+  setOperation,
 }) => {
-
   const handleLogin = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    try{
-      const user = await loginService.login({ username, password, })
-      setUser(user)
-      console.log('user after login: ', user)
-      window.localStorage.setItem('loggedInUser', JSON.stringify(user))
-      blogService.setToken(user.token)
-      setOperation(true)
-    } catch(exception) {
-      setErrorMsg(exception.response.data.error)
-      setOperation(false)
+    try {
+      const user = await loginService.login({ username, password });
+      setUser(user);
+      console.log("user after login: ", user);
+      window.localStorage.setItem("loggedInUser", JSON.stringify(user));
+      blogService.setToken(user.token);
+      setOperation(true);
+    } catch (exception) {
+      setErrorMsg(exception.response.data.error);
+      setOperation(false);
       setTimeout(() => {
-        setErrorMsg(null)
-      }, 5000)
+        setErrorMsg(null);
+      }, 5000);
     }
-
-  }
-
+  };
 
   return (
     <>
       <form onSubmit={handleLogin}>
         <div>
-            username
+          username
           <input
             type="text"
             value={username}
             name="Username"
             onChange={({ target }) => setUsername(target.value)}
-            id='username'
+            id="username"
           />
         </div>
         <div>
-            password
+          password
           <input
             type="password"
             value={password}
             name="Password"
             onChange={({ target }) => setPassword(target.value)}
-            id='password'
+            id="password"
           />
         </div>
-        <button type="submit" id='login-button'>login</button>
+        <button type="submit" id="login-button">
+          login
+        </button>
       </form>
     </>
-  )
-
-}
+  );
+};
 
 Login.propTypes = {
   username: PropTypes.string.isRequired,
@@ -69,7 +68,7 @@ Login.propTypes = {
   setUser: PropTypes.func.isRequired,
   setPassword: PropTypes.func.isRequired,
   setErrorMsg: PropTypes.func.isRequired,
-  setOperation: PropTypes.func.isRequired
-}
+  setOperation: PropTypes.func.isRequired,
+};
 
-export default Login
+export default Login;

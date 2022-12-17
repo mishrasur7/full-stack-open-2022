@@ -1,37 +1,41 @@
-import React from 'react'
+import React from "react";
 
 const Notification = ({ operation, successMsg, errorMsg }) => {
   const successStyle = {
-    color: 'green',
-    background: 'lightgrey',
+    color: "green",
+    background: "lightgrey",
     fontSize: 20,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderRadius: 5,
     padding: 10,
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  };
 
   const failStyle = {
-    color: 'red',
-    background: 'lightgrey',
+    color: "red",
+    background: "lightgrey",
     fontSize: 20,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderRadius: 5,
     padding: 10,
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  };
 
-  if(successMsg === null && errorMsg === null) {
-    return null
+  if (successMsg === null && errorMsg === null) {
+    return null;
   }
 
   return (
     <>
-      {operation ?
-        <div style={successStyle}>{successMsg}</div> :
-        <div style={failStyle} className='error'>{errorMsg}</div>}
+      {operation ? (
+        <div style={successStyle}>{successMsg}</div>
+      ) : (
+        <div style={failStyle} className="error">
+          {errorMsg}
+        </div>
+      )}
     </>
-  )
-}
+  );
+};
 
-export default Notification
+export default Notification;
