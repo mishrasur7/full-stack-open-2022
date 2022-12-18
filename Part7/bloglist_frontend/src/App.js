@@ -8,7 +8,8 @@ import CreateBlog from "./components/CreateBlog";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import { createNewBlogs, initializeBlogs } from "./reducers/blogReducer";
-import { removeUser, setUser } from "./reducers/userReducer";
+import { removeUser, setUser } from "./reducers/currentuserReducer";
+import Users from "./components/Users";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -23,8 +24,8 @@ const App = () => {
   const blogs = [...blogsFromStore]
 
   const dispatch = useDispatch()
-  
-  const user = useSelector(state => state.user)
+
+  const currentuser = useSelector(state => state.currentuser)
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -61,10 +62,10 @@ const App = () => {
         successMsg={successMsg}
         errorMsg={errorMsg}
       />
-      {user === null ? (
+      {currentuser === null ? (
         <Togglable buttonLabel="login">
           <Login
-            user={user}
+            user={currentuser}
             username={username}
             password={password}
             setUsername={setUsername}
@@ -75,7 +76,7 @@ const App = () => {
         </Togglable>
       ) : (
         <div>
-          <p>{user.name} logged in</p>
+          <p>{currentuser.name} logged in</p>
           <button onClick={logOutUser}>logout</button>
           <Togglable buttonLabel="create blog" ref={blogFormRef}>
             <CreateBlog
@@ -87,10 +88,12 @@ const App = () => {
         </div>
       )}
       <br />
+      <Users />
+      <br />
       {blogs
         .sort((a, b) => a.likes - b.likes)
         .map((blog) => (
-          <Blog key={blog.id} blog={blog} user={user} />
+          <Blog key={blog.id} blog={blog} user={currentuser} />
         ))}
     </div>
   );
