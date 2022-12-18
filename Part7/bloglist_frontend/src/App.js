@@ -17,6 +17,7 @@ import { createNewBlogs, initializeBlogs } from "./reducers/blogReducer";
 import { removeUser, setUser } from "./reducers/currentuserReducer";
 import Users from "./components/Users";
 import User from "./components/User";
+import SingleBlog from "./components/SingleBlog";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -107,6 +108,7 @@ const App = () => {
           <Route path='/blogs' element={<Blog />}/>
           <Route path='/users' element={<Users />}/>
           <Route path='/users/:id' element={<User />}/>
+          <Route path='/blogs/:id' element={<SingleBlog />}/>
         </Routes>
       </Router>
     </div>
