@@ -1,5 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+} from 'react-router-dom'
 
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
@@ -10,6 +16,7 @@ import Togglable from "./components/Togglable";
 import { createNewBlogs, initializeBlogs } from "./reducers/blogReducer";
 import { removeUser, setUser } from "./reducers/currentuserReducer";
 import Users from "./components/Users";
+import User from "./components/User";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -54,9 +61,18 @@ const App = () => {
     dispatch(createNewBlogs(blogObject))
   };
 
+  const padding = {
+    padding: 5
+  }
+
   return (
     <div>
-      <h1>Login to the application</h1>
+      <Router>
+        <div>
+          <Link style={padding} to='/blogs'>Blogs</Link>
+          <Link style={padding} to='/users'>Users</Link>
+        </div>
+        <h1>Blogs</h1>
       <Notification
         operation={operation}
         successMsg={successMsg}
@@ -87,14 +103,12 @@ const App = () => {
           </Togglable>
         </div>
       )}
-      <br />
-      <Users />
-      <br />
-      {blogs
-        .sort((a, b) => a.likes - b.likes)
-        .map((blog) => (
-          <Blog key={blog.id} blog={blog} user={currentuser} />
-        ))}
+        <Routes>
+          <Route path='/blogs' element={<Blog />}/>
+          <Route path='/users' element={<Users />}/>
+          <Route path='/users/:id' element={<User />}/>
+        </Routes>
+      </Router>
     </div>
   );
 };

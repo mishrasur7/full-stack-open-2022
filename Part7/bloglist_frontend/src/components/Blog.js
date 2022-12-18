@@ -1,11 +1,14 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { updateBlogLike, delete_Blog } from "../reducers/blogReducer";
 
-const Blog = ({ blog, user }) => {
+const Blog = () => {
   const [detail, setDetail] = useState(false);
+  const blogsFromStore = useSelector(state => state.blogs)
+  const user = useSelector(state => state.currentuser)
+  const blogs = [...blogsFromStore]
 
   const blogStyle = {
     paddingTop: 10,
@@ -39,13 +42,13 @@ const Blog = ({ blog, user }) => {
   if (user !== null) {
     return (
       <>
-        {!detail ? (
-          <div style={blogStyle} className="blog">
+      {blogs.sort((a, b) => a.likes - b.likes).map(blog => {
+         return !detail ? 
+         (<div style={blogStyle} className="blog" key={blog.id}>
             {blog.title} {blog.author}
             <button onClick={toggleDetail}>view</button>
-          </div>
-        ) : (
-          <div style={blogStyle} className="blogDetail">
+          </div>) : 
+          (<div style={blogStyle} className="blogDetail" key={blog.id}>
             {blog.title} <button onClick={toggleDetail}>hide</button> <br />
             {blog.url} <br />
             Likes {blog.likes}{" "}
@@ -65,16 +68,11 @@ const Blog = ({ blog, user }) => {
                 </button>
               </p>
             )}
-          </div>
-        )}
+          </div>)
+      })}
       </>
     );
   }
-};
-
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  //setBlogs: PropTypes.func.isRequired,
 };
 
 export default Blog;
