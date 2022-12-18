@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import loginService from "../services/login";
 import blogService from "../services/blogs";
 import { setNotification } from "../reducers/notificationReducer";
 import { setUser } from "../reducers/currentuserReducer";
+import CreateBlog from "./CreateBlog";
 
 const Login = ({
   username,
@@ -15,6 +16,7 @@ const Login = ({
 }) => {
 
   const dispatch = useDispatch()
+  const currentuser = useSelector(state => state.currentuser)
   
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -37,6 +39,7 @@ const Login = ({
 
   return (
     <>
+    {!currentuser && 
       <form onSubmit={handleLogin}>
         <div>
           username
@@ -62,6 +65,7 @@ const Login = ({
           login
         </button>
       </form>
+    }
     </>
   );
 };

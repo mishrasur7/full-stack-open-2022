@@ -72,14 +72,27 @@ const App = () => {
         <div>
           <Link style={padding} to='/blogs'>Blogs</Link>
           <Link style={padding} to='/users'>Users</Link>
+          {currentuser
+            ? <em>{currentuser.name} logged in <button onClick={logOutUser}>logout</button></em>
+            : <Link to='/login'>login</Link>
+          }
         </div>
-        <h1>Blogs</h1>
+        <h1>Blog App</h1>
       <Notification
         operation={operation}
         successMsg={successMsg}
         errorMsg={errorMsg}
       />
-      {currentuser === null ? (
+      {currentuser && 
+      <Togglable buttonLabel="create blog" ref={blogFormRef}>
+        <CreateBlog
+          createBlog={addBlog}
+          setSuccessMsg={setSuccessMsg}
+          setOperation={setOperation}
+        />
+      </Togglable>
+      }
+      {/* {currentuser === null ? (
         <Togglable buttonLabel="login">
           <Login
             user={currentuser}
@@ -103,12 +116,24 @@ const App = () => {
             />
           </Togglable>
         </div>
-      )}
+      )} */}
         <Routes>
           <Route path='/blogs' element={<Blog />}/>
           <Route path='/users' element={<Users />}/>
           <Route path='/users/:id' element={<User />}/>
           <Route path='/blogs/:id' element={<SingleBlog />}/>
+          <Route path='/login' 
+            element={
+              <Login 
+                user={currentuser}
+                username={username}
+                password={password}
+                setUsername={setUsername}
+                setPassword={setPassword}
+                setErrorMsg={setErrorMsg}
+                setOperation={setOperation} 
+              />
+            }/>
         </Routes>
       </Router>
     </div>
