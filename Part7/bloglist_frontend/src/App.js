@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Navbar, Nav, Button } from 'react-bootstrap'
 
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
@@ -64,22 +65,35 @@ const App = () => {
   return (
     <div className="container">
       <Router>
-        <div>
-          <Link style={padding} to="/blogs">
-            Blogs
-          </Link>
-          <Link style={padding} to="/users">
-            Users
-          </Link>
-          {currentuser ? (
-            <em>
-              {currentuser.name} logged in{" "}
-              <button onClick={logOutUser}>logout</button>
-            </em>
-          ) : (
-            <Link to="/login">login</Link>
-          )}
-        </div>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="#" as="span">
+                <Link style={padding} to="/blogs">
+                  Blogs
+                </Link>
+              </Nav.Link>
+              <Nav.Link href="#" as="span">
+                <Link style={padding} to="/users">
+                  Users
+                </Link>
+              </Nav.Link>
+              <Nav.Link href="#" as="span">
+                {currentuser ? (
+                  <em style={padding}>
+                    {currentuser.name} logged in{" "}
+                    <Button onClick={logOutUser}>Log out</Button>
+                  </em>
+                ) : (
+                  <Link style={padding} to="/login">
+                    Login
+                  </Link>
+                )}
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
         <h1>Blog App</h1>
         <Notification
           operation={operation}
@@ -87,7 +101,7 @@ const App = () => {
           errorMsg={errorMsg}
         />
         {currentuser && (
-          <Togglable buttonLabel="create blog" ref={blogFormRef}>
+          <Togglable buttonLabel="Create blog" ref={blogFormRef}>
             <CreateBlog
               createBlog={addBlog}
               setSuccessMsg={setSuccessMsg}

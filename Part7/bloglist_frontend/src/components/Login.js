@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import { Form, Button } from "react-bootstrap";
 
 import loginService from "../services/login";
 import blogService from "../services/blogs";
 import { setNotification } from "../reducers/notificationReducer";
 import { setUser } from "../reducers/currentuserReducer";
-import CreateBlog from "./CreateBlog";
 
 const Login = ({
   username,
@@ -39,31 +39,27 @@ const Login = ({
   return (
     <>
       {!currentuser && (
-        <form onSubmit={handleLogin}>
-          <div>
-            username
-            <input
+        <Form onSubmit={handleLogin}>
+          <Form.Group>
+            <Form.Label>username:</Form.Label>
+            <Form.Control
               type="text"
+              name="username"
               value={username}
-              name="Username"
               onChange={({ target }) => setUsername(target.value)}
-              id="username"
             />
-          </div>
-          <div>
-            password
-            <input
+            <Form.Label>password:</Form.Label>
+            <Form.Control
               type="password"
+              name="password"
               value={password}
-              name="Password"
               onChange={({ target }) => setPassword(target.value)}
-              id="password"
             />
-          </div>
-          <button type="submit" id="login-button">
-            login
-          </button>
-        </form>
+            <Button variant="primary" type="submit">
+              login
+            </Button>
+          </Form.Group>
+        </Form>
       )}
     </>
   );

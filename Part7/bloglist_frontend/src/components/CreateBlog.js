@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import { Form, Button } from 'react-bootstrap'
+
 import { setNotification } from "../reducers/notificationReducer";
 
-const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
+const CreateBlog = ({ createBlog, setOperation }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -20,10 +22,8 @@ const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
     };
 
     createBlog(newBlog);
-    //setSuccessMsg(`a new Blog ${title}! by ${author} added`);
     dispatch(setNotification(`a new Blog ${title}! by ${author} added`));
     setTimeout(() => {
-      //setSuccessMsg(null);
       dispatch(setNotification(null));
     }, 5000);
     setOperation(true);
@@ -34,46 +34,39 @@ const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
 
   return (
     <>
-      <div className="formDiv">
+      <div style={{marginBottom: 20}} className="formDiv">
         <h2>Create new</h2>
-        <form onSubmit={handleCreate}>
-          <div>
-            title
-            <input
+        <Form onSubmit={handleCreate}>
+          <Form.Group>
+            <Form.Label>Title</Form.Label>
+            <Form.Control
               type="text"
-              value={title}
               name="Title"
+              value={title}
               onChange={({ target }) => setTitle(target.value)}
               placeholder="title"
-              id="title"
             />
-          </div>
-          <div>
-            author
-            <input
+            <Form.Label>Author</Form.Label>
+            <Form.Control
               type="text"
               value={author}
               name="Author"
               onChange={({ target }) => setAuthor(target.value)}
               placeholder="author"
-              id="author"
             />
-          </div>
-          <div>
-            url
-            <input
+            <Form.Label>Url</Form.Label>
+            <Form.Control
               type="text"
               value={url}
               name="Url"
               onChange={({ target }) => setUrl(target.value)}
               placeholder="url"
-              id="url"
             />
-          </div>
-          <button type="submit" id="create">
-            Create
-          </button>
-        </form>
+            <Button style={{marginTop: 10}} variant="primary" type="submit">
+              Create
+            </Button>
+          </Form.Group>
+       </Form>
       </div>
     </>
   );

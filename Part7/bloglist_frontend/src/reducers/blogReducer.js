@@ -31,16 +31,16 @@ const blogSlice = createSlice({
       return stateAfterDelete;
     },
     makeComment(state, action) {
-      console.log('action payload: ', action.payload)
-      const blogId = action.payload.id
-      const comment = action.payload.comment
-      const blogToComment = state.find(blog => blog.id === blogId)
+      console.log("action payload: ", action.payload);
+      const blogId = action.payload.id;
+      const comment = action.payload.comment;
+      const blogToComment = state.find((blog) => blog.id === blogId);
       const updatedBlog = {
         ...blogToComment,
-        comments: blogToComment.comments.concat(comment)
-      }
-      return state.map(blog => blog.id !== blogId ? blog : updatedBlog)
-    }
+        comments: blogToComment.comments.concat(comment),
+      };
+      return state.map((blog) => (blog.id !== blogId ? blog : updatedBlog));
+    },
   },
 });
 
@@ -74,15 +74,11 @@ export const delete_Blog = (id) => {
 
 export const addComment = (id, com) => {
   return async (dispatch) => {
-    const comment = await blogService.createComment(id, com)
-    dispatch(makeComment({ id, comment }))
-  }
-}
+    const comment = await blogService.createComment(id, com);
+    dispatch(makeComment({ id, comment }));
+  };
+};
 
-export const { 
-  setBlogs, 
-  createBlogs, 
-  increaseLike, 
-  deleteBlog,
-  makeComment } = blogSlice.actions;
+export const { setBlogs, createBlogs, increaseLike, deleteBlog, makeComment } =
+  blogSlice.actions;
 export default blogSlice.reducer;

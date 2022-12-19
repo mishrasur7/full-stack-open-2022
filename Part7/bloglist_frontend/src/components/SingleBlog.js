@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { addComment, delete_Blog, updateBlogLike } from "../reducers/blogReducer";
+import {
+  addComment,
+  delete_Blog,
+  updateBlogLike,
+} from "../reducers/blogReducer";
 
 const SingleBlog = () => {
-  const [commentInput, setCommentInput] = useState('');
+  const [commentInput, setCommentInput] = useState("");
   const blogs = useSelector((state) => state.blogs);
   const currentuser = useSelector((state) => state.currentuser);
   const id = useParams().id;
@@ -37,12 +41,12 @@ const SingleBlog = () => {
   }
 
   const commentToPost = {
-    comment: commentInput
-  }
+    comment: commentInput,
+  };
   const makeComment = () => {
-    dispatch(addComment(id, commentToPost))
-    setCommentInput('')
-  }
+    dispatch(addComment(id, commentToPost));
+    setCommentInput("");
+  };
 
   return (
     <div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Alert } from "react-bootstrap";
 
 const Notification = ({ operation }) => {
   const successStyle = {
@@ -32,11 +33,9 @@ const Notification = ({ operation }) => {
   return (
     <>
       {operation ? (
-        <div style={successStyle}>{notification.message}</div>
+        <Alert variant="success">{notification.message}</Alert>
       ) : (
-        <div style={failStyle} className="error">
-          {notification.message}
-        </div>
+        <Alert variant="danger">{notification.message}</Alert>
       )}
     </>
   );
