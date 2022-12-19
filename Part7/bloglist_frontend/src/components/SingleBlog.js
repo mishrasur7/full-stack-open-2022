@@ -51,6 +51,12 @@ const SingleBlog = () => {
               </p>
             )}
         </div>
+        <div>
+          <h1>Comments</h1>
+              <ul>
+              {blog.comments && blog.comments.map(comment => <li>{comment}</li>)}
+              </ul>
+        </div>
     </div>
   )
 }
