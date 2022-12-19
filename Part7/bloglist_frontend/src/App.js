@@ -62,7 +62,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <Router>
         <div>
           <Link style={padding} to="/blogs">
@@ -95,31 +95,6 @@ const App = () => {
             />
           </Togglable>
         )}
-        {/* {currentuser === null ? (
-        <Togglable buttonLabel="login">
-          <Login
-            user={currentuser}
-            username={username}
-            password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
-            setErrorMsg={setErrorMsg}
-            setOperation={setOperation}
-          />
-        </Togglable>
-      ) : (
-        <div>
-          <p>{currentuser.name} logged in</p>
-          <button onClick={logOutUser}>logout</button>
-          <Togglable buttonLabel="create blog" ref={blogFormRef}>
-            <CreateBlog
-              createBlog={addBlog}
-              setSuccessMsg={setSuccessMsg}
-              setOperation={setOperation}
-            />
-          </Togglable>
-        </div>
-      )} */}
         <Routes>
           <Route path="/blogs" element={<Blog />} />
           <Route path="/users" element={<Users />} />
