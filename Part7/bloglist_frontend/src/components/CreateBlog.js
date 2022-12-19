@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 
 const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
@@ -8,7 +8,7 @@ const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleCreate = (event) => {
     event.preventDefault();
@@ -21,10 +21,10 @@ const CreateBlog = ({ createBlog, setSuccessMsg, setOperation }) => {
 
     createBlog(newBlog);
     //setSuccessMsg(`a new Blog ${title}! by ${author} added`);
-    dispatch(setNotification(`a new Blog ${title}! by ${author} added`))
+    dispatch(setNotification(`a new Blog ${title}! by ${author} added`));
     setTimeout(() => {
       //setSuccessMsg(null);
-      dispatch(setNotification(null))
+      dispatch(setNotification(null));
     }, 5000);
     setOperation(true);
     setTitle("");

@@ -6,12 +6,12 @@ import currentuserReducer from "./reducers/currentuserReducer";
 import usersReducer from "./reducers/usersReducer";
 
 const store = configureStore({
-    reducer: {
-        notification: notificationReducer,
-        blogs: blogReducer, 
-        currentuser: currentuserReducer,
-        users: usersReducer
-    }
-})
+  reducer: {
+    notification: notificationReducer,
+    blogs: blogReducer,
+    currentuser: currentuserReducer,
+    users: usersReducer,
+  },
+});
 
-export default store
+export default store;

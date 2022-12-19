@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 
 const Notification = ({ operation }) => {
   const successStyle = {
@@ -22,13 +22,13 @@ const Notification = ({ operation }) => {
     marginBottom: 10,
   };
 
-  const notification = useSelector(state => state.notification)
-  console.log('notification: ', notification)
+  const notification = useSelector((state) => state.notification);
+  console.log("notification: ", notification);
 
   if (notification.message === null) {
     return null;
   }
-  
+
   return (
     <>
       {operation ? (
