@@ -1,6 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import {uuid} from 'uuid'
+import { v1 as uuid} from 'uuid'
 
 
 let persons = [
