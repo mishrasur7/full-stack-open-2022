@@ -87,10 +87,17 @@ let authors = [
         genres: [String]!
         id: ID!
     }
+
+    type Author {
+        name: String!
+        bookCount: Int!
+    }
+    
     type Query {
         bookCount: Int!
         authorCount: Int!
         allBooks: [Book!]!
+        allAuthors: [Author!]!
     }
   `
   
@@ -98,7 +105,14 @@ let authors = [
     Query: {
         bookCount: () => books.length,
         authorCount: () => authors.length,
-        allBooks: () => books
+        allBooks: () => books,
+        allAuthors: () => authors
+    },
+    Author: {
+        bookCount: (root) => {
+            console.log('root', root.name)
+            return books.filter(book => book.author === root.name).length
+        }
     }
   }
   
