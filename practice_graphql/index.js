@@ -1,7 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { v1 as uuid } from "uuid";
-import { GraphQLError } from 'graphql';
+import { GraphQLError } from "graphql";
 
 let persons = [
   {
@@ -31,17 +31,25 @@ const typeDefs = `#graphql
     street: String!
     city: String!
   }
+
   type Person {
     name: String!
     phone: String
     address: Address!
     id: ID!
   }
+
+  enum YesNo {
+    YES
+    NO
+  }
+  
   type Query {
     personCount: Int!
-    allPersons: [Person!]!
+    allPersons(phone: YesNo): [Person!]!
     findPerson(name: String!): Person
   }
+
   type Mutation {
     addPerson(
       name: String!
@@ -54,7 +62,14 @@ const typeDefs = `#graphql
 const resolvers = {
   Query: {
     personCount: () => persons.length,
-    allPersons: () => persons,
+    allPersons: (root, args) => {
+      if (!args.phone) {
+        return persons;
+      }
+      const byPhone = (person) =>
+        args.phone === "YES" ? person.phone : !person.phone;
+      return persons.filter(byPhone);
+    },
     findPerson: (root, args) => persons.find((p) => p.name === args.name),
   },
   Person: {
@@ -68,11 +83,11 @@ const resolvers = {
   Mutation: {
     addPerson: (root, args) => {
       if (persons.find((p) => p.name === args.name)) {
-        throw new GraphQLError('Name must be unique!', {
-            extensions: {
-              code: 'FORBIDDEN',
-            },
-          });
+        throw new GraphQLError("Name must be unique!", {
+          extensions: {
+            code: "FORBIDDEN",
+          },
+        });
       }
 
       const person = { ...args, id: uuid() };
@@ -92,7 +107,3 @@ const { url } = await startStandaloneServer(server, {
 });
 
 console.log(`🚀  Server ready at: ${url}`);
-
-
-
-
