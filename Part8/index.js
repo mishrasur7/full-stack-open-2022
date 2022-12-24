@@ -90,6 +90,7 @@ const typeDefs = `#graphql
 
     type Author {
         name: String!
+        born: Int
         bookCount: Int!
     }
     
@@ -107,6 +108,7 @@ const typeDefs = `#graphql
             author: String!
             genres: [String]!
         ): Book
+        editAuthor(name: String!, setBornTo: Int!): Author
     }
   `;
 
@@ -149,7 +151,17 @@ const resolvers = {
             })
         }
         return book
-    }   
+    },
+    editAuthor: (root, args) => {
+        const author = authors.find(author => author.name === args.name)
+        if(!author) {
+            return null
+        }
+
+        const updatedAuthor = {...author, born: args.setBornTo}
+        authors = authors.map(author => author.name === args.name ? updatedAuthor : author)
+        return updatedAuthor
+    } 
   }
 };
 
