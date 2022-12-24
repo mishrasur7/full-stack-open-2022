@@ -99,6 +99,15 @@ const typeDefs = `#graphql
         allBooks(author: String, genres: String): [Book!]!
         allAuthors: [Author!]!
     }
+
+    type Mutation {
+        addBook(
+            title: String!
+            published: Int!
+            author: String!
+            genres: [String]!
+        ): Book
+    }
   `;
 
 const resolvers = {
@@ -120,12 +129,28 @@ const resolvers = {
     },
     allAuthors: () => authors,
   },
+
   Author: {
     bookCount: (root) => {
       console.log("root", root.name);
       return books.filter((book) => book.author === root.name).length;
     },
   },
+
+  Mutation: {
+    addBook: (root, args) => {
+        const book = {...args}
+        books = books.concat(book)
+        
+        if(authors.find(author => author.name === args.author) === undefined) {
+            authors = authors.concat({
+                name: args.author,
+                born: null
+            })
+        }
+        return book
+    }   
+  }
 };
 
 const server = new ApolloServer({
