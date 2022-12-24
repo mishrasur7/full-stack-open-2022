@@ -96,7 +96,7 @@ const typeDefs = `#graphql
     type Query {
         bookCount: Int!
         authorCount: Int!
-        allBooks(author: String genres: String): [Book!]!
+        allBooks(author: String, genres: String): [Book!]!
         allAuthors: [Author!]!
     }
   `;
