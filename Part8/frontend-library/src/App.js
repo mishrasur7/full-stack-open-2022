@@ -8,8 +8,12 @@ import NewBook from './components/NewBook'
 
 const App = () => {
   const [page, setPage] = useState('authors')
-  const result = useQuery(All_AUTHORS)
-  const books = useQuery(ALL_BOOKS)
+  const result = useQuery(All_AUTHORS, {
+    pollInterval: 1000
+  })
+  const books = useQuery(ALL_BOOKS, {
+    pollInterval: 1000
+  })
 
   console.log('books:', books)
 
