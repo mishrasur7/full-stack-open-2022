@@ -4,7 +4,7 @@ import { All_AUTHORS, EDIT_AUTHOR } from '../queries'
 
 const SetBirthYear = () => {
     const [name, setName] = useState('')
-    const [setBornTo, setBorn] = useState('')
+    const [setBornTo, setSetBornTo] = useState('')
   
     const [ editAuthor ] = useMutation(EDIT_AUTHOR)
     const authors = useQuery(All_AUTHORS)
@@ -15,7 +15,7 @@ const SetBirthYear = () => {
       editAuthor({ variables: { name, setBornTo } })
   
       setName('')
-      setBorn('')
+      setSetBornTo('')
     }
 
     if(authors.loading) {
@@ -42,7 +42,7 @@ const SetBirthYear = () => {
             <input
               type='number'
               value={setBornTo}
-              onChange={({ target }) => setBorn(Number(target.value))}
+              onChange={({ target }) => setSetBornTo(Number(target.value))}
             />
           </div>
           <button type='submit'>update author</button>
