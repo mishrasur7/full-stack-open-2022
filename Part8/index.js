@@ -1,5 +1,9 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import dotenv from 'dotenv'
+import mongoose from "mongoose";
+
+dotenv.config()
 
 let authors = [
   {
@@ -79,11 +83,20 @@ let books = [
   },
 ];
 
+const MONGODB_URI = process.env.MONGODB_URI
+
+mongoose.connect(MONGODB_URI)
+  .then(() => {
+    console.log(`Connected to database`)
+  }).catch((error) => {
+    console.log(`Error connecting to database: ${error.message}`)
+  })
+
 const typeDefs = `#graphql
     type Book {
         title: String!
         published: Int!
-        author: String!
+        author: Author!
         genres: [String]!
         id: ID!
     }
