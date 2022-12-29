@@ -114,12 +114,25 @@ const resolvers = {
       // }
 
       const person = new Person({...args});
-      return person.save();
+
+      try {
+        await person.save()
+      } catch(error) {
+        throw new GraphQLError(error.message)
+      }
+
+      return person
     },
     editNumber: async (root, args) => {
       const person = await Person.findOne({name: args.name})
       person.phone = args.phone
-      return person.save()
+      try {
+        await person.save()
+      } catch (error) {
+        throw new GraphQLError(error.message)
+      }
+
+      return person
 
       // const updatedPerson = { ...person, phone: args.phone };
       // persons = persons.map((p) => (p.name === args.name ? updatedPerson : p));
