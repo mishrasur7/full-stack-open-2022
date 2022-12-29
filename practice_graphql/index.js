@@ -1,10 +1,12 @@
-import { ApolloServer } from "@apollo/server";
+import {
+  ApolloServer,
+} from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { v1 as uuid } from "uuid";
 import { GraphQLError } from "graphql";
 import mongoose from "mongoose";
-import dotenv from 'dotenv'
-import jwt from 'jsonwebtoken'
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 
 import Person from "./models/Person.js";
 import User from "./models/User.js";
@@ -32,18 +34,19 @@ let persons = [
   },
 ];
 
-dotenv.config()
+dotenv.config();
 
-const MONGODB_URI = process.env.MONGODB_URI
-const JWT_SECRET = process.env.JWT_SECRET
+const MONGODB_URI = process.env.MONGODB_URI;
+const JWT_SECRET = process.env.JWT_SECRET;
 
-mongoose.connect(MONGODB_URI)
+mongoose
+  .connect(MONGODB_URI)
   .then(() => {
-    console.log('Connected to database')
+    console.log("Connected to database");
   })
   .catch((error) => {
-    console.log(`Error connection to database ${error.message}`)
-  })
+    console.log(`Error connection to database ${error.message}`);
+  });
 
 const typeDefs = `#graphql
   type Address {
@@ -98,6 +101,9 @@ const typeDefs = `#graphql
       username: String!
       password: String!
     ): Token
+    addAsFriend(
+      name: String!
+    ): User
   }
 `;
 
@@ -111,15 +117,15 @@ const resolvers = {
       // const byPhone = (person) =>
       //   args.phone === "YES" ? person.phone : !person.phone;
       // return persons.filter(byPhone);
-      if(!args.phone) {
-        return Person.find({})
+      if (!args.phone) {
+        return Person.find({});
       }
-      return Person.find({ phone: { $exists: args.phone === 'YES' } })
+      return Person.find({ phone: { $exists: args.phone === "YES" } });
     },
-    findPerson: async (root, args) => Person.findOne({name: args.name}),
+    findPerson: async (root, args) => Person.findOne({ name: args.name }),
     me: (root, args, context) => {
-      return context.currentUser
-    }
+      return context.currentUser;
+    },
   },
   Person: {
     address: ({ street, city }) => {
@@ -130,7 +136,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    addPerson: async (root, args) => {
+    addPerson: async (root, args, context) => {
       // if (persons.find((p) => p.name === args.name)) {
       //   throw new GraphQLError("Name must be unique!", {
       //     extensions: {
@@ -138,55 +144,74 @@ const resolvers = {
       //     },
       //   });
       // }
-
-      const person = new Person({...args});
-
-      try {
-        await person.save()
-      } catch(error) {
-        throw new GraphQLError(error.message)
+      const person = new Person({ ...args });
+      const currentUser = context.currentUser;
+      if (!currentUser) {
+        throw new GraphQLError("not authenticated");
       }
 
-      return person
+      try {
+        await person.save();
+        currentUser.friends = currentUser.friends.concat(person);
+        await currentUser.save();
+      } catch (error) {
+        throw new GraphQLError(error.message);
+      }
+
+      return person;
     },
     editNumber: async (root, args) => {
-      const person = await Person.findOne({name: args.name})
-      person.phone = args.phone
+      const person = await Person.findOne({ name: args.name });
+      person.phone = args.phone;
       try {
-        await person.save()
+        await person.save();
       } catch (error) {
-        throw new GraphQLError(error.message)
+        throw new GraphQLError(error.message);
       }
 
-      return person
+      return person;
 
       // const updatedPerson = { ...person, phone: args.phone };
       // persons = persons.map((p) => (p.name === args.name ? updatedPerson : p));
       // return updatedPerson;
     },
     createUser: async (root, args) => {
-      const user = new User({ username: args.username })
-  
-      return user.save()
-        .catch(error => {
-          throw new UserInputError(error.message, {
-            invalidArgs: args,
-          })
-        })
+      const user = new User({ username: args.username });
+
+      return user.save().catch((error) => {
+        throw new GraphQLError(error.message);
+      });
     },
     login: async (root, args) => {
-      const user = await User.findOne({ username: args.username })
-  
-      if ( !user || args.password !== 'secret' ) {
-        throw new GraphQLError("wrong credentials")
+      const user = await User.findOne({ username: args.username });
+
+      if (!user || args.password !== "secret") {
+        throw new GraphQLError("wrong credentials");
       }
-  
+
       const userForToken = {
         username: user.username,
         id: user._id,
+      };
+
+      return { value: jwt.sign(userForToken, JWT_SECRET) };
+    },
+    addAsFriend: async (root, args, { currentUser }) => {
+      const isFriend = (person) => 
+        currentUser.friends.map(f => f._id.toString()).includes(person._id.toString())
+  
+      if (!currentUser) {
+        throw new GraphQLError("not authenticated")
       }
   
-      return { value: jwt.sign(userForToken, JWT_SECRET) }
+      const person = await Person.findOne({ name: args.name })
+      if ( !isFriend(person) ) {
+        currentUser.friends = currentUser.friends.concat(person)
+      }
+  
+      await currentUser.save()
+  
+      return currentUser
     },
   },
 };
@@ -195,15 +220,15 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    const auth = req ? req.headers.authorization : null
-    if (auth && auth.toLowerCase().startsWith('bearer ')) {
-      const decodedToken = jwt.verify(
-        auth.substring(7), JWT_SECRET
-      )
-      const currentUser = await User.findById(decodedToken.id).populate('friends')
-      return { currentUser }
+    const auth = req ? req.headers.authorization : null;
+    if (auth && auth.toLowerCase().startsWith("bearer ")) {
+      const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET);
+      const currentUser = await User.findById(decodedToken.id).populate(
+        "friends"
+      );
+      return { currentUser };
     }
-  }
+  },
 });
 
 const { url } = await startStandaloneServer(server, {
