@@ -1,5 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { GraphQLError } from 'graphql';
 import dotenv from 'dotenv'
 import mongoose from "mongoose";
 
@@ -166,23 +167,22 @@ const resolvers = {
           name: args.author,
           born: null
         })
-        await newAuthor.save()
+        try {
+          await newAuthor.save()
+        } catch(error) {
+          throw new GraphQLError(error.message)
+        }
       }
 
       const book = new Book({...args})
+      try {
+        await book.save()
+      } catch(error) {
+        throw new GraphQLError(error.message)
+      }
       await book.save()
 
       return book
-        // const book = {...args}
-        // books = books.concat(book)
-        
-        // if(authors.find(author => author.name === args.author) === undefined) {
-        //     authors = authors.concat({
-        //         name: args.author,
-        //         born: null
-        //     })
-        // }
-        // return book
     },
     editAuthor: async (root, args) => {
         const author = await Author.findOne({name: args.name})
@@ -191,7 +191,14 @@ const resolvers = {
             return null
         }
 
-        await Author.findOneAndUpdate(author, {$set: {born: args.setBornTo}})
+        try {
+          await Author.findOneAndUpdate(author, {$set: {born: args.setBornTo}})
+        } catch (error) {
+          throw new GraphQLError(error.message, {
+            extensions: {code: 'BAD_USER_INPUT'}
+          })
+        }
+        
         const updated = await Author.findOne({born: args.setBornTo})
         return updated
     } 
