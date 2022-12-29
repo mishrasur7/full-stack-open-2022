@@ -4,9 +4,10 @@ import { v1 as uuid } from "uuid";
 import { GraphQLError } from "graphql";
 import mongoose from "mongoose";
 import dotenv from 'dotenv'
+import jwt from 'jsonwebtoken'
 
 import Person from "./models/Person.js";
-dotenv.config()
+import User from "./models/User.js";
 
 let persons = [
   {
@@ -31,7 +32,10 @@ let persons = [
   },
 ];
 
+dotenv.config()
+
 const MONGODB_URI = process.env.MONGODB_URI
+const JWT_SECRET = process.env.JWT_SECRET
 
 mongoose.connect(MONGODB_URI)
   .then(() => {
@@ -59,10 +63,21 @@ const typeDefs = `#graphql
     NO
   }
   
+  type User {
+    username: String!
+    friends: [Person!]!
+    id: ID!
+  }
+  
+  type Token {
+    value: String!
+  }
+
   type Query {
     personCount: Int!
     allPersons(phone: YesNo): [Person!]!
     findPerson(name: String!): Person
+    me: User
   }
 
   type Mutation {
@@ -73,11 +88,19 @@ const typeDefs = `#graphql
       city: String!
     ): Person
     editNumber(
-        name: String!
-        phone: String!
+      name: String!
+      phone: String!
       ): Person
+    createUser(
+      username: String!
+    ): User
+    login(
+      username: String!
+      password: String!
+    ): Token
   }
 `;
+
 const resolvers = {
   Query: {
     personCount: async () => Person.collection.countDocuments(),
@@ -94,6 +117,9 @@ const resolvers = {
       return Person.find({ phone: { $exists: args.phone === 'YES' } })
     },
     findPerson: async (root, args) => Person.findOne({name: args.name}),
+    me: (root, args, context) => {
+      return context.currentUser
+    }
   },
   Person: {
     address: ({ street, city }) => {
@@ -138,12 +164,46 @@ const resolvers = {
       // persons = persons.map((p) => (p.name === args.name ? updatedPerson : p));
       // return updatedPerson;
     },
+    createUser: async (root, args) => {
+      const user = new User({ username: args.username })
+  
+      return user.save()
+        .catch(error => {
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+          })
+        })
+    },
+    login: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+  
+      if ( !user || args.password !== 'secret' ) {
+        throw new GraphQLError("wrong credentials")
+      }
+  
+      const userForToken = {
+        username: user.username,
+        id: user._id,
+      }
+  
+      return { value: jwt.sign(userForToken, JWT_SECRET) }
+    },
   },
 };
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: async ({ req }) => {
+    const auth = req ? req.headers.authorization : null
+    if (auth && auth.toLowerCase().startsWith('bearer ')) {
+      const decodedToken = jwt.verify(
+        auth.substring(7), JWT_SECRET
+      )
+      const currentUser = await User.findById(decodedToken.id).populate('friends')
+      return { currentUser }
+    }
+  }
 });
 
 const { url } = await startStandaloneServer(server, {

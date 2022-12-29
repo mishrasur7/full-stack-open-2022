@@ -1,38 +1,38 @@
-import { useQuery } from '@apollo/client'
-import { useState } from 'react'
+import { useQuery } from "@apollo/client";
+import { useState } from "react";
 
-import { ALL_PERSONS } from './queries'
-import PersonForm from './components/PersonForm'
-import Persons from './components/Persons'
-import Notify from './components/Notify'
-import PhoneForm from './components/PhoneForm'
+import { ALL_PERSONS } from "./queries";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
+import Notify from "./components/Notify";
+import PhoneForm from "./components/PhoneForm";
 
 const App = () => {
-  const [errorMessage, setErrorMessage] = useState()
+  const [errorMessage, setErrorMessage] = useState();
 
   const result = useQuery(ALL_PERSONS, {
-    pollInterval: 1000
-  })
+    pollInterval: 1000,
+  });
 
   const notify = (message) => {
-    setErrorMessage(message)
+    setErrorMessage(message);
     setTimeout(() => {
-      setErrorMessage(null)
-    }, 10000)
-  }
+      setErrorMessage(null);
+    }, 10000);
+  };
 
-  if (result.loading)  {
-    return <div>loading...</div>
+  if (result.loading) {
+    return <div>loading...</div>;
   }
 
   return (
     <div>
-      <Notify errorMessage={errorMessage}/>
-      <PersonForm setError={notify}/>
-      <Persons persons={result.data.allPersons}/>
-      <PhoneForm setError={notify}/>
+      <Notify errorMessage={errorMessage} />
+      <PersonForm setError={notify} />
+      <Persons persons={result.data.allPersons} />
+      <PhoneForm setError={notify} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
