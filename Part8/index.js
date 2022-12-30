@@ -199,7 +199,10 @@ const resolvers = {
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers,
+  resolvers
+});
+
+const { url } = await startStandaloneServer(server, {
   context: async ({ req }) => {
     const authorization = req ? req.headers.authorization : null
     if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
@@ -210,10 +213,6 @@ const server = new ApolloServer({
       return { currentUser }
     }
   }
-});
-
-const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
 });
 
 console.log(`🚀  Server ready at: ${url}`);
