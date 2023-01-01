@@ -124,7 +124,7 @@ const resolvers = {
       let author = await Author.findOne({name: args.author})
       
       if(!author) {
-        author = new Author({name: args.author, bookCount: 1})
+        author = new Author({name: args.author, bookCount: 1, born: null})
         try {
           await author.save()
         } catch(error) {
