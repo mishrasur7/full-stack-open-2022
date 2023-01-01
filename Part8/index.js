@@ -34,6 +34,7 @@ const typeDefs = `#graphql
         name: String!
         born: Int
         bookCount: Int!
+        id: ID!
     }
 
     type User {
@@ -105,12 +106,12 @@ const resolvers = {
     }
   },
 
-  Author: {
-    bookCount: async (root) => {
-      console.log("root", root.name);
-      return await Book.find(book => book.author === root.name).length
-    },
-  },
+  // Author: {
+  //   bookCount: async (root) => {
+  //     console.log("root", root.name);
+  //     return await Book.find(book => book.author === root.name).length
+  //   },
+  // },
 
   Mutation: {
     addBook: async (root, args, context) => {
@@ -120,27 +121,33 @@ const resolvers = {
         throw new GraphQLError('User not authenticated!')
       }
 
-      const author = await Author.findOne({name: args.author})
+      let author = await Author.findOne({name: args.author})
       
       if(!author) {
-        const newAuthor = new Author({
-          name: args.author,
-          born: null
-        })
+        author = new Author({name: args.author, bookCount: 1})
         try {
-          await newAuthor.save()
+          await author.save()
         } catch(error) {
           throw new GraphQLError(error.message)
         }
+      } else {
+        author.bookCount = author.bookCount + 1
+        await author.save()
       }
+     
 
-      const book = new Book({...args})
+      const book = new Book({
+        title: args.title,
+        published: args.published,
+        genres: args.genres,
+        author: author
+      })
+
       try {
         await book.save()
       } catch(error) {
         throw new GraphQLError(error.message)
       }
-      await book.save()
 
       return book
     },
