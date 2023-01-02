@@ -86,32 +86,14 @@ const resolvers = {
     bookCount: async () => Book.collection.countDocuments(),
     authorCount: async () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
-      const books =  await Book.find({}).populate('author')
+      const books = await Book.find({}).populate('author')
       return books
-      // return books.filter((book) => {
-      //   if (args.author) {
-      //     return args.author ? book.author === args.author : book;
-      //   } else if (args.genres) {
-      //     return book.genres.includes(args.genres)
-      //       ? book.genres.map((genre) => genre)
-      //       : book;
-      //   } else {
-      //     return book;
-      //   }
-      // });
     },
     allAuthors: async () => await Author.find({}),
     me: (root, args, context) => {
       return context.currentUser
     }
   },
-
-  // Author: {
-  //   bookCount: async (root) => {
-  //     console.log("root", root.name);
-  //     return await Book.find(book => book.author === root.name).length
-  //   },
-  // },
 
   Mutation: {
     addBook: async (root, args, context) => {
@@ -122,20 +104,24 @@ const resolvers = {
       }
 
       let author = await Author.findOne({name: args.author})
+      let title = await Book.findOne({title: args.title})
       
       if(!author) {
-        author = new Author({name: args.author, bookCount: 1, born: null})
+        author = new Author(
+          {name: args.author, 
+          bookCount: 1, 
+          born: null,
+        })
         try {
           await author.save()
         } catch(error) {
           throw new GraphQLError(error.message)
         }
-      } else {
+      } else if(author && !title) {
         author.bookCount = author.bookCount + 1
         await author.save()
       }
      
-
       const book = new Book({
         title: args.title,
         published: args.published,
