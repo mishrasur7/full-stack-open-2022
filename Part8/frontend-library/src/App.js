@@ -39,21 +39,11 @@ const App = () => {
           : <button onClick={() => setPage('login')}>login</button>
         }
       </div>
-
       <Authors show={page === 'authors'}/>
-
       <Books show={page === 'books'} token={token} setToken={setToken}/>
-
-      {
-        token !== null && <NewBook show={page === 'add'} />
-      }
-
-      {
-        token === null && <Login show={page === 'login'} setToken={setToken}/>
-      }
-      
+      {token !== null && <NewBook show={page === 'add'} />}
+      {token === null && <Login show={page === 'login'} setToken={setToken}/>}
       <FavoriteGenre show={page === 'recommended'}/>
-
     </div>
   )
 }

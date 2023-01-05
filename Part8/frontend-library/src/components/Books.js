@@ -34,8 +34,6 @@ const Books = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [books, selectedGenre])
 
-  console.log('books', books)
-
   if (!props.show) {
     return null
   }
