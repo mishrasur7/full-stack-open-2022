@@ -17,6 +17,7 @@ const NewBook = (props) => {
         }
       })
     },
+    refetchQueries: [ { ALL_BOOKS }]
   })
 
   if (!props.show) {

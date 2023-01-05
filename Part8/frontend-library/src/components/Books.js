@@ -5,7 +5,9 @@ import { ALL_BOOKS, ALL_GENRES } from '../queries'
 const Books = (props) => {
   const [genres, setGenres] = useState(['All genres'])
   const [books, setBooks] = useState([])
-  const result = useQuery(ALL_BOOKS)
+  const result = useQuery(ALL_BOOKS, {
+    pollInterval: 1000
+  })
   const [selectedGenre, setSelectedGenre] = useState('All genres')
   const [booksAfterFilter, setBooksAfterFilter] = useState([])
 
