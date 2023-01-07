@@ -24,49 +24,6 @@ mongoose
     console.log('error connection to MongoDB:', error.message)
   })
 
-const typeDefs = `#graphql
-  type User {
-    username: String!
-    friends: [Person!]!
-    id: ID!
-  }
-  type Token {
-    value: String!
-  }
-  type Address {
-    street: String!
-    city: String!
-  }
-  type Person {
-    name: String!
-    phone: String
-    address: Address!
-    id: ID!
-  }
-  enum YesNo {
-    YES
-    NO
-  }
-  type Query {
-    personCount: Int!
-    allPersons(phone: YesNo): [Person!]!
-    findPerson(name: String!): Person
-    me: User
-  }
-  type Mutation {
-    addPerson(
-      name: String!
-      phone: String
-      street: String!
-      city: String!
-    ): Person
-    editNumber(name: String!, phone: String!): Person
-    createUser(username: String!): User
-    login(username: String!, password: String!): Token
-    addAsFriend(name: String!): User
-  }
-`
-
 const resolvers = {
   Query: {
     personCount: async () => Person.collection.countDocuments(),
@@ -174,7 +131,7 @@ const server = new ApolloServer({
 })
 
 const { url } = await startStandaloneServer(server,{
-  context: async ({ req}) => {
+  context: async ({ req, res }) => {
     const auth = req ? req.headers.authorization : null
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
       const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET)
