@@ -1,19 +1,6 @@
-import {
-  ApolloServer,
-} from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { GraphQLError } from "graphql";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
 
-import Person from "./models/Person.js";
-import User from "./models/User.js";
-
-dotenv.config()
-
-const MONGODB_URI = process.env.MONGODB_URI
-const JWT_SECRET = process.env.JWT_SECRET
 
 mongoose
   .connect(MONGODB_URI)
