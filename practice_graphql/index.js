@@ -9,6 +9,9 @@ import cors from 'cors'
 import bodyParser from "body-parser";
 import http from 'http'
 
+import typeDefs from "./schema";
+import resolvers from "./resolvers";
+
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
