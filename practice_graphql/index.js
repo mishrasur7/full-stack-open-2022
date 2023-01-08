@@ -8,9 +8,16 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from "body-parser";
 import http from 'http'
+import  jwt from "jsonwebtoken";
+import dotenv from 'dotenv'
 
 import typeDefs from "./schema";
 import resolvers from "./resolvers";
+
+dotenv.config()
+
+const MONGODB_URI = process.env.MONGODB_URI
+const JWT_SECRET = process.env.JWT_SECRET
 
 mongoose
   .connect(MONGODB_URI)
