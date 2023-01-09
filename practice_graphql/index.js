@@ -1,84 +1,58 @@
-import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
-import mongoose from "mongoose";
-import { expressMiddleware } from "@apollo/server/express4";
-import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import { makeExecutableSchema } from "@graphql-tools/schema";
-import express from 'express'
-import cors from 'cors'
-import bodyParser from "body-parser";
-import http from 'http'
-import  jwt from "jsonwebtoken";
-import dotenv from 'dotenv'
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { createServer } from 'http';
+import express from 'express';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import resolvers from './resolvers.js';
+import typeDefs from './schema.js';
 
-import typeDefs from "./schema.js";
-import resolvers from "./resolvers.js";
-import User from "./models/User.js";
+// Create the schema, which will be used separately by ApolloServer and
+// the WebSocket server.
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-dotenv.config()
+// Create an Express app and HTTP server; we will attach both the WebSocket
+// server and the ApolloServer to this HTTP server.
+const app = express();
+const httpServer = createServer(app);
 
-const MONGODB_URI = process.env.MONGODB_URI
-const JWT_SECRET = process.env.JWT_SECRET
+// Create our WebSocket server using the HTTP server we just set up.
+const wsServer = new WebSocketServer({
+  server: httpServer,
+  path: '/graphql',
+});
+// Save the returned server's info so we can shutdown this server later
+const serverCleanup = useServer({ schema }, wsServer);
 
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => {
-    console.log('connected to MongoDB')
-  })
-  .catch((error) => {
-    console.log('error connection to MongoDB:', error.message)
-  })
+// Set up ApolloServer.
+const server = new ApolloServer({
+  schema,
+  plugins: [
+    // Proper shutdown for the HTTP server.
+    ApolloServerPluginDrainHttpServer({ httpServer }),
 
-// const server = new ApolloServer({
-//   typeDefs,
-//   resolvers
-// })
-
-const start = async () => {
-  const app = express()
-  const httpServer = http.createServer(app)
-
-  const schema = makeExecutableSchema({ typeDefs, resolvers })
-
-  const server = new ApolloServer({
-    schema,
-    context: async ({ req }) => {
-      const auth = req ? req.headers.authorization : null
-      if (auth && auth.toLowerCase().startsWith('bearer ')) {
-        const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET)
-        const currentUser = await User.findById(decodedToken.id).populate(
-          'friends'
-        )
-        return { currentUser }
-      }
+    // Proper shutdown for the WebSocket server.
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup.dispose();
+          },
+        };
+      },
     },
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-  })
+  ],
+});
 
-  await server.start()
+await server.start();
+app.use('/graphql', cors(), bodyParser.json(), expressMiddleware(server));
 
-  const PORT = 4000
-
-  httpServer.listen(PORT, () =>
-    console.log(`Server is now running on http://localhost:${PORT}`)
-  )
-}
-
-start()
-
-// const { url } = await startStandaloneServer(server,{
-//   context: async ({ req, res }) => {
-//     const auth = req ? req.headers.authorization : null
-//     if (auth && auth.toLowerCase().startsWith('bearer ')) {
-//       const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET)
-//       const currentUser = await User.findById(decodedToken.id).populate(
-//         'friends'
-//       )
-//       return { currentUser }
-//     }
-//   },
-// }
-// );
-
-// console.log(`🚀  Server ready at: ${url}`);
-
+const PORT = 4000;
+// Now that our HTTP server is fully set up, we can listen to it.
+httpServer.listen(PORT, () => {
+  console.log(`Server is now running on http://localhost:${PORT}/graphql`);
+});
