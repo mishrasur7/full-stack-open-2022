@@ -35,7 +35,7 @@ const calculator2 = (a : number, b: number, op: Operation): Result => {
 }
 
 try {
-    console.log(calculator2(5, 6, 'divide'))
+    console.log(calculator2(5, 0, 'divide'))
 } catch (error: unknown) {
     let errorMsg = 'Something went wrong! '
     if(error instanceof Error) {
