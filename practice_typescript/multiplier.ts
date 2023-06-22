@@ -2,5 +2,8 @@ const multiplicator = (a:number, b:number, printText:string) => {
     console.log(printText, a * b); 
 }
 
-multiplicator(5, 4, 'Hello'); 
+const a: number = Number(process.argv[2]); 
+const b: number = Number(process.argv[3]);
+
+multiplicator(a, b, `Multiplied ${a} and ${b} is: `); 
 
