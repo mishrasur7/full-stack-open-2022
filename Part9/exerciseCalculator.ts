@@ -51,4 +51,42 @@ const calculateExercise = (args: number[], target: number): Result => {
     }
 }
 
-console.log(calculateExercise([3, 0, 2, 4.5, 0, 3, 1], 2))
+interface ArgumentParameters {
+    target: number,
+    trainingData: number[]
+}
+
+const parseArgument = (args: string[]): ArgumentParameters => {
+    if(args.length < 4) throw new Error('Not enough arguments'); 
+    let targetValue: number;
+    let trainingDataValues: number[] = [];
+
+    for(let i = 3; i < args.length; i++) {
+        if(!isNaN(Number(args[i]))) {
+            trainingDataValues.push(Number(args[i]))
+        } else {
+            throw new Error('Provided wrong type of values')
+        }
+    }
+
+    if(!isNaN(Number(args[2]))) {
+        targetValue = Number(args[2])
+    }
+
+    return {
+        target: targetValue,
+        trainingData: trainingDataValues
+    }
+
+}
+
+try {
+    const {target, trainingData} = parseArgument(process.argv); 
+    console.log(calculateExercise(trainingData, target));
+} catch (error: unknown) {
+    let errorMessage = 'Something bad happened: '
+    if(error instanceof Error) {
+        errorMessage += error.message
+    }
+    console.log(errorMessage)
+}
