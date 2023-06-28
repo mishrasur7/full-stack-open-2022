@@ -77,7 +77,6 @@ const parseArgument = (args: string[]): ArgumentParameters => {
         target: targetValue,
         trainingData: trainingDataValues
     }
-
 }
 
 try {
