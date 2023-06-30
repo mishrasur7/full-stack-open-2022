@@ -8,7 +8,7 @@ interface Result {
     average: number
 }
 
-const calculateExercise = (args: number[], target: number): Result => {
+export const calculateExercise = (args: number[], target: number): Result => {
     const numOfDays = args.length;
     let trainingDaysTotal = 0; 
 
