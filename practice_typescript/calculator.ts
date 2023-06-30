@@ -1,5 +1,5 @@
-type Operation = 'multiply' | 'add' | 'divide'; 
-type Result = number | string
+export type Operation = 'multiply' | 'add' | 'divide'; 
+type Result = number | string;
 
 const calculator1 = (a: number, b: number, op: Operation): Result => {
     if(op === 'multiply') {
@@ -14,7 +14,7 @@ const calculator1 = (a: number, b: number, op: Operation): Result => {
     }
 }
 
-const calculator2 = (a : number, b: number, op: Operation): Result => {
+export const calculator2 = (a : number, b: number, op: Operation): Result => {
    switch(op) {
     case 'multiply':
         return a * b;
