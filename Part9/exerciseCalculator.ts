@@ -9,12 +9,12 @@ interface Result {
 }
 
 const calculateExercise = (args: number[], target: number): Result => {
-    const numOfDays = args.length
+    const numOfDays = args.length;
     let trainingDaysTotal = 0; 
 
     for(let i = 0; i < args.length; i++) {
         if(args[i] > 0) {
-            trainingDaysTotal++
+            trainingDaysTotal++;
         }
     }
 
@@ -27,17 +27,17 @@ const calculateExercise = (args: number[], target: number): Result => {
     if(trainingDaysTotal < 3) {
         exerciseSuccess = false;
         exerciseRating += 1; 
-        exerciseRatingDescription += 'Not well done!'
+        exerciseRatingDescription += 'Not well done!';
     } 
     if(trainingDaysTotal > 3 && trainingDaysTotal <= 5) {
         exerciseSuccess = false;
         exerciseRating += 2;
-        exerciseRatingDescription += 'not too bad but could be better'
+        exerciseRatingDescription += 'not too bad but could be better';
     } 
     if(trainingDaysTotal > 5) {
         exerciseSuccess = true;
         exerciseRating += 3;
-        exerciseRatingDescription += 'well done, good job'
+        exerciseRatingDescription += 'well done, good job';
     }
 
     return {
@@ -48,8 +48,8 @@ const calculateExercise = (args: number[], target: number): Result => {
         ratingDescription: exerciseRatingDescription,
         target: target,
         average: averageExercise
-    }
-}
+    };
+};
 
 interface ArgumentParameters {
     target: number,
@@ -58,34 +58,34 @@ interface ArgumentParameters {
 
 const parseArgument = (args: string[]): ArgumentParameters => {
     if(args.length < 4) throw new Error('Not enough arguments'); 
-    let targetValue: number;
-    let trainingDataValues: number[] = [];
+    let targetValue = 0;
+    const trainingDataValues: number[] = [];
 
     for(let i = 3; i < args.length; i++) {
         if(!isNaN(Number(args[i]))) {
-            trainingDataValues.push(Number(args[i]))
+            trainingDataValues.push(Number(args[i]));
         } else {
-            throw new Error('Provided wrong type of values')
+            throw new Error('Provided wrong type of values');
         }
     }
 
     if(!isNaN(Number(args[2]))) {
-        targetValue = Number(args[2])
+        targetValue = Number(args[2]);
     }
 
     return {
         target: targetValue,
         trainingData: trainingDataValues
-    }
-}
+    };
+};
 
 try {
     const {target, trainingData} = parseArgument(process.argv); 
     console.log(calculateExercise(trainingData, target));
 } catch (error: unknown) {
-    let errorMessage = 'Something bad happened: '
+    let errorMessage = 'Something bad happened: ';
     if(error instanceof Error) {
-        errorMessage += error.message
+        errorMessage += error.message;
     }
-    console.log(errorMessage)
+    console.log(errorMessage);
 }
