@@ -2,9 +2,9 @@ import express from 'express';
 
 const app = express();
 
-const PORT = 3000;
+const PORT = 3001;
 
-app.get('/ping', (_req, res) => {
+app.get('/api/ping', (_req, res) => {
     console.log('Ping was called!');
     res.send('Pong!');
     res.end();
