@@ -14,3 +14,4 @@ export interface Patient {
 }
 
 export type SSN_HIDDEN = Omit<Patient, 'ssn'>; 
+export type NewPatient = Omit<Patient, 'id'>; 
