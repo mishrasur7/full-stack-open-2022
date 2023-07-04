@@ -44,23 +44,32 @@ function App() {
                 <div>
                     <label>Date</label>
                     <input 
+                        type='date'
                         value={date} 
                         onChange={(event) => setDate(event.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Visibility</label> 
-                    <input 
-                        value={visibility}
-                        onChange={(event) => setVisibility(event.target.value)}
-                    />
-                </div>
+                    <label>Visibility</label>
+                      <input type='radio' id='_great' value='great' onChange={(event) => setVisibility(event.target.value)}/>
+                      <label htmlFor="_great">great</label>
+                      <input type='radio' id='_good' value='good' onChange={(event) => setVisibility(event.target.value)}/>
+                      <label htmlFor="_good">good</label>
+                      <input type='radio' id='_ok' value='ok' onChange={(event) => setVisibility(event.target.value)}/>
+                      <label htmlFor="_ok">ok</label>
+                      <input type='radio' id='_poor' value='poor' onChange={(event) => setVisibility(event.target.value)}/>
+                      <label htmlFor="_poor">poor</label>
                 <div>
                     <label>Weather</label> 
-                    <input 
-                        value={weather}
-                        onChange={(event) => setWeather(event.target.value)}
-                    />
+                    <input type='radio' id='_sunny' value='sunny' onChange={(event) => setWeather(event.target.value)}/>
+                    <label htmlFor="_sunny">sunny</label>
+                    <input type='radio' id='_rainy' value='rainy' onChange={(event) => setWeather(event.target.value)}/>
+                    <label htmlFor="_rainy">rainy</label>
+                    <input type='radio' id='_cloudy' value='cloudy' onChange={(event) => setWeather(event.target.value)}/>
+                    <label htmlFor="_cloudy">cloudy</label>
+                    <input type='radio' id='_windy' value='windy' onChange={(event) => setWeather(event.target.value)}/>
+                    <label htmlFor="_windy">windy</label>
+                    <input type='radio' id='_stromy' value='stromy' onChange={(event) => setWeather(event.target.value)}/>
+                    <label htmlFor="_stromy">stromy</label>
                 </div>
                 <div>
                     <label>Comment</label> 
