@@ -4,7 +4,7 @@ import { TotalExercise } from '../types'
 const Total = (props: TotalExercise) => {
   return (
     <div>
-        <p>Number of total exercises: {props.total}</p>
+        <h3>Number of total exercises: {props.total}</h3>
     </div>
   )
 }

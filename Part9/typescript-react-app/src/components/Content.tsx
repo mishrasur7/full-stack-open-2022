@@ -1,10 +1,11 @@
 import React from 'react'
-import { Contents } from '../types'
+import { Parts } from '../types'
+import Part from './Part'
 
-const Content = (props: Contents) => {
+const Content = (props: Parts) => {
   return (
     <div>
-        {props.content.map((c => <p>{c.name} {c.exerciseCount}</p>))}
+        <Part courses = {props.courses}/>
     </div>
   )
 }
