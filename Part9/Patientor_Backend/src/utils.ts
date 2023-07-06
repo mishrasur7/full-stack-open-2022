@@ -45,7 +45,18 @@ const parseOccupation = (occupation: unknown): string => {
         throw new Error('Incorrect or missing occupation '); 
     }
     return occupation; 
-}; 
+};
+
+// const isArray = (array: unknown): boolean => {
+//     return Array.isArray(array) || array instanceof Array; 
+// };
+
+// const parseEntries = (entries: unknown): Entry => {
+//     if(!isArray(entries) || !entries) {
+//         throw new Error('Incorrect of missing entries ');
+//     }
+//     return entries; 
+// };
 
 export const toNewPatientEntry = (object: unknown): NewPatient => {
     if(!object || typeof object !== 'object') {
@@ -58,7 +69,8 @@ export const toNewPatientEntry = (object: unknown): NewPatient => {
             dateOfBirth: parseDate(object.dateOfBirth),
             ssn: parseSsn(object.ssn),
             gender: parseGender(object.gender),
-            occupation: parseOccupation(object.occupation)
+            occupation: parseOccupation(object.occupation),
+            entries: []
         };
         return newPatient; 
     }
