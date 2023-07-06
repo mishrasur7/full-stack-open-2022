@@ -19,7 +19,6 @@ const PatientDetail = () => {
         fetchPatient(); 
     }, [id]); 
 
-
   return (
     <div>
         <h2>{patient?.name}
@@ -29,6 +28,11 @@ const PatientDetail = () => {
         </h2>
         <p>SSN: {patient?.ssn}</p>
         <p>Occupation: {patient?.occupation}</p>
+        <div>
+            <h3>Entries</h3>
+            <p>{patient?.dateOfBirth}</p>
+            {patient && patient?.entries.map(e => e.description)}
+        </div>
     </div>
   )
 }
