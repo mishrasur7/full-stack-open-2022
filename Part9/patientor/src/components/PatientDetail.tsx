@@ -27,6 +27,13 @@ const PatientDetail = () => {
         fetchDiagnosis(); 
     }, [id]); 
 
+    console.log(diagnosis)
+
+    const findDiagnosisName = (code: string): string | null => {
+        const foundDiagnosis = diagnosis?.find(d => d.code === code)
+        return foundDiagnosis ? foundDiagnosis.name : null; 
+    }
+
   return (
     <div>
         <h2>{patient?.name}
@@ -40,7 +47,10 @@ const PatientDetail = () => {
             <h3>Entries</h3>
             <p>{patient?.dateOfBirth}</p>
             {patient && patient?.entries.map(e => e.description)}
-            {patient && patient.entries.map((e, i )=> e.diagnosisCodes?.map((c, i) => <ul key={i}><li>{c}</li></ul>))}
+            {patient && 
+                patient.entries.map((e, i) => 
+                e.diagnosisCodes?.map((c, i) => 
+                <ul key={i}><li>{c} {findDiagnosisName(c)}</li></ul>))}
         </div>
     </div>
   )
