@@ -7,7 +7,6 @@ import patientService from '../services/patients';
 import { Diagnosis, Patient } from "../types";
 import diagnosisService from '../services/diagnosis'
 
-
 const PatientDetail = () => {
     const [patient, setPatient] = useState<Patient>(); 
     const { id } = useParams();
@@ -26,8 +25,6 @@ const PatientDetail = () => {
         }
         fetchDiagnosis(); 
     }, [id]); 
-
-    console.log(diagnosis)
 
     const findDiagnosisName = (code: string): string | null => {
         const foundDiagnosis = diagnosis?.find(d => d.code === code)
