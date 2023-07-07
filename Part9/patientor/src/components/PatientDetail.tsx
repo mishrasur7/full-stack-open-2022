@@ -4,20 +4,31 @@ import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
 
 import patientService from '../services/patients';
-import { Patient } from "../types";
+import { Diagnosis, Patient } from "../types";
+import diagnosisService from '../services/diagnosis'
 
 
 const PatientDetail = () => {
     const [patient, setPatient] = useState<Patient>(); 
     const { id } = useParams();
+    const [diagnosis, setDiagnosis] = useState<Diagnosis []>(); 
 
     useEffect(() => {
         const fetchPatient = async () => {
             const patientById = await patientService.getPatientById(String(id));
             setPatient(patientById); 
         }
-        fetchPatient(); 
+        fetchPatient();
+        
+        const fetchDiagnosis = async () => {
+            const diagnosisData = await diagnosisService.getAll(); 
+            setDiagnosis(diagnosisData); 
+        }
+        fetchDiagnosis(); 
     }, [id]); 
+
+    console.log(diagnosis)
+    console.log(patient)
 
   return (
     <div>
