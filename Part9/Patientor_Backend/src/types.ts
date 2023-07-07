@@ -9,7 +9,7 @@ export interface BaseEntry {
     description: string,
     date: string,
     specialist: string,
-    diagnosesCodes?: Array<Diagnoses['code']>
+    diagnosisCodes: Array<Diagnoses['code']>
 }
 
 export enum HealthCheckRating {
